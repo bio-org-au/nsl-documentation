@@ -18,6 +18,93 @@ Main documentation for the NSL API version 1.0
 
 == Introduction
 
+=== Australian Plant Name Index (APNI)
+
+APNI is a database for the botanical community that deals with plant names and their usage in the scientific literature,
+whether as a current name or synonym. **APNI does not recommend any particular taxonomy or nomenclature.** For a listing of
+currently accepted scientific names for the Australian vascular flora, see the <<Australian Plant Census (APC)>>.
+Information available from APNI includes:
+
+* Scientific plant names;
+* Author details;
+* Original publication details (protologue), with links to a PDF in some cases via a PDF icon
+* Subsequent usage of the name in the scientific literature (in an Australian context)
+* Typification details;
+* An APC tick showing which, if any, concept has been accepted for the APC
+* State distribution (from the Australian Plant Census (APC));
+* Relevant comments and notes;
+* Links to other information such as plant distributions, descriptions and images search via a picture search icon.
+
+APNI is maintained at the Centre for Australian National Biodiversity Research with staff, resources and financial
+support from the Australian National Herbarium, Australian National Botanic Gardens and the Australian Biological
+Resources Study. The CANBR, ANBG and ABRS collaborate to further the updating and delivery of APNI and APC.
+
+=== Australian Plant Census (APC)
+
+APC is a database of the accepted scientific names for the Australian vascular flora, ferns, gymnosperms, hornworts and
+liverworts, both native and introduced, and lists synonyms and misapplications for these names. The APC will cover all
+published scientific plant names used in an Australian context in the taxonomic literature, but excludes taxa
+(including cultivars) known only from cultivation in Australia. The taxonomy and nomenclature adopted for the APC are
+endorsed by the Council of Heads of Australasian Herbaria (CHAH).
+
+For further information about names listed in APC, including bibliographic information, secondary references and
+typification, consult the Australian Plant Name Index (APNI). Alternatively, clicking on hyperlinked names in APC
+search results will link to the APNI data for any given name.
+
+Information available through APC includes:
+
+* Accepted scientific name and author abbreviation(s);
+* Reference to the taxonomic and nomenclatural concept adopted for APC;
+* Synonym(s) and misapplications;
+* State distribution;
+* Relevant comments and notes
+
+APC is coordinated through a network of contributors, and is maintained by the Centre for Australian National Biodiversity
+Research with staff, resources and financial support from the Australian National Herbarium, Australian National Botanic
+Gardens, Australian Biological Resources Study, CHAH and State and Territory herbaria. These organisations collaborate to
+further the updating and delivery of APC.
+
+=== National Species List
+
+The national Species is a complete database covering vascular plants, mosses, fungi, animals etc. The data for the NSL is
+kept in disparate systems that are combined under the NSL.
+
+The current NSL infrastructure does this via RDF web services over some semi static datasets, "but that is changing."
+What you see here is the start of the new NSL infrastructure that allows the separatly governed datasets to be curated
+by their "owners" while combining them into a live discoverable, searchable data resource with a consistent modern
+interface.
+
+The new infrastructure takes the existing datasets and makes them "shards" of the NSL. Each shard will be imported
+separately into the new system as resources allow.
+
+The new system incorporates an improved editing system and separate distributed search services, including linked data
+services.
+
+==== What we have now
+
+We have migrated the APNI and APC data into the new NSL system, and they form the first "shard". We have largely replaced
+the old APNI services with the new services, including search and the RDF/SPARQL interfaces. There are some outputs and
+reports that are noticably missing, but they are being added progressively as resources allow.
+
+==== The road map
+
+We will be adding new shards to the system as we go:
+
+ . Algae
+ . Lichen
+ . Moss
+ . Fungi
+ . AFD
+
+As we add datasets improvements to the Editor and services will be required to cater for differing requirements, these
+changes will be incorporated based on priorities and resources.
+
+== Using the NSL
+
+include::../leveltwo/searching.adoc[]
+
+== Aplication Interfaces (APIs)
+
 The NSL services provide a number of Application Interfaces, called APIs, to let you access the name data within.
 
 include::../leveltwo/rest-objects.adoc[]

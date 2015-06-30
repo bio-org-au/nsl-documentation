@@ -1,0 +1,54 @@
+:imagesdir: resources/images/
+
+=== Searching the NSL
+
+The current NSL service includes the APNI and APC data. APNI is a nomenclator, it includes a list of names of vascular
+plants and where they have been used in references. In this sense, APNI has no opinion about the name, it just states
+where it has been used in a reference.
+
+APC is a classification, it has an opinion about what is the accepted name, and where the taxon sits in the classification
+"tree".
+
+.What is a tree
+****
+We make speak of "trees" when referring to classifications in the NSL system, which shouldn't be confused with
+actual vascular plants. A tree in this sense is the structure of set of names, so where one name is, say, the family name,
+and another the genus, the genus sits "under" the family in the tree. A Family will have many Genus and Species under it.
+****
+
+When you look at the NSL services page you will see the APNI and APC "products" as links in the "Navigation Bar" at the
+top of the page. To search APNI click the APNI link.
+
+image::nsl-services-page.png[title="The NSL Services page (APNI product)"]
+
+The search page consists of a set of search forms that can be found by selecting the appropriate tab.
+
+==== Name Search
+
+By default when you go to the search page you are on the "Name Search" tab. This gives you a simple text box to enter a
+search for the name or names you are looking for.
+
+NOTE: This search **just looks at the full name text,** it is not trying to comprehend the name or it's
+placement in a classification.
+
+When you type your query into the search box you will get suggestions that tell you what your query is likely
+to return. The system only returns the first 15 matching names in the suggestion, and will end with an elipsis (...) if
+there are more results. You can click on one of those suggestions to get that single result for an exact match.
+
+The name search looks at the 'Full Name including the Author', so the system adds an automatic wild card at the end of
+the query to match all endings. This means that if you just enter the simple name without author you should find what you want,
+however it may also return more than you expect.
+
+The query you type in is a case insensitive, ordered set of search terms, so viola l. will match Viola suffruticosa L.
+and others.
+
+NOTE: Whilst typing in viola will return most names under the genus Viola l. this is a function of the structure of a
+scientific name. In fact it will return more names than exist under that genus (91 vs 79).
+
+You can use a "%" as a **wild card** inside the search query e.g. hakea elon% benth to find "Hakea ceratophylla var. elongata Benth."
+
+You can use a "+" in place of a space to make the space match exactly. e.g. viola+L. will match "Viola L." and "Viola L. sect. Viola"
+
+Putting double quotes around your entire query will cause it to be matched exactly. e.g. "Viola L." will match just Viola L.
+
+NOTE: You can use wild cards inside quoted queries to get exactly what you want e.g. "viola betonicifolia subsp. %"
