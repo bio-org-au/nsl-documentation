@@ -1,3 +1,5 @@
+:imagesdir: resources/images/
+
 === Name API V1.0
 
 The name API lets you query and manipulate names. In general to change a name you need to be authorized to do so.

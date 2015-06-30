@@ -1,3 +1,5 @@
+:imagesdir: resources/images/
+
 === Instance API V1.0
 
 ==== delete

@@ -32,6 +32,7 @@ asciidoctor {
 
     resources {
         from('src/asciidoc/toplevel/resources')
+        from('src/asciidoc/leveltwo/resources')
         into "./resources"
     }
 

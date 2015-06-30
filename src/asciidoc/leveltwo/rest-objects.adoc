@@ -1,3 +1,5 @@
+:imagesdir: resources/images/
+
 === Linked Data
 
 The NSL system uses a linked data service called a mapper or broker to map the URI's for a resource to a service that can
