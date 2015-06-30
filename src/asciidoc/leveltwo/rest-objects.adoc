@@ -2,7 +2,7 @@
 
 === Linked Data
 
-The NSL system uses a linked data service called a mapper or broker to map the URI's for a resource to a service that can
+The NSL system uses a linked data service called a mapper or broker to map the URIs for a resource to a service that can
 provide that resource. As linked data we don't guarantee that the same service will deliver the resource each time, but
 we do guarantee the object returned will be the same one associated with that URI.
 
