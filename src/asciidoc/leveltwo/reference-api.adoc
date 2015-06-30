@@ -1,0 +1,77 @@
+=== Reference API V1.0
+
+==== citation-strings
+
+**GET citation-strings** constructs the citation strings for this Reference using the rules in the 'ReferenceService' and
+returns them as a JSON resource. This will not change the Reference object.
+
+**PUT citation-strings**  constructs the citation strings for this Reference using the rules in the 'ReferenceService', updates
+the Reference object with these strings, and returns them as a JSON resource.
+
+Updating the citation strings of a Reference may be necessary if a citation string gets out of sync with the Reference data for
+some reason, (such as an SQL update) or the citation construction algorithm has been changed.
+
+This will re-write the HTML and plain citation on the Reference object.
+
+NOTE: You need to be an administrator, or administrator service to call this with PUT. Use your apiKey to authenticate.
+
+.Returns
+
+ * The Brief Reference of the reference in the query
+ * action: 'citation-strings'
+ * result:
+   - citationHtml: the full citation marked up with HTML5/XML
+   - citation: the citation in plain text
+
+.Example 1
+
+curl -H "Accept: application/json" -X GET https://biodiversity.org.au/boa/reference/apni/22536/api/citation-strings
+
+.Response
+
+[source, javascript]
+----
+{
+  "class": "au.org.biodiversity.nsl.Reference",
+  "_links": {
+    "permalink": {
+      "link": "https://biodiversity.org.au/boa/reference/apni/22536",
+      "resources": 1
+    }
+  },
+  "citation": "Brown, R. (1810), Prodromus Florae Novae Hollandiae",
+  "citationHtml": "Brown, R. (1810), <i>Prodromus Florae Novae Hollandiae</i>",
+  "action": "citation-strings",
+  "result": {
+    "citationHtml": "Brown, R. (1810), <i>Prodromus Florae Novae Hollandiae</i>",
+    "citation": "Brown, R. (1810), Prodromus Florae Novae Hollandiae"
+  }
+}
+----
+
+.Example 2
+
+curl -H "Accept: application/json" -X PUT https://biodiversity.org.au/boa/reference/apni/22536/api/citation-strings?apiKey=aaaaa-bbbbbb-eeee-ccccc-sssss
+
+.Response
+
+[source, javascript]
+----
+{
+  "class": "au.org.biodiversity.nsl.Reference",
+  "_links": {
+    "permalink": {
+      "link": "https://biodiversity.org.au/boa/reference/apni/22536",
+      "resources": 1
+    }
+  },
+  "citation": "Brown, R. (1810), Prodromus Florae Novae Hollandiae",
+  "citationHtml": "Brown, R. (1810), <i>Prodromus Florae Novae Hollandiae</i>",
+  "action": "citation-strings",
+  "result": {
+    "citationHtml": "Brown, R. (1810), <i>Prodromus Florae Novae Hollandiae</i>",
+    "citation": "Brown, R. (1810), Prodromus Florae Novae Hollandiae"
+  }
+}
+----
+

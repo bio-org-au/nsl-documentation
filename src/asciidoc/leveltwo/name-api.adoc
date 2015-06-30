@@ -1,0 +1,762 @@
+=== Name API V1.0
+
+The name API lets you query and manipulate names. In general to change a name you need to be authorized to do so.
+
+The general format of a name API call is
+[source]
+----
+https://[name resource link]/api/[action](.json)(?[params])
+----
+
+where the things in round brackets are optional.
+
+This is a https://en.wikipedia.org/wiki/Representational_state_transfer[REST] API, and uses HTTP methods to determine
+the action. If you use the wrong HTTP method you will get an error
+
+The services use content negotiation to determine the output type, so a content type of text/JSON gives you JSON response.
+The services will give an HTML response in a browser, which doesn't include all the data available in JSON or XML.
+
+In this document we will use JSON.
+
+The output of services generally include standard JSON object representations of <<Name>>, <<Instance>>, <<Reference>>,
+<<Instance Note>>, <<Author>>
+
+If the name record ID doesn't exist for any operation you will get a 404 status result with the following body (in JSON)
+
+[source, groovy]
+----
+{
+  "action": "branch",
+  "error": "The Name was not found."
+}
+----
+
+An action that completes will in general return a 200 status, though the action may not have 'worked'. In general an
+errors field with a list of error strings will be returned with a negative result field it the action doesn't work.
+
+If you try to do an API call that requires Autorization without supplying a valid API Key, you will get an authorization
+error response.
+
+[source, javascript]
+----
+{
+  "status": "401: Unauthorized",
+  "uri": "/services/name/apni/200112/api/delete.json",
+  "exception": "org.apache.shiro.authz.UnauthenticatedException",
+  "reason": "This subject is anonymous - it does not have any identifying principals and authorization operations require
+  an identity to check against.  A Subject instance will acquire these identifying principals automatically after a
+  successful login is performed be executing org.apache.shiro.subject.Subject.login(AuthenticationToken) or when
+  'Remember Me' functionality is enabled by the SecurityManager.  This exception can also occur when a previously
+  logged-in Subject has logged out which makes it anonymous again.  Because an identity is currently not known due
+  to any of these conditions, authorization is denied."
+}
+----
+
+==== branch
+
+**GET branch** gets the APC branch for this name. This gives you a list of Names in Classification order. e.g.
+
+.Examples
+
+* using curl
+ - curl -H "Accept: application/json" -X GET https://biodiversity.org.au/boa/name/apni/61294/api/branch
+* browser
+ - https://biodiversity.org.au/boa/name/apni/61294/api/branch.json
+
+.Returns
+
+ * a list of Name objects from the top of the classification tree down to the name requested.
+
+.Example response
+
+[source, javascript]
+----
+{
+  "class": "au.org.biodiversity.nsl.Name",
+  "_links": {
+    "permalink": {
+      "link": "https://biodiversity.org.au/boa/name/apni/54427",
+      "resources": 1
+    }
+  },
+  "nameElement": "Proteaceae",
+  "action": "branch",
+  "branch": [
+    null,
+    {
+      "name": {
+        "class": "au.org.biodiversity.nsl.Name",
+        "_links": {
+          "permalinks": [
+            {
+              "link": "https://biodiversity.org.au/boa/237393",
+              "resources": 1
+            },
+...
+          ]
+        },
+        "audit": {
+          "created": {
+            "by": "ghw",
+            "at": "2012-02-09T06:31:34Z"
+          },
+          "updated": {
+            "by": "AMONRO",
+            "at": "2014-04-04T08:03:27Z"
+          }
+        },
+        "namespace": "APNI",
+        "fullName": "Eukaryota Whittaker & Margulis",
+        "fullNameHtml": "<scientific><name id='237393'><element><i>Eukaryota</i></element> <authors><author id='6349' title='Whittaker &amp; Margulis'>Whittaker & Margulis</author></authors></name></scientific>",
+        "nameElement": "Eukaryota",
+        "simpleName": "Eukaryota",
+        "rank": {
+          "name": "Regio",
+          "sortOrder": 8
+        },
+        "type": "scientific",
+        "status": "legitimate",
+        "tags": [],
+        "parent": {},
+        "secondParent": {},
+        "instances": [
+          {
+            "class": "au.org.biodiversity.nsl.Instance",
+            "_links": {
+              "permalink": {
+                "link": "https://biodiversity.org.au/boa/instance/apni/742960",
+                "resources": 1
+              }
+            },
+            "instanceType": "secondary reference"
+          }
+        ],
+        "externalRefs": [],
+        "author": {
+          "class": "au.org.biodiversity.nsl.Author",
+          "_links": {
+            "permalink": {
+              "link": "https://biodiversity.org.au/boa/author/apni/6349",
+              "resources": 1
+            }
+          },
+          "name": "Whittaker & Margulis"
+        },
+        "baseAuthor": {},
+        "exAuthor": {},
+        "exBaseAuthor": {},
+        "primaryInstance": {}
+      }
+    },
+    {
+      "name": {
+        "class": "au.org.biodiversity.nsl.Name",
+...
+        "fullName": "Plantae Haeckel",
+...      }
+    },
+    {
+...
+    },
+    {
+      "name": {
+        "class": "au.org.biodiversity.nsl.Name",
+...
+        "fullName": "Proteaceae Juss.",
+...
+    }
+  ]
+}
+----
+
+==== delete
+
+**GET delete** tells you if a name can be deleted. If not it gives a list of error messages explaining why not.
+
+**DELETE delete** deletes the name if it can be deleted. If not it gives a list of error messages explaining why not.
+
+NOTE: You need to be an administrator, or administrator service to call this with the 'DELETE' method.
+Use your apiKey to authenticate.
+
+.Returns
+
+* Brief Name object
+* action: 'delete'
+* ok: true/false - false means you can't delete this name
+* errors: List - if ok is false this contains a list of error strings explaining the problem
+
+.Example 1
+
+Check if you can delete
+
+curl -H "Accept: application/json" -X GET https://biodiversity.org.au/boa/name/apni/170107/api/delete
+
+.response
+
+[source, groovy]
+----
+{
+  "name": {
+    "class": "au.org.biodiversity.nsl.Name",
+    "_links": {
+      "permalink": {
+        "link": "https://biodiversity.org.au/boa/name/apni/170107",
+        "resources": 1
+      }
+    },
+    "nameElement": "pignattiana"
+  },
+  "action": "delete",
+  "ok": false,
+  "errors": [
+    "This name is in APC.",
+    "There are instances that refer to this name"
+  ]
+}
+----
+
+.Example 2
+
+curl -H "Accept: application/json" -X DELETE https://biodiversity.org.au/boa/name/apni/170107/api/delete?apiKey=aaaaa-bbbbbb-ccccc-ddddd-eeeee&reason=I+dont+like+it
+
+.Non working response
+
+[source, groovy]
+----
+{
+  "name": {
+    "class": "au.org.biodiversity.nsl.Name",
+    "_links": {
+      "permalink": {
+        "link": "https://biodiversity.org.au/boa/name/apni/170107",
+        "resources": 1
+      }
+    },
+    "nameElement": "pignattiana"
+  },
+  "action": "delete",
+  "ok": false,
+  "errors": [
+    "This name is in APC.",
+    "There are instances that refer to this name"
+  ]
+}
+----
+
+.Working response
+
+[source, groovy]
+----
+{
+  "name": {
+    "class": "au.org.biodiversity.nsl.Name",
+    "_links": {
+      "permalink": {
+        "link": "https://biodiversity.org.au/boa/name/apni/170107",
+        "resources": 1
+      }
+    },
+    "nameElement": "pignattiana"
+  },
+  "action": "delete",
+  "ok": true
+}
+----
+
+==== family
+
+**GET family** returns the family of the name according to the APNI or 'Name classification'. The Name classification may be
+different to other classifications such as APC.
+
+.Returns
+
+ * Brief name object of the name you are querying
+ * action: 'family'
+ * famlyName: the full Name object of the Family this name belongs to
+
+.Example
+
+curl -H "Accept: application/json" -X GET https://biodiversity.org.au/boa/name/apni/158548/api/family
+
+.Example response
+
+[source, javascript]
+----
+{
+  name: {
+    "class": "au.org.biodiversity.nsl.Name",
+    "_links": {
+      "permalink": {
+        "link": "https://biodiversity.org.au/boa/name/apni/158548",
+        "resources": 1
+      }
+    }
+  },
+  "nameElement": "Taeniatherum",
+  "action": "family",
+  "familyName": {
+    "name": {
+      "class": "au.org.biodiversity.nsl.Name",
+      "_links": {
+        "permalinks": [
+          {
+            "link": "https://biodiversity.org.au/boa/54563",
+            "resources": 1
+          },
+          {
+            "link": "https://biodiversity.org.au/boa/apni.name/-239",
+            "resources": 1
+          },
+          {
+            "link": "https://biodiversity.org.au/boa/name/apni/54563",
+            "resources": 1
+          },
+          {
+            "link": "https://biodiversity.org.au/boa/Poaceae%20Barnhart",
+            "resources": 22
+          }
+        ]
+      },
+      "audit": {
+        "created": {
+          "by": "PR1ORITY",
+          "at": "1996-05-23T11:52:17Z"
+        },
+        "updated": {
+          "by": "kcowley",
+          "at": "2015-03-18T04:38:35Z"
+        }
+      },
+      "namespace": "APNI",
+      "fullName": "Poaceae Barnhart",
+      "fullNameHtml": "<scientific><name id='54563'><element><i>Poaceae</i></element> <authors><author id='8141' title='Barnhart, J.H.'>Barnhart</author></authors></name></scientific>",
+      "nameElement": "Poaceae",
+      "simpleName": "Poaceae",
+      "rank": {
+        "name": "Familia",
+        "sortOrder": 80
+      },
+      "type": "scientific",
+      "status": "nom. cons.",
+      "tags": [],
+      "parent": {
+        "class": "au.org.biodiversity.nsl.Name",
+        "_links": {
+          "permalink": {
+            "link": "https://biodiversity.org.au/boa/name/apni/214973",
+            "resources": 1
+          }
+        },
+        "nameElement": "Poales"
+      },
+      "secondParent": {},
+      "instances": [
+        {
+          "class": "au.org.biodiversity.nsl.Instance",
+          "_links": {
+            "permalink": {
+              "link": "https://biodiversity.org.au/boa/instance/apni/651988",
+              "resources": 1
+            }
+          },
+          "instanceType": "secondary reference"
+        },
+...
+      ],
+      "externalRefs": [],
+      "author": {
+        "class": "au.org.biodiversity.nsl.Author",
+        "_links": {
+          "permalink": {
+            "link": "https://biodiversity.org.au/boa/author/apni/8141",
+            "resources": 1
+          }
+        },
+        "name": "Barnhart"
+      },
+      "baseAuthor": {},
+      "exAuthor": {},
+      "exBaseAuthor": {},
+      "primaryInstance": {
+        "class": "au.org.biodiversity.nsl.Instance",
+        "_links": {
+          "permalink": {
+            "link": "https://biodiversity.org.au/boa/instance/apni/631978",
+            "resources": 1
+          }
+        },
+        "instanceType": "tax. nov."
+      }
+    }
+  }
+}
+----
+
+==== apc
+
+**GET apc** tells you if this name is in the APC classification.
+
+.Returns
+
+ * The Brief name of the name in the query
+ * inAPC: true/false
+
+.Example
+
+curl -H "Accept: application/json" -X GET https://biodiversity.org.au/boa/name/apni/54427/api/apc
+
+.Example response
+
+[source, javascript]
+----
+{
+  "name": {
+    "class": "au.org.biodiversity.nsl.Name",
+    "_links": {
+      "permalink": {
+        "link": "https://biodiversity.org.au/boa/name/apni/54427",
+        "resources": 1
+      }
+    },
+    "nameElement": "Proteaceae"
+  },
+  "action": "apc",
+  "inAPC": true,
+  "excluded": false,
+  "nsl-name": 54427,
+  "nameNs": "nsl-name",
+  "nameId": "54427",
+  "taxonNs": "nsl-instance",
+  "taxonId": "650643",
+  "type": "ApcConcept"
+}
+----
+
+==== apni
+
+**GET apni** Tells you if this name is in the APNI classification.
+
+.Returns
+
+ * The Brief name of the name in the query
+ * inAPNI: true/false
+
+.Example
+
+curl -H "Accept: application/json" -X GET https://biodiversity.org.au/boa/name/apni/54427/api/apni
+
+.Example response
+
+[source, javascript]
+----
+{
+  "name": {
+    "class": "au.org.biodiversity.nsl.Name",
+    "_links": {
+      "permalink": {
+        "link": "https://biodiversity.org.au/boa/name/apni/54427",
+        "resources": 1
+      }
+    }
+  },
+  "nameElement": "Proteaceae",
+  "action": "apni",
+  "inAPNI": true,
+  "nsl-name": 54427,
+  "nameNs": "nsl-name",
+  "nameId": "54427",
+  "taxonNs": null,
+  "taxonId": null
+}
+----
+
+==== name-strings
+
+**GET name-strings** constructs the name strings for this Name using the rules in the 'ConstructedNameService' and
+returns them as a JSON resource. This will not change the Name object.
+
+**PUT name-strings**  constructs the name strings for this Name using the rules in the 'ConstructedNameService', updates
+the Name object with these strings, and returns them as a JSON resource.
+
+Updating the name strings of a Name may be necessary if a name string gets out of sync with the Name data for
+some reason, (such as an SQL update) or the name construction algorithm has been changed.
+
+This will re-write the full and simple names on the name object and cause the name updater to run updating NSL Simple Names
+and contacting anyone who has registered to get notifications of changes.
+
+NOTE: You need to be an administrator, or administrator service to call this with PUT. Use your apiKey to authenticate.
+
+.Returns
+
+ * The Brief na of the name in the query
+ * action: 'nameStrings'
+ * result:
+   - fullMarkedUpName: the full name including author marked up with HTML5/XML
+   - simpleMarkedUpName: the name sans author marked up with HTML5/XML
+   - fullName: the full name with author in plain text
+   - simpleName: the name sans author in plain text
+
+.Example 1
+
+curl -H "Accept: application/json" -X GET https://biodiversity.org.au/boa/name/apni/185029/api/name-strings
+
+.Response
+
+[source, javascript]
+----
+{
+  "name": {
+    "class": "au.org.biodiversity.nsl.Name",
+    "_links": {
+      "permalink": {
+        "link": "https://biodiversity.org.au/boa/name/apni/185029",
+        "resources": 1
+      }
+    }
+  },
+  "nameElement": "sp. Stony Creek (P.I.Forster 37B)",
+  "action": "nameStrings",
+  "result": {
+    "fullMarkedUpName": "<scientific><name id='185029'><scientific><name id='103259'><element><i>Backhousia</i></element></name></scientific> <element>sp. Stony Creek (P.I.Forster 37B)</element></name></scientific>",
+    "simpleMarkedUpName": "<scientific><name id='185029'><scientific><name id='103259'><element><i>Backhousia</i></element></name></scientific> <element>sp. Stony Creek (P.I.Forster 37B)</element></name></scientific>",
+    "fullName": "Backhousia sp. Stony Creek (P.I.Forster 37B)",
+    "simpleName": "Backhousia sp. Stony Creek (P.I.Forster 37B)"
+  }
+}
+----
+
+.Example 2
+
+curl -H "Accept: application/json" -X GET https://biodiversity.org.au/boa/name/apni/172107/api/name-strings?apiKey=aaaaa-bbbbbb-eeee-ccccc-sssss
+
+.Response
+
+[source, javascript]
+----
+{
+  "name": {
+    "class": "au.org.biodiversity.nsl.Name",
+    "_links": {
+      "permalink": {
+        "link": "https://biodiversity.org.au/boa/name/apni/172107",
+        "resources": 1
+      }
+    },
+    "nameElement": "Burrendong Beauty"
+  },
+  "action": "nameStrings",
+  "result": {
+    "fullMarkedUpName": "<cultivar><name id='172107'><scientific><name id='74468'><element><i>Hakea</i></element></name></scientific> <element>&lsquo;Burrendong Beauty&rsquo;</element></name></cultivar>",
+    "simpleMarkedUpName": "<cultivar><name id='172107'><scientific><name id='74468'><element><i>Hakea</i></element></name></scientific> <element>&lsquo;Burrendong Beauty&rsquo;</element></name></cultivar>",
+    "fullName": "Hakea 'Burrendong Beauty'",
+    "simpleName": "Hakea 'Burrendong Beauty'"
+  }
+}
+----
+
+==== name-update-event-uri
+
+**PUT name-update-event-uri** to have your service notified of changes to a name register a call back URI with the NSL services using registerNameUpdateEventUri.
+
+**DELETE name-update-event-uri** removes your uri from our event notification list, your service will stop being notified of name updates.
+
+.Parameters
+
+uri: the URI you wish to put or remove
+
+This will register your URI with the name service. when a Name change occurs this URI will be called with the type of
+update and the Identifier.
+
+[source]
+----
+http://[your uri]/[type]?id=[name identifier uri]
+----
+
+The type will be one of:
+
+* create
+* update
+* delete
+
+For example it may call:
+
+http://myservice.org.au/notify/update?id=https://biodiversity.org.au/boa/name/apni/70914
+
+Your service end point can then just call that URI identifier directly to get the updated name details (see <<Name>>).
+
+NOTE: If you're interested in the nslSimpleName then call the URI identifier with `*/api/simple-name*` on the end.
+
+.Example 1 add a URI
+
+curl -H "Accept: application/json" -X PUT https://biodiversity.org.au/nsl/services/api/name/name-update-event-uri?uri=http://localhost:8088/test
+
+.Response
+
+[source]
+----
+{"text":"registered http://localhost:8088/test"}
+----
+
+.Example 2 delete a URI
+
+curl -H "Accept: application/json" -X DELETE https://biodiversity.org.au/nsl/services/api/name/name-update-event-uri?uri=http://localhost:8088/test
+
+.Example response
+{"text":"unregistered http://localhost:8088/test"}
+
+==== export-nsl-simple
+
+**GET export-nsl-simple** makes an export file of Names in the NSL Simple Name format. This will give you a file named nslsimplename-[datestamp].[format],
+eg. nslsimplename-2015-06-12-0245.csv
+
+.Parameters
+exportFormat: The export file format, currently 'csv' or 'text'
+
+.Example 1
+
+https://biodiversity.org.au/nsl/services/api/name/export-nsl-simple?exportFormat=csv
+
+The fields are:
+
+ . id
+ . apc_comment
+ . apc_distribution
+ . apc_excluded
+ . apc_familia
+ . apc_instance_id
+ . apc_name
+ . apc_proparte
+ . apc_relationship_type
+ . apni
+ . author
+ . authority
+ . autonym
+ . base_name_author
+ . classifications
+ . created_at
+ . created_by
+ . cultivar
+ . cultivar_name
+ . ex_author
+ . ex_base_name_author
+ . familia
+ . family_nsl_id
+ . formula
+ . full_name_html
+ . genus
+ . genus_nsl_id
+ . homonym
+ . hybrid
+ . infraspecies
+ . name
+ . classis
+ . name_element
+ . subclassis
+ . name_type_name
+ . nom_illeg
+ . nom_inval
+ . nom_stat
+ . parent_nsl_id
+ . proto_year
+ . rank
+ . rank_abbrev
+ . rank_sort_order
+ . sanctioning_author
+ . scientific
+ . second_parent_nsl_id
+ . simple_name_html
+ . species
+ . species_nsl_id
+ . taxon_name
+ . updated_at
+ . updated_by
+
+.Example csv output
+[source,csv]
+----
+id,apc_comment,apc_distribution,apc_excluded,apc_familia,apc_instance_id,apc_name,apc_proparte,apc_relationship_type,apni,author,authority,autonym,base_name_author,classifications,created_at,created_by,cultivar,cultivar_name,ex_author,ex_base_name_author,familia,family_nsl_id,formula,full_name_html,genus,genus_nsl_id,homonym,hybrid,infraspecies,name,classis,name_element,subclassis,name_type_name,nom_illeg,nom_inval,nom_stat,parent_nsl_id,proto_year,rank,rank_abbrev,rank_sort_order,sanctioning_author,scientific,second_parent_nsl_id,simple_name_html,species,species_nsl_id,taxon_name,updated_at,updated_by
+https://biodiversity.org.au/boa/name/apni/54425,,,f,,,,f,,f,,X,f,,[APNI],1996-06-04 23:37:37,PR1ORITY,f,,,,X,https://biodiversity.org.au/boa/name/apni/54425,f,<scientific><name id='54425'><element><i>X</i></element></name></scientific>,,,f,f,,X,,X,,scientific,f,f,legitimate,,,Familia,fam.,80,,t,,<scientific><name id='54425'><element><i>X</i></element></name></scientific>,,,X,2000-04-14 14:39:01,LADAMS
+https://biodiversity.org.au/boa/name/apni/54426,,,f,,,,f,,t,Link,Link,f,,[APNI],1996-06-04 18:03:48,PR1ORITY,f,,,,Hymenophyllaceae,https://biodiversity.org.au/boa/name/apni/54426,f,"<scientific><name id='54426'><element><i>Hymenophyllaceae</i></element> <authors><author id='6888' title='Link, J.H.F.'>Link</author></authors></name></scientific>",,,f,f,,Hymenophyllaceae,Equisetopsida,Hymenophyllaceae,Polypodiidae,scientific,f,f,legitimate,https://biodiversity.org.au/boa/name/apni/223556,,Familia,fam.,80,,t,,<scientific><name id='54426'><element><i>Hymenophyllaceae</i></element></name></scientific>,,,Hymenophyllaceae Link,2012-06-21 11:53:26,MCOSGROV
+https://biodiversity.org.au/boa/name/apni/54427,,"WA (native and naturalised), NT, SA (native and naturalised), Qld (native and naturalised), NSW (native and naturalised), LHI (naturalised), NI (naturalised), ACT (native and naturalised), Vic (native and naturalised), Tas (native and naturalised)",f,Proteaceae,https://biodiversity.org.au/boa/instance/apni/650643,Proteaceae Juss.,f,secondary reference,t,Juss.,Juss.,f,,"[APNI, APC]",1996-05-31 04:06:38,PR1ORITY,f,,,,Proteaceae,https://biodiversity.org.au/boa/name/apni/54427,f,"<scientific><name id='54427'><element><i>Proteaceae</i></element> <authors><author id='7030' title='Jussieu, A.L. de'>Juss.</author></authors></name></scientific>",,,f,f,,Proteaceae,Magnoliopsida,Proteaceae,Rosidae,scientific,f,f,nom. cons.,https://biodiversity.org.au/boa/name/apni/214977,1789,Familia,fam.,80,,t,,<scientific><name id='54427'><element><i>Proteaceae</i></element></name></scientific>,,,Proteaceae Juss.,2008-10-27 16:33:55,TWEESE
+https://biodiversity.org.au/boa/name/apni/54428,"Bombacaceae is recognised as distinct in Qld, represented by Bombax, Campostemon and Lagunaria. 
+Brownlowiaceae is recognised as distinct in Qld, represented by Berrya, Brownlowia and Indagator.
+----
+
+.Example 2
+
+https://biodiversity.org.au/nsl/services/api/name/export-nsl-simple?exportFormat=text
+
+The file is the same as the http://www.postgresql.org/docs/9.3/static/sql-copy.html[Postgresql COPY] file format, and
+can be used to directly import data into Postgresql.
+
+The fields are the same as the csv output.
+
+.Example file records
+
+[source,csv]
+----
+https://biodiversity.org.au/boa/name/apni/54432	\N	SA (naturalised), Qld (naturalised), NSW (naturalised), ACT (naturalised), Vic (naturalised), Tas (naturalised)	f	Ulmaceae	https://biodiversity.org.au/boa/instance/apni/650793	Ulmaceae Mirb.	f	secondary reference	t	Mirb.	Mirb.	f	\N	[APNI, APC]	1996-05-31 00:42:15	PR1ORITY	f	\N	\N	\N	Ulmaceae	https://biodiversity.org.au/boa/name/apni/54432	f	<scientific><name id='54432'><element><i>Ulmaceae</i></element> <authors><author id='7093' title='Mirbel, C.F.B. de'>Mirb.</author></authors></name></scientific>	\N	\N	f	f	\N	Ulmaceae	Magnoliopsida	Ulmaceae	Rosidae	scientific	f	f	nom. cons.	https://biodiversity.org.au/boa/name/apni/214992	1815	Familia	fam.	80	\N	t	\N	<scientific><name id='54432'><element><i>Ulmaceae</i></element></name></scientific>	\N	\N	Ulmaceae Mirb.	2008-10-21 14:27:38	TWEESE
+https://biodiversity.org.au/boa/name/apni/54433	\N	WA, CoI, ChI, NT, Qld	f	Combretaceae	https://biodiversity.org.au/boa/instance/apni/650713	Combretaceae R.Br.	f	secondary reference	t	R.Br.	R.Br.	f	\N	[APNI, APC]	1996-05-31 00:08:24	PR1ORITY	f	\N	\N	\N	Combretaceae	https://biodiversity.org.au/boa/name/apni/54433	f	<scientific><name id='54433'><element><i>Combretaceae</i></element> <authors><author id='1441' title='Brown, R.'>R.Br.</author></authors></name></scientific>	\N	\N	f	f	\N	Combretaceae	Magnoliopsida	Combretaceae	Rosidae	scientific	f	f	nom. cons.	https://biodiversity.org.au/boa/name/apni/214986	1810	Familia	fam.	80	\N	t	\N	<scientific><name id='54433'><element><i>Combretaceae</i></element></name></scientific>	\N	\N	Combretaceae R.Br.	2008-10-28 11:39:49	TWEESE
+https://biodiversity.org.au/boa/name/apni/54434	\N	WA (native and naturalised), CoI, ChI (native and naturalised), AR, NT (native and naturalised), SA (native and naturalised), Qld (native and naturalised), CSI, NSW (native and naturalised), LHI (native and naturalised), NI (native and naturalised), ACT (native and naturalised), Vic (native and naturalised), Tas (native and naturalised)	f	Convolvulaceae	https://biodiversity.org.au/boa/instance/apni/650964	Convolvulaceae Juss.	f	secondary reference	t	Juss.	Juss.	f	\N	[APNI, APC]	1996-05-26 23:07:25	PR1ORITY	f	\N	\N	\N	Convolvulaceae	https://biodiversity.org.au/boa/name/apni/54434	f	<scientific><name id='54434'><element><i>Convolvulaceae</i></element> <authors><author id='7030' title='Jussieu, A.L. de'>Juss.</author></authors></name></scientific>	\N	\N	f	f	\N	Convolvulaceae	Magnoliopsida	Convolvulaceae	Asteridae	scientific	f	f	nom. cons.	https://biodiversity.org.au/boa/name/apni/215001	1789	Familia	fam.	80	\N	t	\N	<scientific><name id='54434'><element><i>Convolvulaceae</i></element></name></scientific>	\N	\N	Convolvulaceae Juss.	2008-11-10 09:25:49	TWEESE
+----
+
+==== apni-format
+
+**GET apni-format** gets the APNI formatted output for a Name.
+
+.Parameters
+embed: if set to true get the output as an embedable fragment of html.
+
+NOTE: this is currently only available as HTML
+
+.Example 1
+
+https://biodiversity.org.au/boa/name/apni/61294/api/apni-format
+
+image::APNIFormat.png[title="APNI Format HTML output"]
+
+.Example 1
+
+https://biodiversity.org.au/boa/name/apni/61294/api/apni-format?embed=true
+
+image::APNIFormatEmbed.png[title="APNI Format HTML embeded output"]
+
+==== apc-format
+
+**GET apni-format** gets the APC formatted output for a Name.
+
+NOTE: this is currently only available as HTML
+
+.Parameters
+embed: if set to true get the output as an embedable fragment of html.
+
+.Example 1
+
+https://biodiversity.org.au/boa/name/apni/61294/api/apc-format
+
+image::APCFormat.png[title="APC Format HTML output"]
+
+.Example 1
+
+https://biodiversity.org.au/boa/name/apni/61294/api/apc-format?embed=true
+
+image::APCFormatEmbed.png[title="APC Format HTML embeded output"]
+
+==== simple-name
+
+**GET simple-name** gets the Name resources in the <<NslSimpleName>> NSL Simple Name format.
+
+NOTE: this is a convenience method for the <<NslSimpleName>> resource that lets you use the Name resource identifier URI
+to get a Simple Name representation without 'hacking' the Name resource identifier.
+
+.Example browse as HTML
+
+https://biodiversity.org.au/boa/name/apni/61294/api/simple-name
+
+.Example using curl to get JSON
+
+curl -H "Accept: application/json" -X GET https://biodiversity.org.au/boa/name/apni/61294/api/simple-name
+
+.Example browse as JSON
+
+https://biodiversity.org.au/boa/name/apni/61294/api/simple-name.json

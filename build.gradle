@@ -1,0 +1,33 @@
+buildscript {
+    repositories {
+//        mavenRepo name: 'Bintray Asciidoctor repo', url: 'http://dl.bintray.com/content/aalmiray/asciidoctor'
+//        mavenRepo name: 'Bintray JCenter', url: 'http://jcenter.bintray.com'
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'org.asciidoctor:asciidoctor-gradle-plugin:1.5.1'
+    }
+}
+
+apply plugin: 'org.asciidoctor.gradle.asciidoctor'
+
+asciidoctor {
+    sourceDir = new File('src/asciidoc/toplevel')
+//    outputDir = new File("output/docs")
+    separateOutputDirs = true
+    options = [
+            eruby     : 'erubis',
+    ]
+    attributes(
+            'source-highlighter': 'prettify',
+            toc: '',
+            idprefix: '',
+            idseparator: '-'
+    )
+    sources {
+        include 'main.adoc'
+//        include 'img/**'
+//        include 'style/**'
+    }
+}

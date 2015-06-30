@@ -1,0 +1,819 @@
+=== Linked Data
+
+The NSL system uses a linked data service called a mapper or broker to map the URI's for a resource to a service that can
+provide that resource. As linked data we don't guarantee that the same service will deliver the resource each time, but
+we do guarantee the object returned will be the same one associated with that URI.
+
+The Mapper takes the URI and will issue you a '303 redirect' to a service that will provide the requested resource in the
+format requested.
+
+The mapper uses content negotiation to provide you with the correct service for the resource in the format you request,
+e.g. HTML, JSON, XML, RDF. You must follow the 303 redirect to the service and provide the redirected service the same
+content type to get the correct format.
+
+Browsers do not allow you to request a different content type (easily), and you will always get HTML back in a browser.
+To make it easier to demonstrate the other format, or just browse them we have provided '.format' handling in our services
+so you can add '.json' or '.xml' to a URL to get the desired format. The .format does not survive the
+303 redirection, so you will need to add it to the redirected service URL manually.
+
+e.g.
+the URL https://biodiversity.org.au/boa/name/apni/70914.json redirects to https://biodiversity.org.au/nsl/services/api/name/apni/70914
+
+As you can see below the browser gets the 303 redirect and goes there, but the browser only 'accepts' html.
+
+image::303-redirect-example.png[title="303 redirect headers"]
+
+If you now add '.json' to the redirected service URL in the browser we can force the response to JSON.
+
+image::forced-json-format.png[title="Forcing a JSON response using .json"]
+
+=== Basic Resource Objects
+
+The basic resource objects in the NSL system are representations of the underlying database objects, which in turn
+represent the taxonomic world. As such you will need to construct a view of the taxonomic object from these objects. Some
+higher level api calls perform some of this work for you to create a useful view.
+
+The basic form of a URI to return an object from the API via a preferred link is:
+[source]
+----
+https://biodiversity.org.au/boa/[objectType]/[namespace]/[random unique number]
+----
+
+WARNING: The [random unique number] is not in itself persistent and should **definitely not** be used as an identifier
+for a resource. **Always** use the entire URI, as it is guaranteed to be permanent and will redirect to the correct resource.
+
+==== Author
+
+An Author (person) object represents a Name or Reference author. It's primary purpose is to act as an identifier for an
+author that can be linked to another identifier such as an http://www.ipni.org/ipni/authorsearchpage.do[IPNI Author].
+
+Currently an author of both references and names may have two Author entries because of the imported APNI data. We will
+be working to de-duplicate these authors over time.
+
+WARNING: An author can have 1000s of names. The HTML repesentation of an Author will summarize the names for you, the
+JSON will return the brief names for each one. It may take a while to return the JSON object for someone like Brown, R.
+
+e.g. https://biodiversity.org.au/boa/author/apni/1441
+
+image::AuthorHtml.png[title="Author object HTML output"]
+
+.Example JSON output (Names left out)
+[source,javascript]
+----
+{
+  "class": "au.org.biodiversity.nsl.Author",
+  "_links": {
+    "permalinks": [
+      {
+        "link": "https://biodiversity.org.au/boa/1441",
+        "resources": 1
+      },
+      {
+        "link": "https://biodiversity.org.au/boa/author/apni/1441",
+        "resources": 1
+      }
+    ]
+  },
+  "audit": {
+    "created": {
+      "by": "LADAMS",
+      "at": "2002-02-13T13:00:00Z"
+    },
+    "updated": {
+      "by": "LADAMS",
+      "at": "2002-02-13T13:00:00Z"
+    }
+  },
+  "namespace": "APNI",
+  "abbrev": "R.Br.",
+  "name": "Brown, R.",
+  "fullName": null,
+  "dateRange": null,
+  "notes": null,
+  "ipniId": null,
+  "duplicateOf": null,
+  "references": [],
+  "names": [
+    {
+      "class": "au.org.biodiversity.nsl.Name",
+      "_links": {
+        "permalink": {
+          "link": "https://biodiversity.org.au/boa/name/apni/82208",
+          "resources": 1
+        }
+      },
+      "nameElement": "crassifolius"
+    },
+    {
+      "class": "au.org.biodiversity.nsl.Name",
+      "_links": {
+        "permalink": {
+          "link": "https://biodiversity.org.au/boa/name/apni/128739",
+          "resources": 1
+        }
+      },
+      "nameElement": "reflacta"
+    },
+... //(1000s of names)
+  ],
+  baseNames: [...],
+  exNames: [...],
+  exBaseNames: [...]
+}
+
+----
+
+==== Instance
+
+An instance object represents an instance of the use of a Name in a Reference (a Usage) and it relationship. There are
+two main Instance occurrences, 'Standalone' instances and 'Relationship' instances (see figure below).
+
+image::synonymy-model-lego-style.svg[title="Instance relationships."]
+
+An Instance is of a particular instance type. Each instance type defines a set of properties for that instance.
+The currently defined instance types are:
+
+. replaced synonym
+. basionym
+. pro parte replaced synonym
+. nomenclatural synonym
+. doubtful nomenclatural synonym
+. pro parte nomenclatural synonym
+. pro parte misapplied
+. doubtful misapplied
+. doubtful pro parte misapplied
+. taxonomic synonym
+. pro parte taxonomic synonym
+. doubtful taxonomic synonym
+. doubtful pro parte taxonomic synonym
+. synonym
+. pro parte synonym
+. doubtful synonym
+. doubtful pro parte synonym
+. isonym
+. autonym
+. trade name
+. comb. et stat. nov.
+. comb. nov.
+. comb. et nom. nov.
+. misapplied
+. nom. et stat. nov.
+. nom. nov.
+. tax. nov.
+. excluded name
+. doubtful invalid publication
+. primary reference
+. homonym
+. invalid publication
+. [n/a]
+. [unknown]
+. sens. lat.
+. common name
+. vernacular name
+. [default]
+. secondary reference
+. implicit autonym
+. orthographic variant
+
+As you can see the instance type describes the relationship of the reference to the name.
+
+.Basic Instance object structure
+[source, javascript]
+----
+{
+  "instance": {
+    "class": "au.org.biodiversity.nsl.Instance",
+    "_links": {...},        //links to this object and related resources
+    "audit": {...},         //change information
+    "namespace": "APNI",    //The shard or dataset this instance belongs to
+    "verbatimNameString": "Doodia R.Br.", //The name string as written in the reference
+    "page": "151",          //The page(s) of the reference this useage was found
+    "pageQualifier": null,  //
+    "nomenclaturalStatus": null,
+    "bhlUrl": null,         //link to Biodiversity Heritage Librabry http://www.biodiversitylibrary.org/
+    "instanceType": {},
+    "name": {},
+    "reference": {},
+    "parent": {},           //Parent instance todo: explain
+    "cites": {},            //An Instance that this instance cites
+    "citedBy": {},          //An Instance that this instance is cited by
+    "externalRefs": [],
+    "instancesForCitedBy": [],
+    "instancesForCites": [...],
+    "instancesForParent": [],
+    "instanceNotes": [...]
+  }
+}
+----
+
+e.g. https://biodiversity.org.au/boa/instance/apni/481759
+
+image::InstanceHTML.png[title="Instance object HTML output"]
+
+.Example Full JSON output
+[source,javascript]
+----
+{
+  "instance": {
+    "class": "au.org.biodiversity.nsl.Instance",
+    "_links": {
+      "permalinks": [
+        {
+          "link": "https://biodiversity.org.au/boa/481759",
+          "resources": 1
+        },
+        {
+          "link": "https://biodiversity.org.au/boa/apni.taxon/81167",
+          "resources": 1
+        },
+        {
+          "link": "https://biodiversity.org.au/boa/instance/apni/481759",
+          "resources": 1
+        },
+        {
+          "link": "https://biodiversity.org.au/boa/Doodia%20R.Br.",
+          "resources": 15
+        }
+      ]
+    },
+    "audit": {
+      "created": {
+        "by": "ApniDump",
+        "at": "1996-05-22T14:00:00Z"
+      },
+      "updated": {
+        "by": "IBIS",
+        "at": "2012-03-06T13:00:00Z"
+      }
+    },
+    "namespace": "APNI",
+    "verbatimNameString": "Doodia R.Br.",
+    "page": "151",
+    "pageQualifier": null,
+    "nomenclaturalStatus": null,
+    "bhlUrl": null,
+    "instanceType": {
+      "name": "tax. nov.",
+      "flags": {
+        "primaryInstance": true,
+        "secondaryInstance": false,
+        "relationship": false,
+        "protologue": true,
+        "taxonomic": false,
+        "nomenclatural": false,
+        "synonym": false,
+        "proParte": false,
+        "doubtful": false,
+        "misapplied": false,
+        "standalone": true,
+        "unsourced": false,
+        "citing": false,
+        "deprecated": false
+      },
+      "sortOrder": 100,
+      "rdfId": "tax-nov",
+      "descriptionHtml": "(description of <b>tax. nov.</b>)"
+    },
+    "name": {
+      "class": "au.org.biodiversity.nsl.Name",
+      "_links": {
+        "permalink": {
+          "link": "https://biodiversity.org.au/boa/name/apni/70914",
+          "resources": 1
+        }
+      },
+      "nameElement": "Doodia"
+    },
+    "reference": {
+      "class": "au.org.biodiversity.nsl.Reference",
+      "_links": {
+        "permalink": {
+          "link": "https://biodiversity.org.au/boa/reference/apni/22536",
+          "resources": 1
+        }
+      },
+      "citation": "Brown, R., (1810) Prodromus Florae Novae Hollandiae",
+      "citationHtml": "Brown, R., (1810) <i>Prodromus Florae Novae Hollandiae</i>"
+    },
+    "parent": {},
+    "cites": {},
+    "citedBy": {},
+    "externalRefs": [],
+    "instancesForCitedBy": [],
+    "instancesForCites": [
+      {
+        "class": "au.org.biodiversity.nsl.Instance",
+        "_links": {
+          "permalink": {
+            "link": "https://biodiversity.org.au/boa/instance/apni/936501",
+            "resources": 1
+          }
+        },
+        "instanceType": "taxonomic synonym"
+      },
+      {
+        "class": "au.org.biodiversity.nsl.Instance",
+        "_links": {
+          "permalink": {
+            "link": "https://biodiversity.org.au/boa/instance/apni/3749732",
+            "resources": 1
+          }
+        },
+        "instanceType": "taxonomic synonym"
+      }
+    ],
+    "instancesForParent": [],
+    "instanceNotes": [
+      {
+        "class": "au.org.biodiversity.nsl.InstanceNote",
+        "_links": {
+          "permalinks": [
+            {
+              "link": "https://biodiversity.org.au/boa/1020593",
+              "resources": 1
+            },
+            {
+              "link": "https://biodiversity.org.au/boa/instanceNote/apni/1020593",
+              "resources": 1
+            }
+          ]
+        },
+        "audit": {
+          "created": {
+            "by": "APNI_DUMP",
+            "at": "1996-06-11T14:00:00Z"
+          },
+          "updated": {
+            "by": "APNI_DUMP",
+            "at": "1996-06-11T14:00:00Z"
+          }
+        },
+        "namespace": "APNI",
+        "instance": {
+          "class": "au.org.biodiversity.nsl.Instance",
+          "_links": {
+            "permalink": {
+              "link": "https://biodiversity.org.au/boa/instance/apni/481759",
+              "resources": 1
+            }
+          },
+          "instanceType": "tax. nov."
+        },
+        "instanceNoteKey": "Type",
+        "value": "(not desigated)."
+      }
+    ]
+  }
+}
+----
+
+==== InstanceNote
+
+Instances can have several notes associated with them. An instance Note consists of a key and a value. Current instance
+note keys are:
+
+. Neotype
+. Ex.distribution
+. APC Comment
+. EPBC Impact
+. Status
+. Under
+. Distribution
+. URL
+. Lectotype
+. Context
+. Vernacular
+. Text
+. Comment
+. Synonym
+. Type
+. APC Dist.
+. Etymology
+. EPBC Advice
+. APNI
+. Type herbarium
+
+e.g. https://biodiversity.org.au/boa/instanceNote/apni/1121197
+
+image::InstanceNoteHtml.png[title="Instance Note object HTML output"]
+
+.Example Full JSON output
+[source,javascript]
+----
+{
+  "class": "au.org.biodiversity.nsl.InstanceNote",
+  "_links": {
+    "permalinks": [
+      {
+        "link": "https://biodiversity.org.au/boa/1121197",
+        "resources": 1
+      },
+      {
+        "link": "https://biodiversity.org.au/boa/instanceNote/apni/1121197",
+        "resources": 1
+      }
+    ]
+  },
+  "audit": {
+    "created": {
+      "by": "KIRSTENC",
+      "at": "2011-10-30T13:00:00Z"
+    },
+    "updated": {
+      "by": "KIRSTENC",
+      "at": "2012-11-16T05:36:05Z"
+    }
+  },
+  "namespace": "APNI",
+  "instance": {
+    "class": "au.org.biodiversity.nsl.Instance",
+    "_links": {
+      "permalink": {
+        "link": "https://biodiversity.org.au/boa/instance/apni/554643",
+        "resources": 1
+      }
+    },
+    "instanceType": "secondary reference"
+  },
+  "instanceNoteKey": "APC Dist.",
+  "value": "WA"
+}
+----
+
+
+==== Name
+
+The Name object represents a name string, type, rank, and status. This object is an identifier of a name string with
+enough information to be able to reconstruct the name string from parts. As an identifier it links together Instances
+and Authors.
+
+WARNING: This shouldn't be confused with the Taxon, which is more correctly described by the Protologue Instance of a Name.
+
+e.g. https://biodiversity.org.au/boa/name/apni/70914
+
+image::NameHtml.png[title="Name object HTML output"]
+
+.Example Name object in JSON
+[source,javascript]
+----
+{
+  "name": {
+    "class": "au.org.biodiversity.nsl.Name",
+    "_links": {
+      "permalinks": [
+        {
+          "link": "https://biodiversity.org.au/boa/70914",
+          "resources": 1
+        },
+        {
+          "link": "https://biodiversity.org.au/boa/apni.name/16512",
+          "resources": 1
+        },
+        {
+          "link": "https://biodiversity.org.au/boa/name/apni/70914",
+          "resources": 1
+        },
+        {
+          "link": "https://biodiversity.org.au/boa/Doodia%20R.Br.",
+          "resources": 15
+        }
+      ]
+    },
+    "audit": {
+      "created": {
+        "by": "KIRSTENC",
+        "at": "2009-10-27T03:21:49Z"
+      },
+      "updated": {
+        "by": "KIRSTENC",
+        "at": "2009-10-27T03:21:49Z"
+      }
+    },
+    "namespace": "APNI",
+    "fullName": "Doodia R.Br.",
+    "fullNameHtml": "<scientific><name id='70914'><element><i>Doodia</i></element> <authors><author id='1441' title='Brown, R.'>R.Br.</author></authors></name></scientific>",
+    "nameElement": "Doodia",
+    "simpleName": "Doodia",
+    "rank": {
+      "name": "Genus",
+      "sortOrder": 120
+    },
+    "type": "scientific",
+    "status": "legitimate",
+    "tags": [],
+    "parent": {
+      "class": "au.org.biodiversity.nsl.Name",
+      "_links": {
+        "permalink": {
+          "link": "https://biodiversity.org.au/boa/name/apni/222592",
+          "resources": 1
+        }
+      },
+      "nameElement": "Blechnaceae"
+    },
+    "secondParent": {},
+    "instances": [
+      {
+        "class": "au.org.biodiversity.nsl.Instance",
+        "_links": {
+          "permalink": {
+            "link": "https://biodiversity.org.au/boa/instance/apni/481760",
+            "resources": 1
+          }
+        },
+        "instanceType": "secondary reference"
+      },
+... //many instances
+    ],
+    "externalRefs": [],
+    "author": {
+      "class": "au.org.biodiversity.nsl.Author",
+      "_links": {
+        "permalink": {
+          "link": "https://biodiversity.org.au/boa/author/apni/1441",
+          "resources": 1
+        }
+      },
+      "name": "R.Br."
+    },
+    "baseAuthor": {},
+    "exAuthor": {},
+    "exBaseAuthor": {},
+    "primaryInstance": [
+      {
+        "class": "au.org.biodiversity.nsl.Instance",
+        "_links": {
+          "permalink": {
+            "link": "https://biodiversity.org.au/boa/instance/apni/481759",
+            "resources": 1
+          }
+        },
+        "instanceType": "tax. nov."
+      }
+    ]
+  }
+}
+----
+
+==== NslSimpleName
+
+NSL Simple Name is a flattened representation of a name including the accepted APC name, some tree information, name
+parents.
+
+WARNING: While the NSL Simple Name is a resource object it does *not* have a unique permanent URI identifier. The best
+way to get a NSL Simple Name Resource is via the <<simple-name>> name API call.
+
+e.g. https://biodiversity.org.au/name/apni/70914/api/simple-name.json
+
+[source, javascript]
+----
+{
+  "nslSimpleName": {
+    "id": {
+      "permalink": {
+        "link": "https://biodiversity.org.au/boa/name/apni/70914",
+        "resources": 1
+      }
+    },
+    "name": "Doodia",
+    "taxonName": "Doodia R.Br.",
+    "nameElement": "Doodia",
+    "cultivarName": null,
+    "simpleNameHtml": "<scientific><name id='70914'><element><i>Doodia</i></element></name></scientific>",
+    "fullNameHtml": "<scientific><name id='70914'><element><i>Doodia</i></element> <authors><author id='1441' title='Brown, R.'>R.Br.</author></authors></name></scientific>",
+    "nameType": "scientific",
+    "homonym": false,
+    "autonym": false,
+    "hybrid": false,
+    "cultivar": false,
+    "formula": false,
+    "scientific": true,
+    "authority": "R.Br.",
+    "baseNameAuthor": null,
+    "exBaseNameAuthor": null,
+    "author": "R.Br.",
+    "exAuthor": null,
+    "sanctioningAuthor": null,
+    "rank": "Genus",
+    "rankSortOrder": 120,
+    "rankAbbrev": "gen.",
+    "classifications": "[APNI, APC]",
+    "apni": true,
+    "protoYear": 1810,
+    "nomStat": "legitimate",
+    "nomIlleg": false,
+    "nomInval": false,
+    "updatedBy": "KIRSTENC",
+    "updatedAt": "2009-10-27T03:21:49Z",
+    "createdBy": "KIRSTENC",
+    "createdAt": "2009-10-27T03:21:49Z",
+    "parentNsl": {
+      "class": "au.org.biodiversity.nsl.Name",
+      "_links": {
+        "permalink": {
+          "link": "https://biodiversity.org.au/boa/name/apni/222592",
+          "resources": 1
+        }
+      },
+      "nameElement": "Blechnaceae"
+    },
+    "secondParentNsl": {},
+    "familyNsl": {
+      "class": "au.org.biodiversity.nsl.Name",
+      "_links": {
+        "permalink": {
+          "link": "https://biodiversity.org.au/boa/name/apni/222592",
+          "resources": 1
+        }
+      },
+      "nameElement": "Blechnaceae"
+    },
+    "genusNsl": {
+      "class": "au.org.biodiversity.nsl.Name",
+      "_links": {
+        "permalink": {
+          "link": "https://biodiversity.org.au/boa/name/apni/70914",
+          "resources": 1
+        }
+      },
+      "nameElement": "Doodia"
+    },
+    "speciesNsl": {},
+    "classis": "Equisetopsida",
+    "subclassis": "Polypodiidae",
+    "apcFamilia": "Blechnaceae",
+    "family": "Blechnaceae",
+    "genus": "Doodia",
+    "species": null,
+    "infraspecies": null,
+    "apcInstance": {
+      "class": "au.org.biodiversity.nsl.Instance",
+      "_links": {
+        "permalink": {
+          "link": "https://biodiversity.org.au/boa/instance/apni/578615",
+          "resources": 1
+        }
+      },
+      "instanceType": "secondary reference"
+    },
+    "apcName": "Doodia R.Br.",
+    "apcRelationshipType": "secondary reference",
+    "apcProparte": false,
+    "apcComment": "Hybridisation between species occurs relatively easily, and is possibly under-reported in natural populations (Parris, 1998).",
+    "apcDistribution": "NT, SA, Qld, NSW, LHI, NI, ACT, Vic, Tas",
+    "apcExcluded": false
+  }
+}
+----
+
+==== Reference
+
+A Reference object represents a place that a name might be published. References are categorized by their reference type.
+The reference types currently defined are:
+
+. Book
+. Chapter
+. Database
+. Herbarium annotation
+. Index
+. Journal
+. Series
+. Personal Communication
+. Database Record
+. Paper
+. Section
+. Unknown
+
+e.g. https://biodiversity.org.au/boa/reference/apni/22408
+
+WARNING: A reference can have 1000s of instances of names. The HTML repesentation of a Reference will summarize the instances
+for you, but the JSON will return the brief instance for each one. It may take a while to return the JSON object.
+
+image::ReferenceHtml.png[title="Name object HTML output"]
+
+NOTE: A reference may have many older URI identifiers due to the duplication in the data imported into NSL. These
+reference have been largely de-duplicated, but the identifiers remain. We are working through deprecating the older URIs
+which will cause a 301 redirect to the new permalink.
+
+.Example Reference object in JSON
+[source,javascript]
+----
+{
+  "class": "au.org.biodiversity.nsl.Reference",
+  "_links": {
+    "permalinks": [
+      {
+        "link": "https://biodiversity.org.au/boa/22408",
+        "resources": 1
+      },
+      {
+        "link": "https://biodiversity.org.au/boa/reference/apni/22408",
+        "resources": 1
+      }
+    ]
+  },
+  "audit": {
+    "created": {
+      "by": "ApniDump",
+      "at": "1996-05-22T14:00:00Z"
+    },
+    "updated": {
+      "by": "KIRSTENC",
+      "at": "2000-10-22T13:00:00Z"
+    }
+  },
+  "namespace": "APNI",
+  "doi": null,
+  "title": "Dodonaea",
+  "displayTitle": "Dodonaea",
+  "abbrevTitle": null,
+  "year": 1985,
+  "volume": "25",
+  "edition": null,
+  "pages": "114-163",
+  "verbatimReference": null,
+  "verbatimCitation": "West, J.G., (1985) Dodonaea. <i>Flora of Australia</i> 25.",
+  "verbatimAuthor": null,
+  "citation": "West, J.G. in George, A.S. (ed.) (1985), Dodonaea. Flora of Australia 25",
+  "citationHtml": "West, J.G. in George, A.S. (ed.) (1985), Dodonaea. <i>Flora of Australia</i> 25",
+  "notes": "within Sapindaceae by Reynolds",
+  "published": true,
+  "publisher": null,
+  "publishedLocation": null,
+  "publicationDate": "1985",
+  "isbn": null,
+  "issn": null,
+  "bhlUrl": null,
+  "tl2": null,
+  "refType": "Paper",
+  "parent": {
+    "class": "au.org.biodiversity.nsl.Reference",
+    "_links": {
+      "permalink": {
+        "link": "https://biodiversity.org.au/boa/reference/apni/17379",
+        "resources": 1
+      }
+    },
+    "citation": "George, A.S. (ed.) (1985), Flora of Australia",
+    "citationHtml": "George, A.S. (ed.) (1985), Flora of Australia"
+  },
+  "author": {
+    "class": "au.org.biodiversity.nsl.Author",
+    "_links": {
+      "permalink": {
+        "link": "https://biodiversity.org.au/boa/author/apni/13360",
+        "resources": 1
+      }
+    },
+    "name": null
+  },
+  "refAuthorRole": "Unknown",
+  "duplicateOf": {},
+  "language": {
+    "iso6391Code": null,
+    "iso6393Code": "und",
+    "name": "Undetermined"
+  },
+  "externalRefs": [],
+  "instances": [
+    {
+      "class": "au.org.biodiversity.nsl.Instance",
+      "_links": {
+        "permalink": {
+          "link": "https://biodiversity.org.au/boa/instance/apni/554634",
+          "resources": 1
+        }
+      },
+      "instanceType": "secondary reference"
+    },
+    {
+      "class": "au.org.biodiversity.nsl.Instance",
+      "_links": {
+        "permalink": {
+          "link": "https://biodiversity.org.au/boa/instance/apni/484190",
+          "resources": 1
+        }
+      },
+      "instanceType": "secondary reference"
+    },
+... //175 more instances
+  ],
+  "parentOf": []
+}
+----
+
+==== Node
+
+To be completed.
+
+==== Tree
+
+To be completed.
+
+==== Branch
+
+To be completed.
+
+==== Event
+
+To be completed.

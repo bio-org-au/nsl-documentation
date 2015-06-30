@@ -1,0 +1,97 @@
+=== Instance API V1.0
+
+==== delete
+
+**GET delete** tells you if a Instance can be deleted. If not it gives a list of error messages explaining why not.
+
+**DELETE delete** deletes the Instance if it can be deleted. If not it gives a list of error messages explaining why not.
+
+NOTE: You need to be an administrator, or administrator service to call this with the 'DELETE' method.
+Use your apiKey to authenticate.
+
+.Returns
+
+* Brief Instance object
+* action: 'delete'
+* ok: true/false - false means you can't delete this instance
+* errors: List - if ok is false this contains a list of error strings explaining the problem
+
+.Example: Check if you can delete
+
+curl -H "Accept: application/json" -X GET https://biodiversity.org.au/boa/instance/apni/481811/api/delete
+
+.response
+
+[source, groovy]
+----
+{
+  "name": {
+    "class": "au.org.biodiversity.nsl.Instance",
+    "_links": {
+      "permalink": {
+        "link": "https://biodiversity.org.au/boa/instance/apni/481811",
+        "resources": 1
+      }
+    },
+    "instanceType": "tax. nov."
+  },
+  "action": "delete",
+  "ok": false,
+  "errors": [
+    "There are 4 instances that cite this.",
+    "There are 1 instances notes on this."
+  ]
+}
+----
+
+.Failing example trying to delete
+
+curl -H "Accept: application/json" -X DELETE https://biodiversity.org.au/boa/instance/apni/481811/api/delete?apiKey=aaaaa-bbbbbb-ccccc-ddddd-eeeee&reason=I+dont+like+it
+
+.Non working response
+
+[source, groovy]
+----
+{
+  "name": {
+    "class": "au.org.biodiversity.nsl.Instance",
+    "_links": {
+      "permalink": {
+        "link": "https://biodiversity.org.au/boa/instance/apni/481811",
+        "resources": 1
+      }
+    },
+    "instanceType": "tax. nov."
+  },
+  "action": "delete",
+  "ok": false,
+  "errors": [
+    "There are 4 instances that cite this.",
+    "There are 1 instances notes on this."
+  ]
+}
+----
+
+.Working example trying to delete
+
+curl -H "Accept: application/json" -X DELETE https://biodiversity.org.au/boa/instance/apni/453850/api/delete?apiKey=aaaaa-bbbbbb-ccccc-ddddd-eeeee&reason=I+dont+like+it
+
+.Working response
+
+[source, groovy]
+----
+{
+  "name": {
+    "class": "au.org.biodiversity.nsl.Instance",
+    "_links": {
+      "permalink": {
+        "link": https://biodiversity.org.au/boa/instance/apni/453850",
+        "resources": 1
+      }
+    },
+    "instanceType": "secondary reference"
+  },
+  "action": "delete",
+  "ok": true
+}
+----
