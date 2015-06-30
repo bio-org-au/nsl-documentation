@@ -14,7 +14,7 @@ apply plugin: 'org.asciidoctor.gradle.asciidoctor'
 
 asciidoctor {
     sourceDir = new File('src/asciidoc/toplevel')
-//    outputDir = new File("output/docs")
+    outputDir = new File("$buildDir/docs")
     separateOutputDirs = true
     options = [
             eruby     : 'erubis',
@@ -25,9 +25,14 @@ asciidoctor {
             idprefix: '',
             idseparator: '-'
     )
+
     sources {
         include 'main.adoc'
-//        include 'img/**'
-//        include 'style/**'
     }
+
+    resources {
+        from('src/asciidoc/toplevel/resources')
+        into "./resources"
+    }
+
 }
