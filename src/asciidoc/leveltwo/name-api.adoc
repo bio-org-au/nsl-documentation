@@ -788,7 +788,7 @@ becomes poa *fa* where * is a wild card). You can use the same search modifiers 
 
 .Example 1
 
-curl -H "Accept: application/json" -X GET https://biodiversity.org.au/nsl/services/api/name/acceptable-name.json?simpleName=%22poa%20fax%22
+curl -H "Accept: application/json" -X GET https://biodiversity.org.au/nsl/services/api/name/acceptable-name.json?name=%22poa%20fax%22
 
 .Response
 
@@ -796,7 +796,6 @@ curl -H "Accept: application/json" -X GET https://biodiversity.org.au/nsl/servic
 ----
 {
   "action": "acceptable-name",
-  "message": null,
   "count": 1,
   "names": [
     {

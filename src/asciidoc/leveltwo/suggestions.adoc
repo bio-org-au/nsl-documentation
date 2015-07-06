@@ -56,7 +56,7 @@ The suggestion subjects are:
 
 * apni-search - search on full name as per the apni name search service
 * simpleName - search on simple name, returns all names that match
-* acceptableName - search on simple name, only returns names that are deemed 'acceptable' see <<acceptable-name>>
+* acceptableName - search on simple or full name, only returns names that are deemed 'acceptable' see <<acceptable-name>>
 * author - search for an author
 * publication - search for a publication
 * epithet - search for an epithet
