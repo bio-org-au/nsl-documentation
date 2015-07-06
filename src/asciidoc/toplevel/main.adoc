@@ -114,3 +114,5 @@ include::../leveltwo/name-api.adoc[]
 include::../leveltwo/instance-api.adoc[]
 
 include::../leveltwo/reference-api.adoc[]
+
+include::../leveltwo/suggestions.adoc[]

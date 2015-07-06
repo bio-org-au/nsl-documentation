@@ -1,0 +1,79 @@
+:imagesdir: resources/images/
+
+=== Suggestions API V1.0
+
+The NSL infrastructure provides a number of simmple suggestions services as described in http://nerderg.com/Simple+Suggestions+plugin
+
+The simple suggestions service is open and provides a way to do a simple type ahead or suggestion for search results to do
+with names, references and authors in the NSL.
+
+The suggestion service works on a set of subjects where you provide a search term, and the service gives a list of
+strings as a result set.
+
+the basic structure of a suggestionservice URL is:
+
+[source]
+----
+https://biodiversity.org.au/nsl/services/suggest/[subject]?term=[your search string]
+----
+
+Using the jQuery-ui autocomplete widget you can add the suggestions to your web page with the following javascript:
+
+[source, javascript]
+----
+    $(".suggest").each(function () {
+        var action = $(this).data('subject');
+        var quoted = $(this).data('quoted');
+        var actionurl = baseContextPath + '/suggest/' + action;
+        $(this).autocomplete({
+            minLength: 1,
+            source: actionurl,
+            select: function (event, ui) {
+                var qry = ui.item.value;
+                if (quoted) {
+                    qry = '"' + ui.item.value + '"';
+                }
+                $(this).val(qry);
+                event.cancel();
+            }
+        });
+    });
+----
+
+You then just mark up you input text box like this:
+
+[source, html]
+----
+<input type="text" name="name" placeholder="Enter a name"
+             class="suggest"
+             data-subject="apni-search"
+             data-quoted="yes"/>
+----
+
+That says do a autocomplete here (class="suggest") on subject "apni-search" and quote the result if clicked on.
+
+The suggestion subjects are:
+
+* apni-search - search on full name as per the apni name search service
+* simpleName - search on simple name, returns all names that match
+* acceptableName - search on simple name, only returns names that are deemed 'acceptable' see <<acceptable-name>>
+* author - search for an author
+* publication - search for a publication
+* epithet - search for an epithet
+* nameType - search on name types.
+
+.Example
+
+https://biodiversity.org.au/nsl/services/suggest/acceptableName?term=acacia%20dealbata%20sub
+
+.Results
+
+[source, json]
+----
+[
+    "Acacia dealbata subsp. A",
+    "Acacia dealbata subsp. B",
+    "Acacia dealbata subsp. dealbata",
+    "Acacia dealbata subsp. subalpina"
+]
+----

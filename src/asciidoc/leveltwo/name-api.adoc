@@ -762,3 +762,140 @@ curl -H "Accept: application/json" -X GET https://biodiversity.org.au/boa/name/a
 .Example browse as JSON
 
 https://biodiversity.org.au/boa/name/apni/61294/api/simple-name.json
+
+==== acceptable-name
+
+**GET acceptable-name** gets a list of acceptable names given the simple name.
+
+An 'acceptable' name is one that is not illegitimate or illegal and has one of the following name status'
+
+* 'legitimate'
+* 'manuscript'
+* 'nom. alt.'
+* 'nom. cons.'
+* 'nom. cons., nom. alt.'
+* 'nom. cons., orth. cons.'
+* 'nom. et typ. cons.'
+* 'orth. cons.'
+* 'typ. cons.'
+
+.Parameters
+
+* simpleName: the search term
+
+NOTE: You should quote the search term for an exact match otherwise the term is tokenized and wild carded. (e.g. poa fa
+becomes poa *fa* where * is a wild card). You can use the same search modifiers as documented in <<Name Search>>.
+
+.Example 1
+
+curl -H "Accept: application/json" -X GET https://biodiversity.org.au/nsl/services/api/name/acceptable-name.json?simpleName=%22poa%20fax%22
+
+.Response
+
+[source, json]
+----
+{
+  "action": "acceptable-name",
+  "message": null,
+  "count": 1,
+  "names": [
+    {
+      "name": {
+        "class": "au.org.biodiversity.nsl.Name",
+        "_links": {
+          "permalinks": [
+            {
+              "link": "http://localhost:7070/nsl-mapper/boa/89770",
+              "resources": 1
+            },
+            {
+              "link": "http://localhost:7070/nsl-mapper/boa/apni.name/35747",
+              "resources": 1
+            },
+            {
+              "link": "http://localhost:7070/nsl-mapper/boa/name/apni/89770",
+              "resources": 1
+            },
+            {
+              "link": "http://localhost:7070/nsl-mapper/boa/Poa%20fax%20J.H.Willis%20%26%20Court",
+              "resources": 10
+            }
+          ]
+        },
+        "audit": {
+          "created": {
+            "by": "KIRSTENC",
+            "at": "2009-06-10T06:50:25Z"
+          },
+          "updated": {
+            "by": "KIRSTENC",
+            "at": "2009-06-10T06:50:25Z"
+          }
+        },
+        "namespace": "APNI",
+        "fullName": "Poa fax J.H.Willis & Court",
+        "fullNameHtml": "<scientific><name id='89770'><scientific><name id='72805'><element><i>Poa</i></element></name></scientific> <element><i>fax</i></element> <authors><author id='8322' title='Willis, J.H. &amp; Court, A.B.'>J.H.Willis & Court</author></authors></name></scientific>",
+        "nameElement": "fax",
+        "simpleName": "Poa fax",
+        "rank": {
+          "name": "Species",
+          "sortOrder": 190
+        },
+        "type": "scientific",
+        "status": "legitimate",
+        "tags": [],
+        "parent": {
+          "class": "au.org.biodiversity.nsl.Name",
+          "_links": {
+            "permalink": {
+              "link": "http://localhost:7070/nsl-mapper/boa/name/apni/72805",
+              "resources": 1
+            }
+          },
+          "nameElement": "Poa"
+        },
+        "secondParent": {},
+        "instances": [
+          {
+            "class": "au.org.biodiversity.nsl.Instance",
+            "_links": {
+              "permalink": {
+                "link": "http://localhost:7070/nsl-mapper/boa/instance/apni/810928",
+                "resources": 1
+              }
+            },
+            "instanceType": "basionym"
+          },
+...
+        ],
+        "externalRefs": [],
+        "author": {
+          "class": "au.org.biodiversity.nsl.Author",
+          "_links": {
+            "permalink": {
+              "link": "http://localhost:7070/nsl-mapper/boa/author/apni/8322",
+              "resources": 1
+            }
+          },
+          "name": "J.H.Willis & Court"
+        },
+        "baseAuthor": {},
+        "exAuthor": {},
+        "exBaseAuthor": {},
+        "primaryInstance": [
+          {
+            "class": "au.org.biodiversity.nsl.Instance",
+            "_links": {
+              "permalink": {
+                "link": "http://localhost:7070/nsl-mapper/boa/instance/apni/511085",
+                "resources": 1
+              }
+            },
+            "instanceType": "nom. nov."
+          }
+        ]
+      }
+    }
+  ]
+}
+----
