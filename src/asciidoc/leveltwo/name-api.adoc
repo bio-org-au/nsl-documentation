@@ -765,7 +765,7 @@ https://biodiversity.org.au/boa/name/apni/61294/api/simple-name.json
 
 ==== acceptable-name
 
-**GET acceptable-name** gets a list of acceptable names given the simple name.
+**GET acceptable-name** gets a list of acceptable names given the simple or full name.
 
 An 'acceptable' name is one that is not illegitimate or illegal and has one of the following name status'
 
@@ -781,7 +781,7 @@ An 'acceptable' name is one that is not illegitimate or illegal and has one of t
 
 .Parameters
 
-* simpleName: the search term
+* name: the search term
 
 NOTE: You should quote the search term for an exact match otherwise the term is tokenized and wild carded. (e.g. poa fa
 becomes poa *fa* where * is a wild card). You can use the same search modifiers as documented in <<Name Search>>.

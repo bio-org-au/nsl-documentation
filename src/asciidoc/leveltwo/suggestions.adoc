@@ -54,7 +54,8 @@ That says do a autocomplete here (class="suggest") on subject "apni-search" and 
 
 The suggestion subjects are:
 
-* apni-search - search on full name as per the apni name search service
+* apni-search - search APNI on full name as per the apni name search service
+* apc-search - search APC on full name as per the search service
 * simpleName - search on simple name, returns all names that match
 * acceptableName - search on simple or full name, only returns names that are deemed 'acceptable' see <<acceptable-name>>
 * author - search for an author
@@ -62,9 +63,12 @@ The suggestion subjects are:
 * epithet - search for an epithet
 * nameType - search on name types.
 
+Most suggestion end points just return a simple list of names.
+
+
 .Example
 
-https://biodiversity.org.au/nsl/services/suggest/acceptableName?term=acacia%20dealbata%20sub
+https://biodiversity.org.au/nsl/services/suggest/simpleName?term=acacia%20dealbata%20sub
 
 .Results
 
@@ -75,5 +79,35 @@ https://biodiversity.org.au/nsl/services/suggest/acceptableName?term=acacia%20de
     "Acacia dealbata subsp. B",
     "Acacia dealbata subsp. dealbata",
     "Acacia dealbata subsp. subalpina"
+]
+----
+
+acceptableName returns a list of JSON objects of name and link, where link is the ID or URI of the name.
+
+.Example
+
+https://biodiversity.org.au/nsl/services/suggest/acceptableName?term=acacia%20dealbata%20sub
+
+.Results
+
+[source, json]
+----
+[
+  {
+    "name": "Acacia dealbata subsp. A",
+    "link": "http://localhost:7070/nsl-mapper/boa/name/apni/232073"
+  },
+  {
+    "name": "Acacia dealbata subsp. B",
+    "link": "http://localhost:7070/nsl-mapper/boa/name/apni/232074"
+  },
+  {
+    "name": "Acacia dealbata Link subsp. dealbata",
+    "link": "http://localhost:7070/nsl-mapper/boa/name/apni/141782"
+  },
+  {
+    "name": "Acacia dealbata subsp. subalpina Tindale & Kodela",
+    "link": "http://localhost:7070/nsl-mapper/boa/name/apni/152864"
+  }
 ]
 ----
