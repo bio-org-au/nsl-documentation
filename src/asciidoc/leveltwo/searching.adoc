@@ -4,14 +4,14 @@
 
 The current NSL service includes the APNI and APC data. APNI is a nomenclator, it includes a list of names of vascular
 plants and where they have been used in references. In this sense, APNI has no opinion about the name, it just states
-where it has been used in a reference.
+where and how it has been used in a reference.
 
-APC is a classification, it has an opinion about what is the accepted name, and where the taxon sits in the classification
+APC is a consensus-based classification, it provides an opinion about what is the accepted name, and where the taxon sits in the classification
 "tree".
 
 .What is a tree
 ****
-We make speak of "trees" when referring to classifications in the NSL system, which shouldn't be confused with
+We may speak of "trees" when referring to classifications in the NSL system, which shouldn't be confused with
 actual vascular plants. A tree in this sense is the structure of set of names, so where one name is, say, the family name,
 and another the genus, the genus sits "under" the family in the tree. A Family will have many Genus and Species under it.
 ****
