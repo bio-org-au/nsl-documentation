@@ -804,19 +804,19 @@ curl -H "Accept: application/json" -X GET https://biodiversity.org.au/nsl/servic
         "_links": {
           "permalinks": [
             {
-              "link": "http://localhost:7070/nsl-mapper/boa/89770",
+              "link": "https://biodiversity.org.au/boa/89770",
               "resources": 1
             },
             {
-              "link": "http://localhost:7070/nsl-mapper/boa/apni.name/35747",
+              "link": "https://biodiversity.org.au/boa/apni.name/35747",
               "resources": 1
             },
             {
-              "link": "http://localhost:7070/nsl-mapper/boa/name/apni/89770",
+              "link": "https://biodiversity.org.au/boa/name/apni/89770",
               "resources": 1
             },
             {
-              "link": "http://localhost:7070/nsl-mapper/boa/Poa%20fax%20J.H.Willis%20%26%20Court",
+              "link": "https://biodiversity.org.au/boa/Poa%20fax%20J.H.Willis%20%26%20Court",
               "resources": 10
             }
           ]
@@ -847,7 +847,7 @@ curl -H "Accept: application/json" -X GET https://biodiversity.org.au/nsl/servic
           "class": "au.org.biodiversity.nsl.Name",
           "_links": {
             "permalink": {
-              "link": "http://localhost:7070/nsl-mapper/boa/name/apni/72805",
+              "link": "https://biodiversity.org.au/boa/name/apni/72805",
               "resources": 1
             }
           },
@@ -859,7 +859,7 @@ curl -H "Accept: application/json" -X GET https://biodiversity.org.au/nsl/servic
             "class": "au.org.biodiversity.nsl.Instance",
             "_links": {
               "permalink": {
-                "link": "http://localhost:7070/nsl-mapper/boa/instance/apni/810928",
+                "link": "https://biodiversity.org.au/boa/instance/apni/810928",
                 "resources": 1
               }
             },
@@ -872,7 +872,7 @@ curl -H "Accept: application/json" -X GET https://biodiversity.org.au/nsl/servic
           "class": "au.org.biodiversity.nsl.Author",
           "_links": {
             "permalink": {
-              "link": "http://localhost:7070/nsl-mapper/boa/author/apni/8322",
+              "link": "https://biodiversity.org.au/boa/author/apni/8322",
               "resources": 1
             }
           },
@@ -886,7 +886,7 @@ curl -H "Accept: application/json" -X GET https://biodiversity.org.au/nsl/servic
             "class": "au.org.biodiversity.nsl.Instance",
             "_links": {
               "permalink": {
-                "link": "http://localhost:7070/nsl-mapper/boa/instance/apni/511085",
+                "link": "https://biodiversity.org.au/boa/instance/apni/511085",
                 "resources": 1
               }
             },
@@ -923,7 +923,7 @@ https://biodiversity.org.au/nsl/services/name/apni/71063/api/apni-concepts.json
     "class": "au.org.biodiversity.nsl.Name",
     "_links": {
       "permalink": {
-        "link": "http://localhost:7070/nsl-mapper/boa/name/apni/71063",
+        "link": "https://biodiversity.org.au/boa/name/apni/71063",
         "resources": 1
       }
     },
@@ -935,7 +935,7 @@ https://biodiversity.org.au/nsl/services/name/apni/71063/api/apni-concepts.json
         "class": "au.org.biodiversity.nsl.Instance",
         "_links": {
           "permalink": {
-            "link": "http://localhost:7070/nsl-mapper/boa/instance/apni/482014",
+            "link": "https://biodiversity.org.au/boa/instance/apni/482014",
             "resources": 1
           }
         },
@@ -954,7 +954,7 @@ https://biodiversity.org.au/nsl/services/name/apni/71063/api/apni-concepts.json
       "class": "au.org.biodiversity.nsl.Name",
       "_links": {
         "permalink": {
-          "link": "http://localhost:7070/nsl-mapper/boa/name/apni/222592",
+          "link": "https://biodiversity.org.au/boa/name/apni/222592",
           "resources": 1
         }
       },
@@ -966,7 +966,7 @@ https://biodiversity.org.au/nsl/services/name/apni/71063/api/apni-concepts.json
           "class": "au.org.biodiversity.nsl.Instance",
           "_links": {
             "permalink": {
-              "link": "http://localhost:7070/nsl-mapper/boa/instance/apni/649463",
+              "link": "https://biodiversity.org.au/boa/instance/apni/649463",
               "resources": 1
             }
           },
@@ -988,7 +988,7 @@ https://biodiversity.org.au/nsl/services/name/apni/71063/api/apni-concepts.json
       "class": "au.org.biodiversity.nsl.Reference",
       "_links": {
         "permalink": {
-          "link": "http://localhost:7070/nsl-mapper/boa/reference/apni/27758",
+          "link": "https://biodiversity.org.au/boa/reference/apni/27758",
           "resources": 1
         }
       },
@@ -1006,7 +1006,7 @@ https://biodiversity.org.au/nsl/services/name/apni/71063/api/apni-concepts.json
       "class": "au.org.biodiversity.nsl.Reference",
       "_links": {
         "permalink": {
-          "link": "http://localhost:7070/nsl-mapper/boa/reference/apni/51580",
+          "link": "https://biodiversity.org.au/boa/reference/apni/51580",
           "resources": 1
         }
       },
@@ -1020,7 +1020,7 @@ https://biodiversity.org.au/nsl/services/name/apni/71063/api/apni-concepts.json
             "class": "au.org.biodiversity.nsl.Name",
             "_links": {
               "permalink": {
-                "link": "http://localhost:7070/nsl-mapper/boa/name/apni/71252",
+                "link": "https://biodiversity.org.au/boa/name/apni/71252",
                 "resources": 1
               }
             },
@@ -1032,7 +1032,7 @@ https://biodiversity.org.au/nsl/services/name/apni/71063/api/apni-concepts.json
                 "class": "au.org.biodiversity.nsl.Instance",
                 "_links": {
                   "permalink": {
-                    "link": "http://localhost:7070/nsl-mapper/boa/instance/apni/482320",
+                    "link": "https://biodiversity.org.au/boa/instance/apni/482320",
                     "resources": 1
                   }
                 },
@@ -1055,7 +1055,7 @@ https://biodiversity.org.au/nsl/services/name/apni/71063/api/apni-concepts.json
       "class": "au.org.biodiversity.nsl.Reference",
       "_links": {
         "permalink": {
-          "link": "http://localhost:7070/nsl-mapper/boa/reference/apni/23163",
+          "link": "https://biodiversity.org.au/boa/reference/apni/23163",
           "resources": 1
         }
       },
@@ -1069,7 +1069,7 @@ https://biodiversity.org.au/nsl/services/name/apni/71063/api/apni-concepts.json
             "class": "au.org.biodiversity.nsl.Name",
             "_links": {
               "permalink": {
-                "link": "http://localhost:7070/nsl-mapper/boa/name/apni/106724",
+                "link": "https://biodiversity.org.au/boa/name/apni/106724",
                 "resources": 1
               }
             },
@@ -1081,7 +1081,7 @@ https://biodiversity.org.au/nsl/services/name/apni/71063/api/apni-concepts.json
                 "class": "au.org.biodiversity.nsl.Instance",
                 "_links": {
                   "permalink": {
-                    "link": "http://localhost:7070/nsl-mapper/boa/instance/apni/536834",
+                    "link": "https://biodiversity.org.au/boa/instance/apni/536834",
                     "resources": 1
                   }
                 },
@@ -1104,7 +1104,7 @@ https://biodiversity.org.au/nsl/services/name/apni/71063/api/apni-concepts.json
       "class": "au.org.biodiversity.nsl.Reference",
       "_links": {
         "permalink": {
-          "link": "http://localhost:7070/nsl-mapper/boa/reference/apni/35974",
+          "link": "https://biodiversity.org.au/boa/reference/apni/35974",
           "resources": 1
         }
       },
@@ -1118,7 +1118,7 @@ https://biodiversity.org.au/nsl/services/name/apni/71063/api/apni-concepts.json
             "class": "au.org.biodiversity.nsl.Name",
             "_links": {
               "permalink": {
-                "link": "http://localhost:7070/nsl-mapper/boa/name/apni/177958",
+                "link": "https://biodiversity.org.au/boa/name/apni/177958",
                 "resources": 1
               }
             },
@@ -1130,7 +1130,7 @@ https://biodiversity.org.au/nsl/services/name/apni/71063/api/apni-concepts.json
                 "class": "au.org.biodiversity.nsl.Instance",
                 "_links": {
                   "permalink": {
-                    "link": "http://localhost:7070/nsl-mapper/boa/instance/apni/630850",
+                    "link": "https://biodiversity.org.au/boa/instance/apni/630850",
                     "resources": 1
                   }
                 },
@@ -1153,7 +1153,7 @@ https://biodiversity.org.au/nsl/services/name/apni/71063/api/apni-concepts.json
       "class": "au.org.biodiversity.nsl.Reference",
       "_links": {
         "permalink": {
-          "link": "http://localhost:7070/nsl-mapper/boa/reference/apni/40155",
+          "link": "https://biodiversity.org.au/boa/reference/apni/40155",
           "resources": 1
         }
       },
@@ -1167,7 +1167,7 @@ https://biodiversity.org.au/nsl/services/name/apni/71063/api/apni-concepts.json
             "class": "au.org.biodiversity.nsl.Name",
             "_links": {
               "permalink": {
-                "link": "http://localhost:7070/nsl-mapper/boa/name/apni/177958",
+                "link": "https://biodiversity.org.au/boa/name/apni/177958",
                 "resources": 1
               }
             },
@@ -1179,7 +1179,7 @@ https://biodiversity.org.au/nsl/services/name/apni/71063/api/apni-concepts.json
                 "class": "au.org.biodiversity.nsl.Instance",
                 "_links": {
                   "permalink": {
-                    "link": "http://localhost:7070/nsl-mapper/boa/instance/apni/630850",
+                    "link": "https://biodiversity.org.au/boa/instance/apni/630850",
                     "resources": 1
                   }
                 },
@@ -1202,7 +1202,7 @@ https://biodiversity.org.au/nsl/services/name/apni/71063/api/apni-concepts.json
       "class": "au.org.biodiversity.nsl.Reference",
       "_links": {
         "permalink": {
-          "link": "http://localhost:7070/nsl-mapper/boa/reference/apni/53841",
+          "link": "https://biodiversity.org.au/boa/reference/apni/53841",
           "resources": 1
         }
       },
@@ -1216,7 +1216,7 @@ https://biodiversity.org.au/nsl/services/name/apni/71063/api/apni-concepts.json
             "class": "au.org.biodiversity.nsl.Name",
             "_links": {
               "permalink": {
-                "link": "http://localhost:7070/nsl-mapper/boa/name/apni/177958",
+                "link": "https://biodiversity.org.au/boa/name/apni/177958",
                 "resources": 1
               }
             },
@@ -1228,7 +1228,7 @@ https://biodiversity.org.au/nsl/services/name/apni/71063/api/apni-concepts.json
                 "class": "au.org.biodiversity.nsl.Instance",
                 "_links": {
                   "permalink": {
-                    "link": "http://localhost:7070/nsl-mapper/boa/instance/apni/630850",
+                    "link": "https://biodiversity.org.au/boa/instance/apni/630850",
                     "resources": 1
                   }
                 },
