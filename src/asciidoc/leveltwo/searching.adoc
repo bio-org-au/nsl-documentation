@@ -12,8 +12,7 @@ APC is a consensus-based classification, it provides an opinion about what is th
 .What is a tree
 ****
 We may speak of "trees" when referring to classifications in the NSL system, which shouldn't be confused with
-actual vascular plants. A tree in this sense is the structure of set of names, so where one name is, say, the family name,
-and another the genus, the genus sits "under" the family in the tree. A Family will have many Genus and Species under it.
+actual woody vascular plants. A tree in this sense is the structure of set of names:  where one name is in relation to other names. For example, the plant family name is "above" the names of its constituent genera, a genus name ranks "below"  the family in the tree. A family may contain many genera and each genus many species and so on.
 ****
 
 When you look at the NSL services page you will see the APNI and APC "products" as links in the "Navigation Bar" at the
@@ -28,11 +27,11 @@ The search page consists of a set of search forms that can be found by selecting
 By default when you go to the search page you are on the "Name Search" tab. This gives you a simple text box to enter a
 search for the name or names you are looking for.
 
-NOTE: This search **just looks at the full name text,** it is not trying to comprehend the name or it's
+NOTE: This search **just looks at the full name text,** it is not trying to comprehend the name or its
 placement in a classification.
 
 When you type your query into the search box you will get suggestions that tell you what your query is likely
-to return. The system only returns the first 15 matching names in the suggestion, and will end with an elipsis (...) if
+to return. The system only returns the first 15 matching names in the suggestion, and will end with an ellipsis (...) if
 there are more results. You can click on one of those suggestions to get that single result for an exact match.
 
 The name search looks at the 'Full Name including the Author', so the system adds an automatic wild card at the end of
