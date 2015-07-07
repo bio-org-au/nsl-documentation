@@ -898,3 +898,355 @@ curl -H "Accept: application/json" -X GET https://biodiversity.org.au/nsl/servic
   ]
 }
 ----
+
+==== apni-concepts
+
+**GET apni-concepts** gets a JSON representation of the APNI Format information on a name. This gives a summary of the
+name information and the usage instances of the name in references with their relationships.
+
+The output us broken into two main sections, name and references. Name includes the name, its primary instance
+(normally the protologue), if it's in APC and its Family.
+
+The references section contains an **ordered** list of references that contain a list of 'citations', or relationship
+name usage instances. References without citations are stand alone references.
+
+.Example
+
+https://biodiversity.org.au/nsl/services/name/apni/71063/api/apni-concepts.json
+
+.Result
+
+[source, json]
+----
+{
+  "name": {
+    "class": "au.org.biodiversity.nsl.Name",
+    "_links": {
+      "permalink": {
+        "link": "http://localhost:7070/nsl-mapper/boa/name/apni/71063",
+        "resources": 1
+      }
+    },
+    "nameType": "scientific",
+    "nameStatus": "legitimate",
+    "nameRank": "Species",
+    "primaryInstance": [
+      {
+        "class": "au.org.biodiversity.nsl.Instance",
+        "_links": {
+          "permalink": {
+            "link": "http://localhost:7070/nsl-mapper/boa/instance/apni/482014",
+            "resources": 1
+          }
+        },
+        "instanceType": "tax. nov.",
+        "protologue": true,
+        "citation": "Cunningham, A. in Hooker, W.J. (1837), Companion to the Botanical Magazine 2(24)",
+        "citationHtml": "Cunningham, A. in Hooker, W.J. (1837), <i>Companion to the Botanical Magazine</i> 2(24)"
+      }
+    ],
+    "fullName": "Doodia blechnoides A.Cunn.",
+    "fullNameHtml": "<scientific><name id='71063'><scientific><name id='70914'><element><i>Doodia</i></element></name></scientific> <element><i>blechnoides</i></element> <authors><author id='1462' title='Cunningham, A.'>A.Cunn.</author></authors></name></scientific>",
+    "simpleName": "Doodia blechnoides",
+    "simpleNameHtml": "<scientific><name id='71063'><scientific><name id='70914'><element><i>Doodia</i></element></name></scientific> <element><i>blechnoides</i></element></name></scientific>",
+    "inAPC": false,
+    "family": {
+      "class": "au.org.biodiversity.nsl.Name",
+      "_links": {
+        "permalink": {
+          "link": "http://localhost:7070/nsl-mapper/boa/name/apni/222592",
+          "resources": 1
+        }
+      },
+      "nameType": "scientific",
+      "nameStatus": "legitimate",
+      "nameRank": "Familia",
+      "primaryInstance": [
+        {
+          "class": "au.org.biodiversity.nsl.Instance",
+          "_links": {
+            "permalink": {
+              "link": "http://localhost:7070/nsl-mapper/boa/instance/apni/649463",
+              "resources": 1
+            }
+          },
+          "instanceType": "tax. nov.",
+          "protologue": true,
+          "citation": "Newman, E. (1844), A History of British Ferns and Allied Plants Edn. 2",
+          "citationHtml": "Newman, E. (1844), <i>A History of British Ferns and Allied Plants</i> Edn. 2"
+        }
+      ],
+      "fullName": "Blechnaceae Newman",
+      "fullNameHtml": "<scientific><name id='222592'><element><i>Blechnaceae</i></element> <authors><author id='8244' title='Newman, E.'>Newman</author></authors></name></scientific>",
+      "simpleName": "Blechnaceae",
+      "simpleNameHtml": "<scientific><name id='222592'><element><i>Blechnaceae</i></element></name></scientific>"
+    }
+  },
+  "action": "apni-concepts",
+  "references": [
+    {
+      "class": "au.org.biodiversity.nsl.Reference",
+      "_links": {
+        "permalink": {
+          "link": "http://localhost:7070/nsl-mapper/boa/reference/apni/27758",
+          "resources": 1
+        }
+      },
+      "citation": "Cunningham, A. in Hooker, W.J. (1837), Companion to the Botanical Magazine 2(24)",
+      "citationHtml": "Cunningham, A. in Hooker, W.J. (1837), <i>Companion to the Botanical Magazine</i> 2(24)",
+      "citations": [],
+      "notes": [
+        {
+          "instanceNoteKey": "Type",
+          "instanceNoteText": "\"New South Wales. In dark ravines on the Warrabunha River. <NR> 1825, C. Fraser. A. Cunningham.\""
+        }
+      ]
+    },
+    {
+      "class": "au.org.biodiversity.nsl.Reference",
+      "_links": {
+        "permalink": {
+          "link": "http://localhost:7070/nsl-mapper/boa/reference/apni/51580",
+          "resources": 1
+        }
+      },
+      "citation": "Smith, J. in Hooker, W.J. (ed.) (1846), An Enumeration of ferns cultivated in the Royal Gardens at Kew, in December 1845; with characters and observations on some of the genera and species. Botanical Magazine 72 (Comp.)",
+      "citationHtml": "Smith, J. in Hooker, W.J. (ed.) (1846), An Enumeration of ferns cultivated in the Royal Gardens at Kew, in December 1845; with characters and observations on some of the genera and species. <i>Botanical Magazine</i> 72 (Comp.)",
+      "citations": [
+        {
+          "page": "27",
+          "relationship": "taxonomic synonym: <scientific><name id='71252'><scientific><name id='70914'><element><i>Doodia</i></element></name></scientific> <element><i>maxima</i></element> <authors><author id='7475' title='Smith, John'>J.Sm.</author></authors></name></scientific>",
+          "name": {
+            "class": "au.org.biodiversity.nsl.Name",
+            "_links": {
+              "permalink": {
+                "link": "http://localhost:7070/nsl-mapper/boa/name/apni/71252",
+                "resources": 1
+              }
+            },
+            "nameType": "scientific",
+            "nameStatus": "nom. inval., pro syn.",
+            "nameRank": "Species",
+            "primaryInstance": [
+              {
+                "class": "au.org.biodiversity.nsl.Instance",
+                "_links": {
+                  "permalink": {
+                    "link": "http://localhost:7070/nsl-mapper/boa/instance/apni/482320",
+                    "resources": 1
+                  }
+                },
+                "instanceType": "primary reference",
+                "protologue": false,
+                "citation": "Smith, J. in Hooker, W.J. (ed.) (1846), An Enumeration of ferns cultivated in the Royal Gardens at Kew, in December 1845; with characters and observations on some of the genera and species. Botanical Magazine 72 (Comp.)",
+                "citationHtml": "Smith, J. in Hooker, W.J. (ed.) (1846), An Enumeration of ferns cultivated in the Royal Gardens at Kew, in December 1845; with characters and observations on some of the genera and species. <i>Botanical Magazine</i> 72 (Comp.)"
+              }
+            ],
+            "fullName": "Doodia maxima J.Sm.",
+            "fullNameHtml": "<scientific><name id='71252'><scientific><name id='70914'><element><i>Doodia</i></element></name></scientific> <element><i>maxima</i></element> <authors><author id='7475' title='Smith, John'>J.Sm.</author></authors></name></scientific>",
+            "simpleName": "Doodia maxima",
+            "simpleNameHtml": "<scientific><name id='71252'><scientific><name id='70914'><element><i>Doodia</i></element></name></scientific> <element><i>maxima</i></element></name></scientific>"
+          }
+        }
+      ],
+      "notes": []
+    },
+    {
+      "class": "au.org.biodiversity.nsl.Reference",
+      "_links": {
+        "permalink": {
+          "link": "http://localhost:7070/nsl-mapper/boa/reference/apni/23163",
+          "resources": 1
+        }
+      },
+      "citation": "Mettenius, G.H. (1856), Filices Horti Botanici Lipsiensis",
+      "citationHtml": "Mettenius, G.H. (1856), <i>Filices Horti Botanici Lipsiensis</i>",
+      "citations": [
+        {
+          "page": "65",
+          "relationship": "basionym of <scientific><name id='106724'><scientific><name id='106675'><element><i>Woodwardia</i></element></name></scientific> <element><i>blechnoides</i></element> <authors>(<base id='1462' title='Cunningham, A.'>A.Cunn.</base>) <author id='7081' title='Mettenius, G.H.'>Mett.</author></authors></name></scientific>",
+          "name": {
+            "class": "au.org.biodiversity.nsl.Name",
+            "_links": {
+              "permalink": {
+                "link": "http://localhost:7070/nsl-mapper/boa/name/apni/106724",
+                "resources": 1
+              }
+            },
+            "nameType": "scientific",
+            "nameStatus": "legitimate",
+            "nameRank": "Species",
+            "primaryInstance": [
+              {
+                "class": "au.org.biodiversity.nsl.Instance",
+                "_links": {
+                  "permalink": {
+                    "link": "http://localhost:7070/nsl-mapper/boa/instance/apni/536834",
+                    "resources": 1
+                  }
+                },
+                "instanceType": "comb. nov.",
+                "protologue": true,
+                "citation": "Mettenius, G.H. (1856), Filices Horti Botanici Lipsiensis",
+                "citationHtml": "Mettenius, G.H. (1856), <i>Filices Horti Botanici Lipsiensis</i>"
+              }
+            ],
+            "fullName": "Woodwardia blechnoides (A.Cunn.) Mett.",
+            "fullNameHtml": "<scientific><name id='106724'><scientific><name id='106675'><element><i>Woodwardia</i></element></name></scientific> <element><i>blechnoides</i></element> <authors>(<base id='1462' title='Cunningham, A.'>A.Cunn.</base>) <author id='7081' title='Mettenius, G.H.'>Mett.</author></authors></name></scientific>",
+            "simpleName": "Woodwardia blechnoides",
+            "simpleNameHtml": "<scientific><name id='106724'><scientific><name id='106675'><element><i>Woodwardia</i></element></name></scientific> <element><i>blechnoides</i></element></name></scientific>"
+          }
+        }
+      ],
+      "notes": []
+    },
+    {
+      "class": "au.org.biodiversity.nsl.Reference",
+      "_links": {
+        "permalink": {
+          "link": "http://localhost:7070/nsl-mapper/boa/reference/apni/35974",
+          "resources": 1
+        }
+      },
+      "citation": "Christensen, C.F.A. (1905), Index Filicum",
+      "citationHtml": "Christensen, C.F.A. (1905), <i>Index Filicum</i>",
+      "citations": [
+        {
+          "page": "243",
+          "relationship": "replaced synonym of <scientific><name id='177958'><scientific><name id='70914'><element><i>Doodia</i></element></name></scientific> <element><i>maxima</i></element> <authors><ex id='7475' title='Smith, John'>J.Sm.</ex> ex <author id='7073' title='Christensen, C.F.A.'>C.Chr.</author></authors></name></scientific>",
+          "name": {
+            "class": "au.org.biodiversity.nsl.Name",
+            "_links": {
+              "permalink": {
+                "link": "http://localhost:7070/nsl-mapper/boa/name/apni/177958",
+                "resources": 1
+              }
+            },
+            "nameType": "scientific",
+            "nameStatus": "legitimate",
+            "nameRank": "Species",
+            "primaryInstance": [
+              {
+                "class": "au.org.biodiversity.nsl.Instance",
+                "_links": {
+                  "permalink": {
+                    "link": "http://localhost:7070/nsl-mapper/boa/instance/apni/630850",
+                    "resources": 1
+                  }
+                },
+                "instanceType": "nom. nov.",
+                "protologue": true,
+                "citation": "Christensen, C.F.A. (1905), Index Filicum",
+                "citationHtml": "Christensen, C.F.A. (1905), <i>Index Filicum</i>"
+              }
+            ],
+            "fullName": "Doodia maxima J.Sm. ex C.Chr.",
+            "fullNameHtml": "<scientific><name id='177958'><scientific><name id='70914'><element><i>Doodia</i></element></name></scientific> <element><i>maxima</i></element> <authors><ex id='7475' title='Smith, John'>J.Sm.</ex> ex <author id='7073' title='Christensen, C.F.A.'>C.Chr.</author></authors></name></scientific>",
+            "simpleName": "Doodia maxima",
+            "simpleNameHtml": "<scientific><name id='177958'><scientific><name id='70914'><element><i>Doodia</i></element></name></scientific> <element><i>maxima</i></element></name></scientific>"
+          }
+        }
+      ],
+      "notes": []
+    },
+    {
+      "class": "au.org.biodiversity.nsl.Reference",
+      "_links": {
+        "permalink": {
+          "link": "http://localhost:7070/nsl-mapper/boa/reference/apni/40155",
+          "resources": 1
+        }
+      },
+      "citation": "Parris, B.S. in McCarthy, P.M. (ed.) (1998), Doodia. Flora of Australia 48",
+      "citationHtml": "Parris, B.S. in McCarthy, P.M. (ed.) (1998), Doodia. <i>Flora of Australia</i> 48",
+      "citations": [
+        {
+          "page": "387, Figs 80, 130A-C, Map 350",
+          "relationship": "taxonomic synonym of <scientific><name id='177958'><scientific><name id='70914'><element><i>Doodia</i></element></name></scientific> <element><i>maxima</i></element> <authors><ex id='7475' title='Smith, John'>J.Sm.</ex> ex <author id='7073' title='Christensen, C.F.A.'>C.Chr.</author></authors></name></scientific>",
+          "name": {
+            "class": "au.org.biodiversity.nsl.Name",
+            "_links": {
+              "permalink": {
+                "link": "http://localhost:7070/nsl-mapper/boa/name/apni/177958",
+                "resources": 1
+              }
+            },
+            "nameType": "scientific",
+            "nameStatus": "legitimate",
+            "nameRank": "Species",
+            "primaryInstance": [
+              {
+                "class": "au.org.biodiversity.nsl.Instance",
+                "_links": {
+                  "permalink": {
+                    "link": "http://localhost:7070/nsl-mapper/boa/instance/apni/630850",
+                    "resources": 1
+                  }
+                },
+                "instanceType": "nom. nov.",
+                "protologue": true,
+                "citation": "Christensen, C.F.A. (1905), Index Filicum",
+                "citationHtml": "Christensen, C.F.A. (1905), <i>Index Filicum</i>"
+              }
+            ],
+            "fullName": "Doodia maxima J.Sm. ex C.Chr.",
+            "fullNameHtml": "<scientific><name id='177958'><scientific><name id='70914'><element><i>Doodia</i></element></name></scientific> <element><i>maxima</i></element> <authors><ex id='7475' title='Smith, John'>J.Sm.</ex> ex <author id='7073' title='Christensen, C.F.A.'>C.Chr.</author></authors></name></scientific>",
+            "simpleName": "Doodia maxima",
+            "simpleNameHtml": "<scientific><name id='177958'><scientific><name id='70914'><element><i>Doodia</i></element></name></scientific> <element><i>maxima</i></element></name></scientific>"
+          }
+        }
+      ],
+      "notes": []
+    },
+    {
+      "class": "au.org.biodiversity.nsl.Reference",
+      "_links": {
+        "permalink": {
+          "link": "http://localhost:7070/nsl-mapper/boa/reference/apni/53841",
+          "resources": 1
+        }
+      },
+      "citation": "CHAH (2014), Australian Plant Census",
+      "citationHtml": "CHAH (2014), <i>Australian Plant Census</i>",
+      "citations": [
+        {
+          "page": null,
+          "relationship": "taxonomic synonym of <scientific><name id='177958'><scientific><name id='70914'><element><i>Doodia</i></element></name></scientific> <element><i>maxima</i></element> <authors><ex id='7475' title='Smith, John'>J.Sm.</ex> ex <author id='7073' title='Christensen, C.F.A.'>C.Chr.</author></authors></name></scientific>",
+          "name": {
+            "class": "au.org.biodiversity.nsl.Name",
+            "_links": {
+              "permalink": {
+                "link": "http://localhost:7070/nsl-mapper/boa/name/apni/177958",
+                "resources": 1
+              }
+            },
+            "nameType": "scientific",
+            "nameStatus": "legitimate",
+            "nameRank": "Species",
+            "primaryInstance": [
+              {
+                "class": "au.org.biodiversity.nsl.Instance",
+                "_links": {
+                  "permalink": {
+                    "link": "http://localhost:7070/nsl-mapper/boa/instance/apni/630850",
+                    "resources": 1
+                  }
+                },
+                "instanceType": "nom. nov.",
+                "protologue": true,
+                "citation": "Christensen, C.F.A. (1905), Index Filicum",
+                "citationHtml": "Christensen, C.F.A. (1905), <i>Index Filicum</i>"
+              }
+            ],
+            "fullName": "Doodia maxima J.Sm. ex C.Chr.",
+            "fullNameHtml": "<scientific><name id='177958'><scientific><name id='70914'><element><i>Doodia</i></element></name></scientific> <element><i>maxima</i></element> <authors><ex id='7475' title='Smith, John'>J.Sm.</ex> ex <author id='7073' title='Christensen, C.F.A.'>C.Chr.</author></authors></name></scientific>",
+            "simpleName": "Doodia maxima",
+            "simpleNameHtml": "<scientific><name id='177958'><scientific><name id='70914'><element><i>Doodia</i></element></name></scientific> <element><i>maxima</i></element></name></scientific>"
+          }
+        }
+      ],
+      "notes": []
+    }
+  ]
+}
+----
