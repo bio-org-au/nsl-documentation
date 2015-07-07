@@ -103,7 +103,16 @@ changes will be incorporated based on priorities and resources.
 
 include::../leveltwo/searching.adoc[]
 
+.Under Construction
+****
+This documentation is under construction. We uderstand it needs extending and improving, but we thought we'd let you
+see what we've got so far.
+****
+
 == Aplication Interfaces (APIs)
+
+WARNING: The information below is technical information for people wanting to connect, search and use information from
+the NSL via web services. Basically it's meant for computer programmers, but feel free to have a look if you're interested.
 
 The NSL services provide a number of Application Interfaces, called APIs, to let you access the name data within.
 
