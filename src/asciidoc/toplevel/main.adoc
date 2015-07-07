@@ -20,7 +20,7 @@ Main documentation for the NSL API version 1.0
 
 === Australian Plant Name Index (APNI)
 
-APNI is a database for the botanical community that deals with plant names and their usage in the scientific literature,
+APNI is a database for the botanical community that deals with the names of Australian plants and their usage in the scientific literature,
 whether as a current name or synonym. **APNI does not recommend any particular taxonomy or nomenclature.** For a listing of
 currently accepted scientific names for the Australian vascular flora, see the <<Australian Plant Census (APC)>>.
 Information available from APNI includes:
@@ -44,7 +44,7 @@ Resources Study. The CANBR, ANBG and ABRS collaborate to further the updating an
 APC is a database of the accepted scientific names for the Australian vascular flora, ferns, gymnosperms, hornworts and
 liverworts, both native and introduced, and lists synonyms and misapplications for these names. The APC will cover all
 published scientific plant names used in an Australian context in the taxonomic literature, but excludes taxa
-(including cultivars) known only from cultivation in Australia. The taxonomy and nomenclature adopted for the APC are
+known only from cultivation in Australia. The taxonomy and nomenclature adopted for the APC are
 endorsed by the Council of Heads of Australasian Herbaria (CHAH).
 
 For further information about names listed in APC, including bibliographic information, secondary references and
