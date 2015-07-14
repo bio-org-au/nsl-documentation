@@ -1250,3 +1250,49 @@ https://biodiversity.org.au/nsl/services/name/apni/71063/api/apni-concepts.json
   ]
 }
 ----
+
+==== find-concept
+
+**GET find-concept** finds the concept (Instance) with a reference that most matches the given term. You get back the
+brief name plus the instance that most matched the term given. The rank field tells you how many of the tokens in the term
+matched the reference citation. The brief Instance tells you the reference found.
+
+.Example
+
+https://biodiversity.org.au/nsl/services/name/apni/166271/api/find-concept.json?term=B.S. Parris (1998)
+
+.Result
+
+[source, json]
+----
+{
+  "name": {
+    "class": "au.org.biodiversity.nsl.Name",
+    "_links": {
+      "permalink": {
+        "link": "https://biodiversity.org.au/boa/name/apni/166271",
+        "preferred": true,
+        "resources": 1
+      }
+    },
+    "nameElement": "australis"
+  },
+  "action": "find-concept",
+  "matchedOn": "B.S. Parris (1998)",
+  "rank": 3,
+  "instance": {
+    "class": "au.org.biodiversity.nsl.Instance",
+    "_links": {
+      "permalink": {
+        "link": "https://biodiversity.org.au/boa/instance/apni/578620",
+        "preferred": true,
+        "resources": 1
+      }
+    },
+    "instanceType": "comb. nov.",
+    "protologue": true,
+    "citation": "Parris, B.S. in McCarthy, P.M. (ed.) (1998), Doodia. Flora of Australia 48",
+    "citationHtml": "Parris, B.S. in McCarthy, P.M. (ed.) (1998), Doodia. <i>Flora of Australia</i> 48"
+  }
+}
+----

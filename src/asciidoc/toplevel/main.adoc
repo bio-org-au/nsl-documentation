@@ -1,5 +1,4 @@
 = NSL API Documentation
-Peter McNeil <peter@nerderg.com>
 v1.0, June 2015
 :imagesdir: resources/images/
 :toc: left
