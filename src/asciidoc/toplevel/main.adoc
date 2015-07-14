@@ -63,9 +63,9 @@ Research with staff, resources and financial support from the Australian Nationa
 Gardens, Australian Biological Resources Study, CHAH and State and Territory herbaria. These organisations collaborate to
 further the updating and delivery of APC.
 
-=== National Species List
+=== National Species List (NSL)
 
-The national Species is a complete database covering vascular plants, mosses, fungi, animals etc. The data for the NSL is
+The National Species List is a complete database covering vascular plants, mosses, fungi, animals etc. The data for the NSL is
 kept in disparate systems that are combined under the NSL.
 
 The current NSL infrastructure does this via RDF web services over some semi static datasets, "but that is changing."
@@ -91,11 +91,11 @@ We will be adding new shards to the system as we go:
 
  . Algae
  . Lichen
- . Moss
+ . Mosses
  . Fungi
- . AFD
+ . the Australian Faunal Directory
 
-As we add datasets improvements to the Editor and services will be required to cater for differing requirements, these
+As we add datasets, improvements to the editor and services will be required to cater for differing requirements, these
 changes will be incorporated based on priorities and resources.
 
 == Using the NSL
@@ -108,7 +108,7 @@ This documentation is under construction. We uderstand it needs extending and im
 see what we've got so far.
 ****
 
-== Aplication Interfaces (APIs)
+== Application Interfaces (APIs)
 
 WARNING: The information below is technical information for people wanting to connect, search and use information from
 the NSL via web services. Basically it's meant for computer programmers, but feel free to have a look if you're interested.

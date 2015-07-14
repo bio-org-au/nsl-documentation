@@ -9,7 +9,7 @@ where and how it has been used in a reference.
 APC is a consensus-based classification, it provides an opinion about what is the accepted name, and where the taxon sits in the classification
 "tree".
 
-.What is a tree
+.What is a tree?
 ****
 We may speak of "trees" when referring to classifications in the NSL system, which shouldn't be confused with
 actual woody vascular plants. A tree in this sense is the structure of set of names:  where one name is in relation to other names. For example, the plant family name is "above" the names of its constituent genera, a genus name ranks "below"  the family in the tree. A family may contain many genera and each genus many species and so on.
