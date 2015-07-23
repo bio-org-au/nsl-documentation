@@ -87,12 +87,12 @@ reports that are noticably missing, but they are being added progressively as re
 
 ==== The road map
 
-We will be adding new shards to the system as we go:
+We will be adding new shards to the system as we go, with the likely priority as:
 
- . Algae
- . Lichen
- . Mosses
  . Fungi
+ . Algae
+ . Mosses
+ . Lichen
  . the Australian Faunal Directory
 
 As we add datasets, improvements to the editor and services will be required to cater for differing requirements, these
