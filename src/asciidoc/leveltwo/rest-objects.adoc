@@ -574,6 +574,7 @@ e.g. https://biodiversity.org.au/name/apni/70914/api/simple-name.json
     "id": {
       "permalink": {
         "link": "https://biodiversity.org.au/boa/name/apni/70914",
+        "preferred": true,
         "resources": 1
       }
     },
@@ -614,6 +615,7 @@ e.g. https://biodiversity.org.au/name/apni/70914/api/simple-name.json
       "_links": {
         "permalink": {
           "link": "https://biodiversity.org.au/boa/name/apni/222592",
+          "preferred": true,
           "resources": 1
         }
       },
@@ -625,6 +627,7 @@ e.g. https://biodiversity.org.au/name/apni/70914/api/simple-name.json
       "_links": {
         "permalink": {
           "link": "https://biodiversity.org.au/boa/name/apni/222592",
+          "preferred": true,
           "resources": 1
         }
       },
@@ -635,6 +638,7 @@ e.g. https://biodiversity.org.au/name/apni/70914/api/simple-name.json
       "_links": {
         "permalink": {
           "link": "https://biodiversity.org.au/boa/name/apni/70914",
+          "preferred": true,
           "resources": 1
         }
       },
@@ -653,10 +657,14 @@ e.g. https://biodiversity.org.au/name/apni/70914/api/simple-name.json
       "_links": {
         "permalink": {
           "link": "https://biodiversity.org.au/boa/instance/apni/578615",
+          "preferred": true,
           "resources": 1
         }
       },
-      "instanceType": "secondary reference"
+      "instanceType": "secondary reference",
+      "protologue": false,
+      "citation": "Parris, B.S. in McCarthy, P.M. (ed.) (1998), Doodia. Flora of Australia 48",
+      "citationHtml": "Parris, B.S. in McCarthy, P.M. (ed.) (1998), Doodia. <i>Flora of Australia</i> 48"
     },
     "apcName": "Doodia R.Br.",
     "apcRelationshipType": "secondary reference",
