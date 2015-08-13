@@ -18,9 +18,12 @@ Use your apiKey to authenticate.
 * ok: true/false - false means you can't delete this instance
 * errors: List - if ok is false this contains a list of error strings explaining the problem
 
+if you are trying to delete and it fails (i.e. you didn't check if you could delete it) you will get a 403 return code,
+with a payload containing error messages.
+
 .Example: Check if you can delete
 
-curl -H "Accept: application/json" -X GET https://biodiversity.org.au/boa/instance/apni/481811/api/delete
+curl -L -H "Accept: application/json" -X GET https://biodiversity.org.au/boa/instance/apni/481811/api/delete
 
 .response
 
@@ -48,7 +51,7 @@ curl -H "Accept: application/json" -X GET https://biodiversity.org.au/boa/instan
 
 .Failing example trying to delete
 
-curl -H "Accept: application/json" -X DELETE https://biodiversity.org.au/boa/instance/apni/481811/api/delete?apiKey=aaaaa-bbbbbb-ccccc-ddddd-eeeee&reason=I+dont+like+it
+curl -L -H "Accept: application/json" -X DELETE https://biodiversity.org.au/boa/instance/apni/481811/api/delete?apiKey=aaaaa-bbbbbb-ccccc-ddddd-eeeee&reason=I+dont+like+it
 
 .Non working response
 
@@ -76,7 +79,7 @@ curl -H "Accept: application/json" -X DELETE https://biodiversity.org.au/boa/ins
 
 .Working example trying to delete
 
-curl -H "Accept: application/json" -X DELETE https://biodiversity.org.au/boa/instance/apni/453850/api/delete?apiKey=aaaaa-bbbbbb-ccccc-ddddd-eeeee&reason=I+dont+like+it
+curl -L -H "Accept: application/json" -X DELETE https://biodiversity.org.au/boa/instance/apni/453850/api/delete?apiKey=aaaaa-bbbbbb-ccccc-ddddd-eeeee&reason=I+dont+like+it
 
 .Working response
 

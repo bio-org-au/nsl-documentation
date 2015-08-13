@@ -559,6 +559,8 @@ image::NameHtml.png[title="Name object HTML output"]
 
 ==== NslSimpleName
 
+WARNING: NSL simple name is deprecated and will be replaced by multiple service endpoints that cover specific purposes.
+
 NSL Simple Name is a flattened representation of a name including the accepted APC name, some tree information, name
 parents.
 
@@ -587,6 +589,7 @@ e.g. https://biodiversity.org.au/name/apni/70914/api/simple-name.json
     "nameType": "scientific",
     "homonym": false,
     "autonym": false,
+    "basionym": null,
     "hybrid": false,
     "cultivar": false,
     "formula": false,
@@ -602,6 +605,21 @@ e.g. https://biodiversity.org.au/name/apni/70914/api/simple-name.json
     "rankAbbrev": "gen.",
     "classifications": "[APNI, APC]",
     "apni": true,
+    "protoCitation": "Brown, R. (1810), Prodromus Florae Novae Hollandiae",
+    "protoInstance": {
+      "class": "au.org.biodiversity.nsl.Instance",
+      "_links": {
+        "permalink": {
+          "link": "https://biodiversity.org.au/boa/instance/apni/481759",
+          "preferred": true,
+          "resources": 1
+        }
+      },
+      "instanceType": "tax. nov.",
+      "protologue": true,
+      "citation": "Brown, R. (1810), Prodromus Florae Novae Hollandiae",
+      "citationHtml": "Brown, R. (1810), <i>Prodromus Florae Novae Hollandiae</i>"
+    },
     "protoYear": 1810,
     "nomStat": "legitimate",
     "nomIlleg": false,

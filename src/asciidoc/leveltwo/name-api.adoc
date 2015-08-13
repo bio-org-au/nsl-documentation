@@ -36,6 +36,9 @@ If the name record ID doesn't exist for any operation you will get a 404 status 
 An action that completes will in general return a 200 status, though the action may not have 'worked'. In general an
 errors field with a list of error strings will be returned with a negative result field it the action doesn't work.
 
+If you can't do an action (e.g. can't delete an instance because of references to it) you will generally get a 403 with
+a payload containing the error message.
+
 If you try to do an API call that requires Autorization without supplying a valid API Key, you will get an authorization
 error response.
 
@@ -61,7 +64,7 @@ error response.
 .Examples
 
 * using curl
- - curl -H "Accept: application/json" -X GET https://biodiversity.org.au/boa/name/apni/61294/api/branch
+ - curl -L -H "Accept: application/json" -X GET https://biodiversity.org.au/boa/name/apni/61294/api/branch
 * browser
  - https://biodiversity.org.au/boa/name/apni/61294/api/branch.json
 
@@ -187,11 +190,14 @@ Use your apiKey to authenticate.
 * ok: true/false - false means you can't delete this name
 * errors: List - if ok is false this contains a list of error strings explaining the problem
 
+if you are trying to delete and it fails (i.e. you didn't check if you could delete it) you will get a 403 return code,
+with a payload containing error messages.
+
 .Example 1
 
 Check if you can delete
 
-curl -H "Accept: application/json" -X GET https://biodiversity.org.au/boa/name/apni/170107/api/delete
+curl -L -H "Accept: application/json" -X GET https://biodiversity.org.au/boa/name/apni/170107/api/delete
 
 .response
 
@@ -219,7 +225,7 @@ curl -H "Accept: application/json" -X GET https://biodiversity.org.au/boa/name/a
 
 .Example 2
 
-curl -H "Accept: application/json" -X DELETE https://biodiversity.org.au/boa/name/apni/170107/api/delete?apiKey=aaaaa-bbbbbb-ccccc-ddddd-eeeee&reason=I+dont+like+it
+curl -L -H "Accept: application/json" -X DELETE https://biodiversity.org.au/boa/name/apni/170107/api/delete?apiKey=aaaaa-bbbbbb-ccccc-ddddd-eeeee&reason=I+dont+like+it
 
 .Non working response
 
@@ -278,7 +284,7 @@ different to other classifications such as APC.
 
 .Example
 
-curl -H "Accept: application/json" -X GET https://biodiversity.org.au/boa/name/apni/158548/api/family
+curl -L -H "Accept: application/json" -X GET https://biodiversity.org.au/boa/name/apni/158548/api/family
 
 .Example response
 
@@ -405,7 +411,7 @@ curl -H "Accept: application/json" -X GET https://biodiversity.org.au/boa/name/a
 
 .Example
 
-curl -H "Accept: application/json" -X GET https://biodiversity.org.au/boa/name/apni/54427/api/apc
+curl -L -H "Accept: application/json" -X GET https://biodiversity.org.au/boa/name/apni/54427/api/apc
 
 .Example response
 
@@ -445,7 +451,7 @@ curl -H "Accept: application/json" -X GET https://biodiversity.org.au/boa/name/a
 
 .Example
 
-curl -H "Accept: application/json" -X GET https://biodiversity.org.au/boa/name/apni/54427/api/apni
+curl -L -H "Accept: application/json" -X GET https://biodiversity.org.au/boa/name/apni/54427/api/apni
 
 .Example response
 
@@ -500,7 +506,7 @@ NOTE: You need to be an administrator, or administrator service to call this wit
 
 .Example 1
 
-curl -H "Accept: application/json" -X GET https://biodiversity.org.au/boa/name/apni/185029/api/name-strings
+curl -L -H "Accept: application/json" -X GET https://biodiversity.org.au/boa/name/apni/185029/api/name-strings
 
 .Response
 
@@ -529,7 +535,7 @@ curl -H "Accept: application/json" -X GET https://biodiversity.org.au/boa/name/a
 
 .Example 2
 
-curl -H "Accept: application/json" -X GET https://biodiversity.org.au/boa/name/apni/172107/api/name-strings?apiKey=aaaaa-bbbbbb-eeee-ccccc-sssss
+curl -L -H "Accept: application/json" -X GET https://biodiversity.org.au/boa/name/apni/172107/api/name-strings?apiKey=aaaaa-bbbbbb-eeee-ccccc-sssss
 
 .Response
 
@@ -590,7 +596,7 @@ NOTE: If you're interested in the nslSimpleName then call the URI identifier wit
 
 .Example 1 add a URI
 
-curl -H "Accept: application/json" -X PUT https://biodiversity.org.au/nsl/services/api/name/name-update-event-uri?uri=http://localhost:8088/test
+curl -L -H "Accept: application/json" -X PUT https://biodiversity.org.au/nsl/services/api/name/name-update-event-uri?uri=http://localhost:8088/test
 
 .Response
 
@@ -601,7 +607,7 @@ curl -H "Accept: application/json" -X PUT https://biodiversity.org.au/nsl/servic
 
 .Example 2 delete a URI
 
-curl -H "Accept: application/json" -X DELETE https://biodiversity.org.au/nsl/services/api/name/name-update-event-uri?uri=http://localhost:8088/test
+curl -L -H "Accept: application/json" -X DELETE https://biodiversity.org.au/nsl/services/api/name/name-update-event-uri?uri=http://localhost:8088/test
 
 .Example response
 {"text":"unregistered http://localhost:8088/test"}
@@ -765,7 +771,7 @@ https://biodiversity.org.au/boa/name/apni/61294/api/simple-name
 
 .Example using curl to get JSON
 
-curl -H "Accept: application/json" -X GET https://biodiversity.org.au/boa/name/apni/61294/api/simple-name
+curl -L -H "Accept: application/json" -X GET https://biodiversity.org.au/boa/name/apni/61294/api/simple-name
 
 .Example browse as JSON
 
@@ -796,7 +802,7 @@ becomes poa fa* where * is a wild card). You can use the same search modifiers a
 
 .Example 1
 
-curl -H "Accept: application/json" -X GET https://biodiversity.org.au/nsl/services/api/name/acceptable-name.json?name=%22poa%20fax%22
+curl -L -H "Accept: application/json" -X GET https://biodiversity.org.au/nsl/services/api/name/acceptable-name.json?name=%22poa%20fax%22
 
 .Response
 

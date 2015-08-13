@@ -23,7 +23,8 @@ asciidoctor {
             'source-highlighter': 'prettify',
             toc: '',
             idprefix: '',
-            idseparator: '-'
+            idseparator: '-',
+            docinfo1: ''
     )
 
     sources {

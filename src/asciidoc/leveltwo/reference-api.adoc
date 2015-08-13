@@ -27,7 +27,7 @@ NOTE: You need to be an administrator, or administrator service to call this wit
 
 .Example 1
 
-curl -H "Accept: application/json" -X GET https://biodiversity.org.au/boa/reference/apni/22536/api/citation-strings
+curl -L -H "Accept: application/json" -X GET https://biodiversity.org.au/boa/reference/apni/22536/api/citation-strings
 
 .Response
 
@@ -53,7 +53,7 @@ curl -H "Accept: application/json" -X GET https://biodiversity.org.au/boa/refere
 
 .Example 2
 
-curl -H "Accept: application/json" -X PUT https://biodiversity.org.au/boa/reference/apni/22536/api/citation-strings?apiKey=aaaaa-bbbbbb-eeee-ccccc-sssss
+curl -L -H "Accept: application/json" -X PUT https://biodiversity.org.au/boa/reference/apni/22536/api/citation-strings?apiKey=aaaaa-bbbbbb-eeee-ccccc-sssss
 
 .Response
 
@@ -77,3 +77,219 @@ curl -H "Accept: application/json" -X PUT https://biodiversity.org.au/boa/refere
 }
 ----
 
+==== delete
+
+**GET delete** tells you if a reference can be deleted. If not it gives a list of error messages explaining why not.
+
+**DELETE delete** deletes the reference if it can be deleted. If not it gives a list of error messages explaining why not.
+
+NOTE: You need to be an administrator, or administrator service to call this with the 'DELETE' method.
+Use your apiKey to authenticate.
+
+.Returns
+
+* Brief Reference object
+* action: 'delete'
+* ok: true/false - false means you can't delete this name
+* errors: List - if ok is false this contains a list of error strings explaining the problem
+
+if you are trying to delete and it fails (i.e. you didn't check if you could delete it) you will get a 403 return code,
+with a payload containing error messages.
+
+.Parameters
+* reason - the reason this reference is being deleted.
+
+.Example 1
+
+Check if you can delete
+
+curl -L -H "Accept: application/json" -X GET https://biodiversity.org.au/boa/reference/apni/22536/api/delete.json
+
+.response
+
+[source, groovy]
+----
+{
+  "reference": {
+    "class": "au.org.biodiversity.nsl.Reference",
+    "_links": {
+      "permalink": {
+        "link": "https://biodiversity.org.au/test-nsl/mapper/boa/reference/apni/22536",
+        "preferred": true,
+        "resources": 1
+      }
+    },
+    "citation": "Brown, R. (1810), Prodromus Florae Novae Hollandiae",
+    "citationHtml": "Brown, R. (1810), <i>Prodromus Florae Novae Hollandiae</i>"
+  },
+  "action": "delete",
+  "ok": false,
+  "errors": [
+    "There are 2379 instances for this reference."
+  ]
+}
+----
+
+.Example 2
+
+curl -L -H "Accept: application/json" -X DELETE https://biodiversity.org.au/boa/reference/apni/22536/api/delete?apiKey=aaaaa-bbbbbb-ccccc-ddddd-eeeee&reason=I+dont+like+it
+
+.Non working response
+
+[source, groovy]
+----
+{
+  "reference": {
+    "class": "au.org.biodiversity.nsl.Reference",
+    "_links": {
+      "permalink": {
+        "link": "https://biodiversity.org.au/test-nsl/mapper/boa/reference/apni/22536",
+        "preferred": true,
+        "resources": 1
+      }
+    },
+    "citation": "Brown, R. (1810), Prodromus Florae Novae Hollandiae",
+    "citationHtml": "Brown, R. (1810), <i>Prodromus Florae Novae Hollandiae</i>"
+  },
+  "action": "delete",
+  "ok": false,
+  "errors": [
+    "There are 2379 instances for this reference."
+  ]
+}
+----
+
+.Working response
+
+[source, groovy]
+----
+{
+  "reference": {
+    "class": "au.org.biodiversity.nsl.Reference",
+    "_links": {
+      "permalink": {
+        "link": "https://biodiversity.org.au/test-nsl/mapper/boa/reference/apni/22536",
+        "preferred": true,
+        "resources": 1
+      }
+    },
+    "citation": "Brown, R. (1810), Prodromus Florae Novae Hollandiae",
+    "citationHtml": "Brown, R. (1810), <i>Prodromus Florae Novae Hollandiae</i>"
+  },
+  "action": "delete",
+  "ok": true
+}
+----
+
+==== move
+
+**GET move** move all associated resources for a reference to another reference. This is typically used in de-duplicating
+references that have been entered multiple times. This action will:
+
+* redirect the URI's associated with the source reference to the target reference,
+* move all instances, comments, external references, notes, to the target reference, then
+* delete the source reference.
+
+WARNING: This will delete the source reference. You need to be an administrator to do this, so you will need an apiKey
+if calling it from a service.
+
+.Parameters
+
+* target - the target reference id on the service, ie. the database ID (this is not intended for use externally)
+* user - (optional) The user to blame, defaults to the administrator.
+
+You use the resource URI as the **source** reference and pass the target reference ID as a parameter.
+
+.example
+
+curl -L -H "Accept: application/json" -X GET https://biodiversity.org.au/boa/reference/apni/22536/api/move?target=22537&apiKey=blah_blah_blah?user=fred
+
+.response
+
+A brief target Reference object is returned along with the result "ok" to indicate success. If there are errors they
+will be in an errors field as a list.
+
+[source, javascript]
+----
+{
+  "reference": {
+    "class": "au.org.biodiversity.nsl.Reference",
+    "_links": {
+      "permalink": {
+        "link": "https://biodiversity.org.au/boa/reference/apni/30623",
+        "preferred": true,
+        "resources": 1
+      }
+    },
+    "citation": "Stearn, W.T. in Stearn, W.T. (ed.) (1978), European species of Allium and allied genera of Alliaceae: a synonymic enumeration. Annales Musei Goulandris 4",
+    "citationHtml": "Stearn, W.T. in Stearn, W.T. (ed.) (1978), European species of Allium and allied genera of Alliaceae: a synonymic enumeration. <i>Annales Musei Goulandris<\u002fi> 4"
+  },
+  "action": "move",
+  "ok": true
+}
+----
+
+==== deduplicate-marked
+
+**GET deduplicate-marked** finds all references with duplicateOf set to another reference and calls the move action on it.
+
+.Parameters
+
+* user - (optional) The user to blame, defaults to the administrator.
+
+WARNING: This will delete the duplicate references. You need to be an administrator to do this, so you will need an apiKey
+if calling it from a service.
+
+.example
+
+curl -L -H "Accept: application/json" -X GET https://biodiversity.org.au/nsl/services/reference/api/deduplicate-marked?apiKey=blah_blah_blah?user=fred
+
+.response
+
+a list of de-duplicated reference DB IDs with an indication of success.
+
+[source, javascript]
+----
+{
+  "action": "deduplicate marked references",
+  "count": 140,
+  "references": [
+    {
+      "source": 30695,
+      "target": 30623,
+      "ok": true
+    },
+    {
+      "source": 30693,
+      "target": 30623,
+      "ok": true
+    },
+    {
+      "source": 50954,
+      "target": 44601,
+      "ok": true
+    },
+    {
+      "source": 38140,
+      "target": 25636,
+      "ok": true
+    },
+    {
+      "source": 29860,
+      "target": 23959,
+      "ok": true
+    },
+    {
+      "source": 34172,
+      "target": 25636,
+      "ok": true
+    },
+    {
+      "source": 34173,
+      "target": 25636,
+      "ok": true
+    },
+...
+  ]
+}
+----
