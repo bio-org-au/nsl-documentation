@@ -114,7 +114,7 @@ curl -L -H "Accept: application/json" -X GET https://biodiversity.org.au/boa/ref
     "class": "au.org.biodiversity.nsl.Reference",
     "_links": {
       "permalink": {
-        "link": "https://biodiversity.org.au/test-nsl/mapper/boa/reference/apni/22536",
+        "link": "https://biodiversity.org.au/boa/reference/apni/22536",
         "preferred": true,
         "resources": 1
       }
@@ -143,7 +143,7 @@ curl -L -H "Accept: application/json" -X DELETE https://biodiversity.org.au/boa/
     "class": "au.org.biodiversity.nsl.Reference",
     "_links": {
       "permalink": {
-        "link": "https://biodiversity.org.au/test-nsl/mapper/boa/reference/apni/22536",
+        "link": "https://biodiversity.org.au/boa/reference/apni/22536",
         "preferred": true,
         "resources": 1
       }
@@ -168,7 +168,7 @@ curl -L -H "Accept: application/json" -X DELETE https://biodiversity.org.au/boa/
     "class": "au.org.biodiversity.nsl.Reference",
     "_links": {
       "permalink": {
-        "link": "https://biodiversity.org.au/test-nsl/mapper/boa/reference/apni/22536",
+        "link": "https://biodiversity.org.au/boa/reference/apni/22536",
         "preferred": true,
         "resources": 1
       }
