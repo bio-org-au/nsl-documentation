@@ -412,7 +412,9 @@ A name being in the classification tree is not the same as the name being part o
 
 A typical place where 'DeclaredBt' nodes appear in the tree is when several species under a genus are excluded, but where the genus itself has not been dealt with explicitly. Another place where they can appear is where a higher taxonomy is not completed for a group of names. 
 
-That is, you cannot treat 'DeclaredBt' as implying that the name is (or should be) an excluded name, or that it is (or should be) part of APC. The name was used as a higher grouping in the previous APC system with nothing more being said about it. We imported this data into the NSL as it was, and work on APC is ongoing.
+That is, you cannot treat 'DeclaredBt' as implying that the name is (or should be) an excluded name, or that it is (or should be) part of APC. Even in the case where a number of species in a genus have been excluded, but where the genus is a 'DeclaredBt', it may or may not be the case that the genus has another species that does appear in Australia.
+
+Work on the Australian Plant Census is ongoing. As users of the data, all that we know about DeclaredBt names is that the name was used as a higher grouping in the previous APC system with nothing more being said about it by the APC team. We imported this data into the NSL as it was.
 
 .Returns
 
