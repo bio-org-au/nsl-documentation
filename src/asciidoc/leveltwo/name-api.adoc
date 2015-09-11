@@ -402,7 +402,17 @@ curl -L -H "Accept: application/json" -X GET https://biodiversity.org.au/boa/nam
 
 ==== apc
 
-**GET apc** tells you if this name is in the APC classification.
+**GET apc** tells you if this name is in the APC classification tree.
+
+A name being in the classification tree is not the same as the name being part of the Australian Plant Census. Names in the APC tree have one of the following types:
+
+* **ApcConcept**. The name is part of APC.
+* **ApcExcluded**. An excluded name. For convenience, a boolean attribute 'excluded' is also included in the response.
+* **DeclaredBt**. Names that, in the previous system, were declared as being "Broader Terms" of names in APC, but which were not themselves in APC.
+
+A typical place where 'DeclaredBt' nodes appear in the tree is when several species under a genus are excluded, but where the genus itself has not been dealt with explicitly. Another place where they can appear is where a higher taxonomy is not completed for a group of names. 
+
+That is, you cannot treat 'DeclaredBt' as implying that the name is (or should be) an excluded name, or that it is (or should be) part of APC. The name was used as a higher grouping in the previous APC system with nothing more being said about it. We imported this data into the NSL as it was, and work on APC is ongoing.
 
 .Returns
 
