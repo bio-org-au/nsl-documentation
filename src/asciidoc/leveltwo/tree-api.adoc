@@ -130,9 +130,12 @@ scientific or taxonomic meaning.
 *D*: Document node:: These nodes will be collections of value nodes and other document nodes.
 *Z*: Temp node:: These are nodes used internally to perform certain operations and discarded.
 *V*: Value node:: A value node either has a literal value or is a semantic web URI. +
-Value nodes never change, are never replaced, never have subnodes, and in RDF do not appear as nodes in their own
-right with an identifying URI.
-They are instead rendered as properties on the Document or Taxonomic node to which they are attached.
+Value nodes never change, are never replaced, and never have subnodes footnote:[It doesn't make sense to say that 1
+has changed into 2. It only makes sense to say that something has a property that has changed from 1 to 2.
+That is: you are talking about the link, which belongs to the supernode, not about the value node itself.].
+Value nodes are always attached to supernodes with fixed links. In RDF, value nodes do not appear as nodes in their own
+right with an identifying URI; they are instead rendered as properties on the Document or Taxonomic node to which they
+are attached.
 
 A node may also be synthetic (or not). This is discussed in <<History>>.
 
@@ -143,16 +146,24 @@ A link has a *versioningMethod*. This may be
 *V*: Versioning:: If the subnode of the link is replaced with a new version, then the supernode must be replaced
 with a new version. +
 This is the usual case. Versioning links are how the normal "changes must be rippled up" operation of the system
-works.
+works. *If the supernode of a versioning link is a current node, then the subnode will also be current.*
 *F*: Fixed:: If the subnode of the link is replaced with a new version, then do not ripple the change up. +
-We do not use fixed links at present, although they may be an option in user-created arrangements. If an arrangement
+Value nodes are always attached to ther supernodes with fixed links. Aside from this, we do not use fixed links at
+present, although they may be an option in user-created arrangements. If an arrangement
 uses fixed links, then it is not possible to identify nodes currently attached to the root of the tree without
 doing a treewalk.
 *T*: Tracking:: If the subnode of the link is replaced with a new version, then update the link to refer to the new
 version without making a new version of the supernode. +
-Tracking links always point at a _current_ node. Any node containing a tracking link anywhere below it is not stable.
+*The subnode of a tracking link is always a _current_ node*. This even applies to replaced (old) nodes. The tracking
+links of replaced nodes are not frozen in time
+because "where the tracking link happened to be at the time this node was replaced" doesn't mean anything that could
+not be meant by using a versioning link.
+
 We use tracking links to provide a persistent handles to nodes that change over time, to provide a persistent name for
-whatever the current version of some other node might be. See <<Classification trees>> for the most important use of
+whatever the current version of some other node might be. They do not form part of taxonomic trees footnote:[It might be
+reasonable for profile data to be linked to with tracking links, depending on how it is managed. Such a link would be more of
+an FYI inclusion - it would mean that the content of the document does not form part of the identity of the taxon].
+See <<Classification trees>> for the most important use of
 this currently.
 
 ==== Node and Link RDF types
