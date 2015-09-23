@@ -1,0 +1,112 @@
+:imagesdir: resources/images/
+
+=== Tree Structure V1.0
+.Under Construction
+****
+This documentation is under construction. We understand it needs extending and improving, but we thought we'd let you
+see what we've got so far.
+****
+
+Our tree component stores taxonomic trees, and potentially more. It can store arbitrary document-structured data such
+as profile data, whose elements are identified by RDF classes and predicates.
+
+The principle behind the structure is that no published node of the tree should ever change. That is: given a published
+node id, the entire document at that node  - the node itself and all nodes below it - should be stable. The purpose of
+this is that node ids can be reliably used as references. Using a node id, an
+author can declare that they are using a particular name in a particular classification at a particular time, and that
+declaration will not change its meaning as our classifications are maintained and updated.
+
+To make this possible, nodes are never changed - they are replaced by new nodes. (That is: the *content* does not
+change. The *state* obviously does.). This replacement propagates upward
+through the tree, resulting in a new root node whose entire document includes the new node in place of the previous
+one, by way of a series of new nodes along the path from the root to the changed node. In our code, we call this process
+"versioning".
+
+The process is somewhat inspired by Git and other version-management tools. We do not use hashes to identify
+subdocuments, however, just the nodes themselves. We also do not use timestamps to manage or identify versions of a
+node - the structure over time is directly in the nodes and the links between them.
+
+Our algorithms permit any number of changes to be made to a tree simultaneously. This permits, for instance, a name to
+be moved from one higher taxon to another as a single operation. Certain bulk updates which have had to be done as
+part of the maintenance of the classification appear as single changes affecting almost all nodes.
+
+Our algorithms permit a node to be used as a subnode of any number of other nodes (provided no cycles are formed, of
+course). This would permit in future a user to create their own trees that connect together fragments of other trees.
+
+==== Overall Structure
+
+Our data consists of a number of tree **Nodes**. +
+Nodes are linked into trees with **Links**. +
+Nodes each belong to an **Arrangement**. +
+Node lifecycle is recorded in **Events**.
+
+===== Nodes and Links
+
+A node "is" its content and the set of links of which it is the supernode (and therefore the nodes below them). To put it
+another way, links are *part of* the node above them, a node *has* the links of which it is the supernode.
+A change to a link is a change to the node above it, not to the node  below it. Nodes, in a sense, do not care where
+they are placed, they include what is placed under them.
+
+Links, therefore, are not separate from nodes and there is not an api to retrieve them separately. A link's identity is
+its supernode and its **linkSeq**. A node's links are guaranteed to have unique **linkSeq** numbers but are not
+guaranteed to have consecutive **linkSeq** numbers. This makes it possible to work out what about a node has changed
+from one version to the next - matching **linkSeq** numbers are "the same" link. If a subnode is deleted from a node,
+what will happen is that a new version of the node will be created with that **linkSeq** missing.
+
+===== Arrangements
+
+Every node belongs to one Arrangement. We use the term "arrangement" to mean "an arrangement of nodes". The term
+"Tree" or "Classification" is used more strictly - it means an arrangement that has a specific higher-order structure.
+Most of the arrangements accessible by the public API are in fact classifications. Other arrangements are used
+internally.
+
+===== Lifecycle
+
+A node has two events in its lifecycle. It changes from being a draft node to being a persistent node, and it
+changes from being a current node to being a replaced node. The **checkedInAt** attribute links to the **Event**
+at which a node is made persistent, and the **replacedAt** attribute links to the **Event** at which a node
+became replaced.
+
+Most **Events** have many nodes checked in and replaced by them. Events have a timestamp, and so a node is current
+from the timestamp of it's **checkedInAt** event up to but not including the timestamp of its **replacedAt** event.
+
+Most of the time, users want to work with the set of current nodes in an arrangement, and our system is optimised
+towards that. From the point of view of our editors, the set of current nodes "is" the tree.
+
+===== History
+
+Corresponding to the lifecycle event attributes, a node also has a **prev** and **next** attribute
+(which we inconsistently call its **copyOf** and **replacedBy** node in some places). Nodes and links also
+have a boolean **synthetic** attribute.
+
+Most of the time, nodes are updated because the nodes beneath them have been updated - a change has been rippled "up
+the tree" by the versioning algorithm. In these cases, the **next** and **prev** attributes will form a
+doubly-linked list and the node and its links will be marked 'synthetic'.
+
+Cases where this is not true usually indicates a user edit - that something interesting has happened. A newly created
+node has no 'prev'. If a node is used in a different tree, and then in that different tree edits are performed, then
+the new node will have a 'prev' of the node from which it was copied, but the node from which it was copies will not
+indicate that the new node is its 'next'. Many cases are possible, and graphically showing them to a user in a
+meaningful and useful way … is something that would be very nice to have.
+
+And so to find points in a node's history where the node itself has been edited for some reason, search for nodes whose
+ **synthetic** attribute is `false`.
+
+A node has a **next** node if and only if it has a **replacedAt** event. We therefore have a special **End Node** whose
+id is 0 and whose RDF identifier is a constant. Notionally, the end node is the same semantic-web "thing" wherever it
+appears. This node has to belong to an arrangement, and so arrangement 0 is the **End Tree** consistiing only of that
+single node.
+
+The primary reason for this, to be honest, is so that when you write an SQL query that looks at node histories and
+changes you don't have to outer join on `node.next_node_id`.
+
+==== Arrangement, Node, and Link internal types
+
+
+==== Node and Link RDF types
+
+
+==== Classification trees
+
+
+=== Tree API V1.0
