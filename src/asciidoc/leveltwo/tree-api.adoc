@@ -16,8 +16,9 @@ this is that node ids can be reliably used as references. Using a node id, an
 author can declare that they are using a particular name in a particular classification at a particular time, and that
 declaration will not change its meaning as our classifications are maintained and updated.
 
-To make this possible, nodes are never changed - they are replaced by new nodes. (That is: the *content* does not
-change. The *state* obviously does.). This replacement propagates upward
+To make this possible, nodes are never changed - they are replaced by new nodes. footnote:[That is: the _content_ does not
+change. The _state_ obviously does, but only in respect of the internal functioning of the tree, not in terms of the node's
+nomenclatural or taxonomic meaning or status.]. This replacement propagates upward
 through the tree, resulting in a new root node whose entire document includes the new node in place of the previous
 one, by way of a series of new nodes along the path from the root to the changed node. In our code, we call this process
 "versioning".
@@ -35,23 +36,23 @@ course). This would permit in future a user to create their own trees that conne
 
 ==== Overall Structure
 
-Our data consists of a number of tree **Nodes**. +
-Nodes are linked into trees with **Links**. +
-Nodes each belong to an **Arrangement**. +
-Node lifecycle is recorded in **Events**.
+Our data consists of a number of tree *Nodes*. +
+Nodes are linked into trees with *Links*. +
+Nodes each belong to an *Arrangement*. +
+Node lifecycle is recorded in *Events*.
 
 ===== Nodes and Links
 
 A node "is" its content and the set of links of which it is the supernode (and therefore the nodes below them). To put it
-another way, links are *part of* the node above them, a node *has* the links of which it is the supernode.
+another way, links are _part of_ the node above them, a node _has_ the links of which it is the supernode.
 A change to a link is a change to the node above it, not to the node  below it. Nodes, in a sense, do not care where
 they are placed, they include what is placed under them.
 
 Links, therefore, are not separate from nodes and there is not an api to retrieve them separately. A link's identity is
-its supernode and its **linkSeq**. A node's links are guaranteed to have unique **linkSeq** numbers but are not
-guaranteed to have consecutive **linkSeq** numbers. This makes it possible to work out what about a node has changed
-from one version to the next - matching **linkSeq** numbers are "the same" link. If a subnode is deleted from a node,
-what will happen is that a new version of the node will be created with that **linkSeq** missing.
+its supernode and its *linkSeq*. A node's links are guaranteed to have unique *linkSeq* numbers but are not
+guaranteed to have consecutive *linkSeq* numbers. This makes it possible to work out what about a node has changed
+from one version to the next - matching *linkSeq* numbers are "the same" link. If a subnode is deleted from a node,
+what will happen is that a new version of the node will be created with that *linkSeq* missing.
 
 ===== Arrangements
 
@@ -63,24 +64,24 @@ internally.
 ===== Lifecycle
 
 A node has two events in its lifecycle. It changes from being a draft node to being a persistent node, and it
-changes from being a current node to being a replaced node. The **checkedInAt** attribute links to the **Event**
-at which a node is made persistent, and the **replacedAt** attribute links to the **Event** at which a node
+changes from being a current node to being a replaced node. The *checkedInAt* attribute links to the *Event*
+at which a node is made persistent, and the *replacedAt* attribute links to the *Event* at which a node
 became replaced.
 
-Most **Events** have many nodes checked in and replaced by them. Events have a timestamp, and so a node is current
-from the timestamp of it's **checkedInAt** event up to but not including the timestamp of its **replacedAt** event.
+Most *Events* have many nodes checked in and replaced by them. Events have a timestamp, and so a node is current
+from the timestamp of it's *checkedInAt* event up to but not including the timestamp of its *replacedAt* event.
 
 Most of the time, users want to work with the set of current nodes in an arrangement, and our system is optimised
 towards that. From the point of view of our editors, the set of current nodes "is" the tree.
 
 ===== History
 
-Corresponding to the lifecycle event attributes, a node also has a **prev** and **next** attribute
-(which we inconsistently call its **copyOf** and **replacedBy** node in some places). Nodes and links also
-have a boolean **synthetic** attribute.
+Corresponding to the lifecycle event attributes, a node also has a *prev* and *next* attribute
+(which we inconsistently call its *copyOf* and *replacedBy* node in some places). Nodes and links also
+have a boolean *synthetic* attribute.
 
 Most of the time, nodes are updated because the nodes beneath them have been updated - a change has been rippled "up
-the tree" by the versioning algorithm. In these cases, the **next** and **prev** attributes will form a
+the tree" by the versioning algorithm. In these cases, the *next* and *prev* attributes will form a
 doubly-linked list and the node and its links will be marked 'synthetic'.
 
 Cases where this is not true usually indicates a user edit - that something interesting has happened. A newly created
@@ -90,18 +91,69 @@ indicate that the new node is its 'next'. Many cases are possible, and graphical
 meaningful and useful way … is something that would be very nice to have.
 
 And so to find points in a node's history where the node itself has been edited for some reason, search for nodes whose
- **synthetic** attribute is `false`.
+ *synthetic* attribute is `false`.
 
-A node has a **next** node if and only if it has a **replacedAt** event. We therefore have a special **End Node** whose
-id is 0 and whose RDF identifier is a constant. Notionally, the end node is the same semantic-web "thing" wherever it
-appears. This node has to belong to an arrangement, and so arrangement 0 is the **End Tree** consistiing only of that
-single node.
+A node has a *next* node if and only if it has a *replacedAt* event. We therefore have a special *End Node* whose
+id is 0 and whose RDF identifier is a constant belonging to the BOA RDF vocabulary footnote:[http://www.biodiversity.org.au/voc/boa/Tree#END-NODE]. This node has to belong to an
+arrangement, and so arrangement 0 is the  *End Tree* consisting only of that single node, also having a constant id
+that is part of the BOA vocabulary footnote:[http://www.biodiversity.org.au/voc/boa/Tree#END-TREE]. From the point of view of the semantic web, the end node and end tree are each the
+same semantic-web "thing" wherever they appear.
 
-The primary reason for this, to be honest, is so that when you write an SQL query that looks at node histories and
-changes you don't have to outer join on `node.next_node_id`.
+The primary reason for this is internal - it is so that SQL queries that look at node histories and changes don't have
+to outer join on `node.next_node_id`.
 
 ==== Arrangement, Node, and Link internal types
 
+Certain attributes of Arrangements, Nodes, and Links alter how they are treated internally by the system at the
+lower level of processing. That is, they do not have taxonomic meaning. These types are separate from the RDF types,
+which are discussed in <<Node and Link RDF types>>.
+
+===== Arrangement types
+
+An arrangement may be
+
+*E*: The End Tree:: There is only ever one end tree, and it has an id of 0. Discussed in <<History>>
+*C*: Classification:: This is the most usual type that a user of our API will deal with. Classification trees have
+a specific higher-level structure discussed in <<Classification trees>>.
+*U*: User:: User trees will be made up of fragments of other trees.
+*B*: Bookmark:: These will consist of one (or perhaps several) nodes that "track" nodes in
+other arrangements.
+*Z*: System temporary:: These are used internally to perform certain operations and discarded.
+
+===== Node types
+
+A node may be
+
+*S*: System node:: These are nodes which are used internally by the system, but which do not have
+scientific or taxonomic meaning.
+*T*: Taxonomic node:: This node will be associated with a name, and usually with an instance.
+*D*: Document node:: These nodes will be collections of value nodes and other document nodes.
+*Z*: Temp node:: These are nodes used internally to perform certain operations and discarded.
+*V*: Value node:: A value node either has a literal value or is a semantic web URI. +
+Value nodes never change, are never replaced, never have subnodes, and in RDF do not appear as nodes in their own
+right with an identifying URI.
+They are instead rendered as properties on the Document or Taxonomic node to which they are attached.
+
+A node may also be synthetic (or not). This is discussed in <<History>>.
+
+===== Link types
+
+A link has a *versioningMethod*. This may be
+
+*V*: Versioning:: If the subnode of the link is replaced with a new version, then the supernode must be replaced
+with a new version. +
+This is the usual case. Versioning links are how the normal "changes must be rippled up" operation of the system
+works.
+*F*: Fixed:: If the subnode of the link is replaced with a new version, then do not ripple the change up. +
+We do not use fixed links at present, although they may be an option in user-created arrangements. If an arrangement
+uses fixed links, then it is not possible to identify nodes currently attached to the root of the tree without
+doing a treewalk.
+*T*: Tracking:: If the subnode of the link is replaced with a new version, then update the link to refer to the new
+version without making a new version of the supernode. +
+Tracking links always point at a _current_ node. Any node containing a tracking link anywhere below it is not stable.
+We use tracking links to provide a persistent handles to nodes that change over time, to provide a persistent name for
+whatever the current version of some other node might be. See <<Classification trees>> for the most important use of
+this currently.
 
 ==== Node and Link RDF types
 
