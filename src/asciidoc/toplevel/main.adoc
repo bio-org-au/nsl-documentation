@@ -104,7 +104,7 @@ include::../leveltwo/searching.adoc[]
 
 .Under Construction
 ****
-This documentation is under construction. We uderstand it needs extending and improving, but we thought we'd let you
+This documentation is under construction. We understand it needs extending and improving, but we thought we'd let you
 see what we've got so far.
 ****
 
