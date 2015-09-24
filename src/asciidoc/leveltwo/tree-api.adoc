@@ -7,12 +7,17 @@ This documentation is under construction. We understand it needs extending and i
 see what we've got so far.
 ****
 
-Our tree component stores taxonomic trees, and potentially more. It can store arbitrary document-structured data such
+Our tree component stores taxonomic trees, and potentially more. It can store arbitrary document-structured data, such
 as profile data, whose elements are identified by RDF classes and predicates.
 
-The principle behind the structure is that no published node of the tree should ever change. That is: given a published
-node id, the entire document at that node  - the node itself and all nodes below it - should be stable. The purpose of
-this is that node ids can be reliably used as references. Using a node id, an
+The tree component holds a full history of every change made to any part of the tree.
+
+The principal design goal is that no persistent footnote:[nodes start in a draft state that permits edits] node of the
+tree should ever change. That is: given a publically available
+node id, the entire document at that node  - the node itself and all nodes below it - should be stable.
+
+The purpose of
+this is to permit node ids to be used as reliable references. Using a node id, an
 author can declare that they are using a particular name in a particular classification at a particular time, and that
 declaration will not change its meaning as our classifications are maintained and updated.
 
@@ -25,20 +30,22 @@ one, by way of a series of new nodes along the path from the root to the changed
 
 The process is somewhat inspired by Git and other version-management tools. We do not use hashes to identify
 subdocuments, however, just the nodes themselves. We also do not use timestamps to manage or identify versions of a
-node - the structure over time is directly in the nodes and the links between them.
+node - the structure over time is directly in the nodes and the links between them. footnote:[timestamps are often
+problematic, Common problems involving confusions about timezone and system clocks not properly set.]
 
 Our algorithms permit any number of changes to be made to a tree simultaneously. This permits, for instance, a name to
 be moved from one higher taxon to another as a single operation. Certain bulk updates which have had to be done as
 part of the maintenance of the classification appear as single changes affecting almost all nodes.
 
-Our algorithms permit a node to be used as a subnode of any number of other nodes (provided no cycles are formed, of
-course). This would permit in future a user to create their own trees that connect together fragments of other trees.
+Our algorithms permit a node to be used as a subnode of any number of other nodes (provided no cycles are formed). This would permit in future a user to create their own trees that connect together fragments of other trees.
 
 ==== Overall Structure
 
+image::Tree-SimplifiedER.png[title="Tree overall structure"]
+
 Our data consists of a number of tree *Nodes*. +
-Nodes are linked into trees with *Links*. +
-Nodes each belong to an *Arrangement*. +
+Nodes are linked into directed acyclic graphs with *Links*. +
+Nodes each belongs to an *Arrangement*. +
 Node lifecycle is recorded in *Events*.
 
 ===== Nodes and Links
@@ -56,14 +63,21 @@ what will happen is that a new version of the node will be created with that *li
 
 ===== Arrangements
 
-Every node belongs to one Arrangement. We use the term "arrangement" to mean "an arrangement of nodes". The term
-"Tree" or "Classification" is used more strictly - it means an arrangement that has a specific higher-order structure.
+We use the term "arrangement" in the sense of "an arrangement of nodes". The
+term "Tree" or "Classification" is used more strictly - it means an arrangement that has a specific higher-order structure.
 Most of the arrangements accessible by the public API are in fact classifications. Other arrangements are used
 internally.
 
+Every node belongs to one Arrangement.
+
+Every arrangement has one 'top' node.
+
+Arrangements are where permissions and authorisation is done. We do not have an access control list on every node - it's
+done at the arrangement layer.
+
 ===== Lifecycle
 
-A node has two events in its lifecycle. It changes from being a draft node to being a persistent node, and it
+A node has two events in its lifecycle. It changes from being a draft node to being a (current) persistent node, and it
 changes from being a current node to being a replaced node. The *checkedInAt* attribute links to the *Event*
 at which a node is made persistent, and the *replacedAt* attribute links to the *Event* at which a node
 became replaced.
