@@ -127,7 +127,7 @@ which are discussed in <<Node and Link RDF types>>.
 An arrangement may be
 
 *E*: The End Tree:: There is only ever one end tree, and it has an id of 0. Discussed in <<History>>
-*C*: Classification:: This is the most usual type that a user of our API will deal with. Classification trees have
+*P*: Public classification:: This is the most usual type that a user of our API will deal with. Classification trees have
 a specific higher-level structure discussed in <<Classification trees>>.
 *U*: User:: User trees will be made up of fragments of other trees.
 *B*: Bookmark:: These will consist of one (or perhaps several) nodes that "track" nodes in
@@ -180,10 +180,95 @@ an FYI inclusion - it would mean that the content of the document does not form 
 See <<Classification trees>> for the most important use of
 this currently.
 
-==== Node and Link RDF types
+==== Node content and Node and Link RDF types
 
+Nodes and links have attributes that carry data. These attributes are not of interest to the low-level maintenance
+of the tree structure, but they are of interest to whatever it is that is using the tree to store data.
+
+Firsly, and most obviously, T type nodes usually hold a name and instance id. In NSL, we have a 'Name Tree' whose
+main job is to provide Phylum and Family for generic and subgeneric names so that suitable output can be produced.
+We also have an 'APC' classification whose job is to hold accepted names and taxa for the Australian Plant Census.
+
+Parallel with the name and instance ids, we also have name and taxon URIs. Name and taxon URIs match the name and instance
+ids when these ids refer to names held in the local shard. However, having URIs permit us to create branches that
+terminate at names and taxa that are foreign ids.
+
+Along with name and taxon URIs, we also have a 'Resource' URI. This is mainly intended for V (value) type nodes. In
+RDF, a value may be a types primitive, or is may be a "resource" - a URI.
+
+Nodes and links also have a Type URI. In RDF, the link type becomes the RDF predicate, and the node type becomes the
+type of a typed primitive (where the node is a value), or is used as the OWL class of the node.
+
+The uri type may have meaning within the tree. In particular, our APC tree has nodes of type `APCConcept`, `APCExcluded`,
+and `DeclaredBT`. Their meanings are described in <<apc>>.
+
+Physically, our URIs are broken into a
+namespace and a an id. These are named `‹Name|Taxon|Resource›UriNsPart` and `‹Name|Taxon|Resource›UriIdPart`. The
+original purpose for splitting the URIs in this way was to make it easier to generate RDF. However, now we use D2R
+to generate the RDF, which does not use this feature to label the URI prefixes, and this design may be unnecessary.
+
+Uri namespace 0 is always the 'empty' namespace. A namespace of 0 means that the entire URI is in the 'UriIdPart'. The
+purpose of this is so that in SQL you don't need to outer join the namespace table.
+
+Uri namespace 1 is always the boatree namespace `http://biodiversity.org.au/voc/boa/Tree#'. This namespace is the prefix
+for internal artifacts when they are exposed as RDF.
 
 ==== Classification trees
+
+Classification trees are trees that have a specific higher-order structure, a specific way of using the lower-level
+data structure and algorithms.
+
+The Arrangement of a classification tree has type `P` - public classification. The arrangement always has a label, and
+that label becomes the suffix of the persistent URI identifying the classification.
+
+The top node of the arrangement is a system node `S`. This node has RDF type `classification-node` and holds *one*
+tracking link to a taxonomic node `T` of RDF type 'classification-root'.
+
+The classification root is not part of the taxonomy, does not have a name or an instance, and it may have been a
+mistake to make it a taxonomic node rather than a system node. We have an unnamed root node because
+
+* having a single taxon at the top level would make it impossible to change the name at the top of the taxonomy while
+  recording the history correctly. If our taxonomists were to decide to "push down" the top name, the only way to do it
+  would be to change the name of the top node and add a new node under it with the previous name. The versioning history
+  would not reflect what actually happened - it would not show that the top node got pushed down and that the new top
+  node is new. Instead it would show that the 'Plantae' APC taxon had its name changed to 'Eukaryota' (or whatever).
+  This would simply be wrong - the Plantae concept would not have changed, it would just have been moved.
+* some taxonomies have multiple taxa at the top level that are not organised into a higher classification. For instance,
+  AFD has 'Animalia' and 'Prototheria' at the top level. It would - again - simply be wrong to insist on a top level
+  taxon of Eukaryota or "All life on Earth", because these names are _not part of the Australian Faunal Directory_.
+
+The effect of this is that changes in classification trees result in a new `classification-root` node, and those
+nodes form a single line of history that can be navigated by looking at their `next`/`prev` attributes and the timestamps
+on their associated `Events`. The single `classification-node` acts as a bookmark - its single sublink always points
+to the current (most recent) classification root.
+
+There are a couple more rules:
+
+A classification only ever has one current node for any given name. That is - names appear only once. Consequently,
+our API for classification is is built entirely around names: "add this name to that name as an excluded name" and
+so on.
+
+Every node in a classification arrangement belongs to that arrangement. The purpose of this is to expedite the most
+important and common operation: find a name's current placement in a classification.
+
+*IF* a node
+
+* has the name you are looking for; AND
+* belongs to the classification you are searching; AND
+* is current
+
+*THEN*
+
+* it is the current placement of that name in that classification
+* it will have *one* superlink that links it to a node that
+** also belongs to the classification; AND
+** is current
+
+Both of these conditions need to be checked. Nodes may be included as subnodes in user classifications, and nodes
+will be placed under multiple copies of a supernode when sibling nodes are updated. However, only one will be current.
+
+And remember - this only applies to Arrangements of type `P`, which are maintained in such a way as these rules are 
+followed.
 
 
 === Tree API V1.0
