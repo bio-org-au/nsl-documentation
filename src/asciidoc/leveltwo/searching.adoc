@@ -30,24 +30,32 @@ search for the name or names you are looking for.
 NOTE: This search **just looks at the full name text,** it is not trying to comprehend the name or its
 placement in a classification.
 
-When you type your query into the search box you will get suggestions that tell you what your query is likely
+When you type your query into the search box you will get **suggestions** that tell you what your query is likely
 to return. The system only returns the first 15 matching names in the suggestion, and will end with an ellipsis (...) if
-there are more results. You can click on one of those suggestions to get that single result for an exact match.
+there are more results. You can click on one of those suggestions to copy it to the search box.
+
+TIP: You don't have to click on or use the suggestions, just press enter or click the search button with your query.
 
 The name search looks at the 'Full Name including the Author', so the system adds an automatic wild card at the end of
 the query to match all endings. This means that if you just enter the simple name without author you should find what you want,
 however it may also return more than you expect.
 
-The query you type in is a case insensitive, ordered set of search terms, so viola l. will match Viola suffruticosa L.
-and others.
+The query is **not** case sensitive.
+
+The query is an ordered set of search terms, so viola l. will match "Viola L." and "Viola L. sect Viola."
+
+NOTE: In versions prior to 1.0080 of the NSL services an automatic wild card was added between words (search terms) to match
+hybrid names and some other name variants. Hybrids are now specifically catered for in searches and the automatic wild card
+has been removed, making the results of the search more logical to most people.
+
+Putting double quotes around your entire query will cause it to be matched exactly (except case). e.g. "Viola L." will match just Viola L.
+
+NOTE: You can use wild cards inside quoted queries to get exactly what you want e.g. "viola betonicifolia subsp. %"
+
+You can use a % as a wild card inside the search query e.g. hakea elon% be or "hakea % var. elon% benth." to find "Hakea ceratophylla var. elongata Benth."
 
 NOTE: Whilst typing in viola will return most names under the genus Viola l. this is a function of the structure of a
 scientific name. In fact it will return more names than exist under that genus (91 vs 79).
 
-You can use a "%" as a **wild card** inside the search query e.g. hakea elon% benth to find "Hakea ceratophylla var. elongata Benth."
+You can search for hybrids using the letter 'x' or a multiplication sign &mul; if you use a multiplication sign.
 
-You can use a "+" in place of a space to make the space match exactly. e.g. viola+L. will match "Viola L." and "Viola L. sect. Viola"
-
-Putting double quotes around your entire query will cause it to be matched exactly. e.g. "Viola L." will match just Viola L.
-
-NOTE: You can use wild cards inside quoted queries to get exactly what you want e.g. "viola betonicifolia subsp. %"
