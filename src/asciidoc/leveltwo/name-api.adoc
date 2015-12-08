@@ -728,12 +728,11 @@ https://biodiversity.org.au/boa/name/apni/54433	\N	WA, CoI, ChI, NT, Qld	f	Combr
 https://biodiversity.org.au/boa/name/apni/54434	\N	WA (native and naturalised), CoI, ChI (native and naturalised), AR, NT (native and naturalised), SA (native and naturalised), Qld (native and naturalised), CSI, NSW (native and naturalised), LHI (native and naturalised), NI (native and naturalised), ACT (native and naturalised), Vic (native and naturalised), Tas (native and naturalised)	f	Convolvulaceae	https://biodiversity.org.au/boa/instance/apni/650964	Convolvulaceae Juss.	f	secondary reference	t	Juss.	Juss.	f	\N	[APNI, APC]	1996-05-26 23:07:25	PR1ORITY	f	\N	\N	\N	Convolvulaceae	https://biodiversity.org.au/boa/name/apni/54434	f	<scientific><name id='54434'><element><i>Convolvulaceae</i></element> <authors><author id='7030' title='Jussieu, A.L. de'>Juss.</author></authors></name></scientific>	\N	\N	f	f	\N	Convolvulaceae	Magnoliopsida	Convolvulaceae	Asteridae	scientific	f	f	nom. cons.	https://biodiversity.org.au/boa/name/apni/215001	1789	Familia	fam.	80	\N	t	\N	<scientific><name id='54434'><element><i>Convolvulaceae</i></element></name></scientific>	\N	\N	Convolvulaceae Juss.	2008-11-10 09:25:49	TWEESE
 ----
 
-==== apni-format
+==== apni-format / apni-format-embed
 
 **GET apni-format** gets the APNI formatted output for a Name.
 
-.Parameters
-embed: if set to true get the output as an embedable fragment of html.
+**GET apni-format-embed** gets the APNI formatted output for a Name in an embeddable format.
 
 NOTE: this is currently only available as HTML
 
@@ -745,13 +744,15 @@ image::APNIFormat.png[title="APNI Format HTML output"]
 
 .Example 1
 
-https://biodiversity.org.au/boa/name/apni/61294/api/apni-format?embed=true
+https://biodiversity.org.au/boa/name/apni/61294/api/apni-format-embed
 
 image::APNIFormatEmbed.png[title="APNI Format HTML embeded output"]
 
-==== apc-format
+==== apc-format / apc-format-embed
 
 **GET apni-format** gets the APC formatted output for a Name.
+
+**GET apni-format-embed** gets the APC formatted output for a Name in an embedable format.
 
 NOTE: this is currently only available as HTML
 
@@ -766,7 +767,7 @@ image::APCFormat.png[title="APC Format HTML output"]
 
 .Example 1
 
-https://biodiversity.org.au/boa/name/apni/61294/api/apc-format?embed=true
+https://biodiversity.org.au/boa/name/apni/61294/api/apc-format-embed
 
 image::APCFormatEmbed.png[title="APC Format HTML embeded output"]
 
