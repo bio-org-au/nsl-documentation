@@ -1,0 +1,98 @@
+= NSL Setup Documentation
+v1.0, June 2015
+:imagesdir: resources/images/
+:toc: left
+:toclevels: 4
+:toc-class: toc2
+:icons: font
+:iconfont-cdn: //cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css
+:stylesdir: resources/style/
+:stylesheet: asciidoctor.css
+:description: Documentation for the setup of a National Species List shard
+:keywords: documentation, NSL, APNI, Setup, APC
+:links:
+:numbered:
+
+Setup documentation for the NSL shard version 1.0
+
+.Under Construction
+****
+This documentation is under construction.
+****
+
+== Introduction
+
+This documentation will take you through the setup and configuration of an NSL 'shard' including:
+
+* data import
+* database setup
+* configuration parameters
+
+[NOTE]
+====
+an NSL shard is a container for a set of name data under the management of a particular organisation.
+Existing shards include:
+
+ * "APNI" - The Australian Plant Name Index
+ * "AusMoss" - Australian Moss
+====
+
+The NSL application is a set of Java (and JRuby) Web Applications running inside a Tomcat Application server container.
+
+*Diagram of NSL structure*
+
+== Setup
+
+To install an NSL instance we recommend creating a user account for NSL, say "nsl" with it's own home directory.
+
+You will need:-
+
+ * a PostgreSQL server (postmaster) running somewhere. We will be creating a database called "nsl" on that Postgres instance.
+ * an LDAP server (recommend apacheds-2.0.0-M17) for user accounts
+ * access to the internet from your server
+
+NOTE: On Linux just use your package manager to install PostgreSQL. You may need to optimize the configuration
+for your server.
+
+WARNING: On Solaris you should set the default encoding to UTF8
+
+== Installation
+
+1. unzip the NSL package
+
+This will create:-
+
+ * a .nsl directory with example configuration files,
+ * a Tomcat directory with the Tomcat instance and WAR files installed and ready to go,
+ * a bin directory with some management scripts
+
+run the bin/setup.sh script which will ask :-
+
+ * what your 'shard' name is
+ * where your PostgreSql server is, default: "localhost:5432"
+ * what you want to call the database, default: "nsl"
+ * what domain your server will be served from, e.g. "moss.biodiversity.org.au"
+ * what this nsl service "product" is e.g "AusMoss" or "APNI/APC"
+ * any proxy setting to get to the internet from your server. default: none
+
+The setup will then:-
+
+ * set the appropriate configuration settings, generate API keys and register your NSL shard with the
+central NSL services, including the mapper so that unique IDs for your NSL objects like names, references, authors and
+instances can be made.
+ * create an nsl database with default data for ranks, instance types etc.
+ * create a default "name tree" the same as your shard name.
+
+== Configuration
+
+.Example services-config.groovy
+[source,groovy]
+----
+
+----
+
+.Example nsl-mapper-config.groovy
+[source,groovy]
+----
+...
+----

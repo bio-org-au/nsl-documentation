@@ -29,6 +29,7 @@ asciidoctor {
 
     sources {
         include 'main.adoc'
+        include 'setup.adoc'
     }
 
     resources {

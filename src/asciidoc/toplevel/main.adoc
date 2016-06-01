@@ -115,6 +115,8 @@ the NSL via web services. Basically it's meant for computer programmers, but fee
 
 The NSL services provide a number of Application Interfaces, called APIs, to let you access the name data within.
 
+include::../leveltwo/changes.adoc[]
+
 include::../leveltwo/rest-objects.adoc[]
 
 include::../leveltwo/name-api.adoc[]

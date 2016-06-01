@@ -1,0 +1,7 @@
+:imagesdir: resources/images/
+
+=== Changes
+
+This section lists recent changes to the API.
+
+May 1 2016 : Removed NSL Simple Name export and JSON representation.

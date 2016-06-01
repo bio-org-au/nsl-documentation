@@ -19,7 +19,7 @@ so you can add '.json' or '.xml' to a URL to get the desired format. The .format
 303 redirection, so you will need to add it to the redirected service URL manually.
 
 e.g.
-the URL https://biodiversity.org.au/boa/name/apni/70914.json redirects to https://biodiversity.org.au/nsl/services/api/name/apni/70914
+the URL https://id.biodiversity.org.au/name/apni/70914.json redirects to https://biodiversity.org.au/nsl/services/api/name/apni/70914
 
 As you can see below the browser gets the 303 redirect and goes there, but the browser only 'accepts' html.
 
@@ -38,7 +38,7 @@ higher level api calls perform some of this work for you to create a useful view
 The basic form of a URI to return an object from the API via a preferred link is:
 [source]
 ----
-https://biodiversity.org.au/boa/[objectType]/[namespace]/[random unique number]
+https://id.biodiversity.org.au/[objectType]/[namespace]/[random unique number]
 ----
 
 WARNING: The [random unique number] is not in itself persistent and should **definitely not** be used as an identifier
@@ -55,7 +55,7 @@ be working to de-duplicate these authors over time.
 WARNING: An author can have 1000s of names. The HTML repesentation of an Author will summarize the names for you, the
 JSON will return the brief names for each one. It may take a while to return the JSON object for someone like Brown, R.
 
-e.g. https://biodiversity.org.au/boa/author/apni/1441
+e.g. https://id.biodiversity.org.au/author/apni/1441
 
 image::AuthorHtml.png[title="Author object HTML output"]
 
@@ -67,11 +67,11 @@ image::AuthorHtml.png[title="Author object HTML output"]
   "_links": {
     "permalinks": [
       {
-        "link": "https://biodiversity.org.au/boa/1441",
+        "link": "https://id.biodiversity.org.au/1441",
         "resources": 1
       },
       {
-        "link": "https://biodiversity.org.au/boa/author/apni/1441",
+        "link": "https://id.biodiversity.org.au/author/apni/1441",
         "resources": 1
       }
     ]
@@ -100,7 +100,7 @@ image::AuthorHtml.png[title="Author object HTML output"]
       "class": "au.org.biodiversity.nsl.Name",
       "_links": {
         "permalink": {
-          "link": "https://biodiversity.org.au/boa/name/apni/82208",
+          "link": "https://id.biodiversity.org.au/name/apni/82208",
           "resources": 1
         }
       },
@@ -110,7 +110,7 @@ image::AuthorHtml.png[title="Author object HTML output"]
       "class": "au.org.biodiversity.nsl.Name",
       "_links": {
         "permalink": {
-          "link": "https://biodiversity.org.au/boa/name/apni/128739",
+          "link": "https://id.biodiversity.org.au/name/apni/128739",
           "resources": 1
         }
       },
@@ -208,7 +208,7 @@ As you can see the instance type describes the relationship of the reference to 
 }
 ----
 
-e.g. https://biodiversity.org.au/boa/instance/apni/481759
+e.g. https://id.biodiversity.org.au/instance/apni/481759
 
 image::InstanceHTML.png[title="Instance object HTML output"]
 
@@ -221,19 +221,19 @@ image::InstanceHTML.png[title="Instance object HTML output"]
     "_links": {
       "permalinks": [
         {
-          "link": "https://biodiversity.org.au/boa/481759",
+          "link": "https://id.biodiversity.org.au/481759",
           "resources": 1
         },
         {
-          "link": "https://biodiversity.org.au/boa/apni.taxon/81167",
+          "link": "https://id.biodiversity.org.au/apni.taxon/81167",
           "resources": 1
         },
         {
-          "link": "https://biodiversity.org.au/boa/instance/apni/481759",
+          "link": "https://id.biodiversity.org.au/instance/apni/481759",
           "resources": 1
         },
         {
-          "link": "https://biodiversity.org.au/boa/Doodia%20R.Br.",
+          "link": "https://id.biodiversity.org.au/Doodia%20R.Br.",
           "resources": 15
         }
       ]
@@ -280,7 +280,7 @@ image::InstanceHTML.png[title="Instance object HTML output"]
       "class": "au.org.biodiversity.nsl.Name",
       "_links": {
         "permalink": {
-          "link": "https://biodiversity.org.au/boa/name/apni/70914",
+          "link": "https://id.biodiversity.org.au/name/apni/70914",
           "resources": 1
         }
       },
@@ -290,7 +290,7 @@ image::InstanceHTML.png[title="Instance object HTML output"]
       "class": "au.org.biodiversity.nsl.Reference",
       "_links": {
         "permalink": {
-          "link": "https://biodiversity.org.au/boa/reference/apni/22536",
+          "link": "https://id.biodiversity.org.au/reference/apni/22536",
           "resources": 1
         }
       },
@@ -307,7 +307,7 @@ image::InstanceHTML.png[title="Instance object HTML output"]
         "class": "au.org.biodiversity.nsl.Instance",
         "_links": {
           "permalink": {
-            "link": "https://biodiversity.org.au/boa/instance/apni/936501",
+            "link": "https://id.biodiversity.org.au/instance/apni/936501",
             "resources": 1
           }
         },
@@ -317,7 +317,7 @@ image::InstanceHTML.png[title="Instance object HTML output"]
         "class": "au.org.biodiversity.nsl.Instance",
         "_links": {
           "permalink": {
-            "link": "https://biodiversity.org.au/boa/instance/apni/3749732",
+            "link": "https://id.biodiversity.org.au/instance/apni/3749732",
             "resources": 1
           }
         },
@@ -331,11 +331,11 @@ image::InstanceHTML.png[title="Instance object HTML output"]
         "_links": {
           "permalinks": [
             {
-              "link": "https://biodiversity.org.au/boa/1020593",
+              "link": "https://id.biodiversity.org.au/1020593",
               "resources": 1
             },
             {
-              "link": "https://biodiversity.org.au/boa/instanceNote/apni/1020593",
+              "link": "https://id.biodiversity.org.au/instanceNote/apni/1020593",
               "resources": 1
             }
           ]
@@ -355,7 +355,7 @@ image::InstanceHTML.png[title="Instance object HTML output"]
           "class": "au.org.biodiversity.nsl.Instance",
           "_links": {
             "permalink": {
-              "link": "https://biodiversity.org.au/boa/instance/apni/481759",
+              "link": "https://id.biodiversity.org.au/instance/apni/481759",
               "resources": 1
             }
           },
@@ -395,7 +395,7 @@ note keys are:
 . APNI
 . Type herbarium
 
-e.g. https://biodiversity.org.au/boa/instanceNote/apni/1121197
+e.g. https://id.biodiversity.org.au/instanceNote/apni/1121197
 
 image::InstanceNoteHtml.png[title="Instance Note object HTML output"]
 
@@ -407,11 +407,11 @@ image::InstanceNoteHtml.png[title="Instance Note object HTML output"]
   "_links": {
     "permalinks": [
       {
-        "link": "https://biodiversity.org.au/boa/1121197",
+        "link": "https://id.biodiversity.org.au/1121197",
         "resources": 1
       },
       {
-        "link": "https://biodiversity.org.au/boa/instanceNote/apni/1121197",
+        "link": "https://id.biodiversity.org.au/instanceNote/apni/1121197",
         "resources": 1
       }
     ]
@@ -431,7 +431,7 @@ image::InstanceNoteHtml.png[title="Instance Note object HTML output"]
     "class": "au.org.biodiversity.nsl.Instance",
     "_links": {
       "permalink": {
-        "link": "https://biodiversity.org.au/boa/instance/apni/554643",
+        "link": "https://id.biodiversity.org.au/instance/apni/554643",
         "resources": 1
       }
     },
@@ -451,7 +451,7 @@ and Authors.
 
 WARNING: This shouldn't be confused with the Taxon, which is more correctly described by the Protologue Instance of a Name.
 
-e.g. https://biodiversity.org.au/boa/name/apni/70914
+e.g. https://id.biodiversity.org.au/name/apni/70914
 
 image::NameHtml.png[title="Name object HTML output"]
 
@@ -464,19 +464,19 @@ image::NameHtml.png[title="Name object HTML output"]
     "_links": {
       "permalinks": [
         {
-          "link": "https://biodiversity.org.au/boa/70914",
+          "link": "https://id.biodiversity.org.au/70914",
           "resources": 1
         },
         {
-          "link": "https://biodiversity.org.au/boa/apni.name/16512",
+          "link": "https://id.biodiversity.org.au/apni.name/16512",
           "resources": 1
         },
         {
-          "link": "https://biodiversity.org.au/boa/name/apni/70914",
+          "link": "https://id.biodiversity.org.au/name/apni/70914",
           "resources": 1
         },
         {
-          "link": "https://biodiversity.org.au/boa/Doodia%20R.Br.",
+          "link": "https://id.biodiversity.org.au/Doodia%20R.Br.",
           "resources": 15
         }
       ]
@@ -507,7 +507,7 @@ image::NameHtml.png[title="Name object HTML output"]
       "class": "au.org.biodiversity.nsl.Name",
       "_links": {
         "permalink": {
-          "link": "https://biodiversity.org.au/boa/name/apni/222592",
+          "link": "https://id.biodiversity.org.au/name/apni/222592",
           "resources": 1
         }
       },
@@ -519,7 +519,7 @@ image::NameHtml.png[title="Name object HTML output"]
         "class": "au.org.biodiversity.nsl.Instance",
         "_links": {
           "permalink": {
-            "link": "https://biodiversity.org.au/boa/instance/apni/481760",
+            "link": "https://id.biodiversity.org.au/instance/apni/481760",
             "resources": 1
           }
         },
@@ -532,7 +532,7 @@ image::NameHtml.png[title="Name object HTML output"]
       "class": "au.org.biodiversity.nsl.Author",
       "_links": {
         "permalink": {
-          "link": "https://biodiversity.org.au/boa/author/apni/1441",
+          "link": "https://id.biodiversity.org.au/author/apni/1441",
           "resources": 1
         }
       },
@@ -546,7 +546,7 @@ image::NameHtml.png[title="Name object HTML output"]
         "class": "au.org.biodiversity.nsl.Instance",
         "_links": {
           "permalink": {
-            "link": "https://biodiversity.org.au/boa/instance/apni/481759",
+            "link": "https://id.biodiversity.org.au/instance/apni/481759",
             "resources": 1
           }
         },
@@ -559,140 +559,7 @@ image::NameHtml.png[title="Name object HTML output"]
 
 ==== NslSimpleName
 
-WARNING: NSL simple name is deprecated and will be replaced by multiple service endpoints that cover specific purposes.
-
-NSL Simple Name is a flattened representation of a name including the accepted APC name, some tree information, name
-parents.
-
-WARNING: While the NSL Simple Name is a resource object it does *not* have a unique permanent URI identifier. The best
-way to get a NSL Simple Name Resource is via the <<simple-name>> name API call.
-
-e.g. https://biodiversity.org.au/name/apni/70914/api/simple-name.json
-
-[source, javascript]
-----
-{
-  "nslSimpleName": {
-    "id": {
-      "permalink": {
-        "link": "https://biodiversity.org.au/boa/name/apni/70914",
-        "preferred": true,
-        "resources": 1
-      }
-    },
-    "name": "Doodia",
-    "taxonName": "Doodia R.Br.",
-    "nameElement": "Doodia",
-    "cultivarName": null,
-    "simpleNameHtml": "<scientific><name id='70914'><element><i>Doodia</i></element></name></scientific>",
-    "fullNameHtml": "<scientific><name id='70914'><element><i>Doodia</i></element> <authors><author id='1441' title='Brown, R.'>R.Br.</author></authors></name></scientific>",
-    "nameType": "scientific",
-    "homonym": false,
-    "autonym": false,
-    "basionym": null,
-    "hybrid": false,
-    "cultivar": false,
-    "formula": false,
-    "scientific": true,
-    "authority": "R.Br.",
-    "baseNameAuthor": null,
-    "exBaseNameAuthor": null,
-    "author": "R.Br.",
-    "exAuthor": null,
-    "sanctioningAuthor": null,
-    "rank": "Genus",
-    "rankSortOrder": 120,
-    "rankAbbrev": "gen.",
-    "classifications": "[APNI, APC]",
-    "apni": true,
-    "protoCitation": "Brown, R. (1810), Prodromus Florae Novae Hollandiae",
-    "protoInstance": {
-      "class": "au.org.biodiversity.nsl.Instance",
-      "_links": {
-        "permalink": {
-          "link": "https://biodiversity.org.au/boa/instance/apni/481759",
-          "preferred": true,
-          "resources": 1
-        }
-      },
-      "instanceType": "tax. nov.",
-      "protologue": true,
-      "citation": "Brown, R. (1810), Prodromus Florae Novae Hollandiae",
-      "citationHtml": "Brown, R. (1810), <i>Prodromus Florae Novae Hollandiae</i>"
-    },
-    "protoYear": 1810,
-    "nomStat": "legitimate",
-    "nomIlleg": false,
-    "nomInval": false,
-    "updatedBy": "KIRSTENC",
-    "updatedAt": "2009-10-27T03:21:49Z",
-    "createdBy": "KIRSTENC",
-    "createdAt": "2009-10-27T03:21:49Z",
-    "parentNsl": {
-      "class": "au.org.biodiversity.nsl.Name",
-      "_links": {
-        "permalink": {
-          "link": "https://biodiversity.org.au/boa/name/apni/222592",
-          "preferred": true,
-          "resources": 1
-        }
-      },
-      "nameElement": "Blechnaceae"
-    },
-    "secondParentNsl": {},
-    "familyNsl": {
-      "class": "au.org.biodiversity.nsl.Name",
-      "_links": {
-        "permalink": {
-          "link": "https://biodiversity.org.au/boa/name/apni/222592",
-          "preferred": true,
-          "resources": 1
-        }
-      },
-      "nameElement": "Blechnaceae"
-    },
-    "genusNsl": {
-      "class": "au.org.biodiversity.nsl.Name",
-      "_links": {
-        "permalink": {
-          "link": "https://biodiversity.org.au/boa/name/apni/70914",
-          "preferred": true,
-          "resources": 1
-        }
-      },
-      "nameElement": "Doodia"
-    },
-    "speciesNsl": {},
-    "classis": "Equisetopsida",
-    "subclassis": "Polypodiidae",
-    "apcFamilia": "Blechnaceae",
-    "family": "Blechnaceae",
-    "genus": "Doodia",
-    "species": null,
-    "infraspecies": null,
-    "apcInstance": {
-      "class": "au.org.biodiversity.nsl.Instance",
-      "_links": {
-        "permalink": {
-          "link": "https://biodiversity.org.au/boa/instance/apni/578615",
-          "preferred": true,
-          "resources": 1
-        }
-      },
-      "instanceType": "secondary reference",
-      "protologue": false,
-      "citation": "Parris, B.S. in McCarthy, P.M. (ed.) (1998), Doodia. Flora of Australia 48",
-      "citationHtml": "Parris, B.S. in McCarthy, P.M. (ed.) (1998), Doodia. <i>Flora of Australia</i> 48"
-    },
-    "apcName": "Doodia R.Br.",
-    "apcRelationshipType": "secondary reference",
-    "apcProparte": false,
-    "apcComment": "Hybridisation between species occurs relatively easily, and is possibly under-reported in natural populations (Parris, 1998).",
-    "apcDistribution": "NT, SA, Qld, NSW, LHI, NI, ACT, Vic, Tas",
-    "apcExcluded": false
-  }
-}
-----
+NOTE: NSL simple has been removed.
 
 ==== Reference
 
@@ -712,7 +579,7 @@ The reference types currently defined are:
 . Section
 . Unknown
 
-e.g. https://biodiversity.org.au/boa/reference/apni/22408
+e.g. https://id.biodiversity.org.au/reference/apni/22408
 
 WARNING: A reference can have 1000s of instances of names. The HTML repesentation of a Reference will summarize the instances
 for you, but the JSON will return the brief instance for each one. It may take a while to return the JSON object.
@@ -731,11 +598,11 @@ which will cause a 301 redirect to the new permalink.
   "_links": {
     "permalinks": [
       {
-        "link": "https://biodiversity.org.au/boa/22408",
+        "link": "https://id.biodiversity.org.au/22408",
         "resources": 1
       },
       {
-        "link": "https://biodiversity.org.au/boa/reference/apni/22408",
+        "link": "https://id.biodiversity.org.au/reference/apni/22408",
         "resources": 1
       }
     ]
@@ -778,7 +645,7 @@ which will cause a 301 redirect to the new permalink.
     "class": "au.org.biodiversity.nsl.Reference",
     "_links": {
       "permalink": {
-        "link": "https://biodiversity.org.au/boa/reference/apni/17379",
+        "link": "https://id.biodiversity.org.au/reference/apni/17379",
         "resources": 1
       }
     },
@@ -789,7 +656,7 @@ which will cause a 301 redirect to the new permalink.
     "class": "au.org.biodiversity.nsl.Author",
     "_links": {
       "permalink": {
-        "link": "https://biodiversity.org.au/boa/author/apni/13360",
+        "link": "https://id.biodiversity.org.au/author/apni/13360",
         "resources": 1
       }
     },
@@ -808,7 +675,7 @@ which will cause a 301 redirect to the new permalink.
       "class": "au.org.biodiversity.nsl.Instance",
       "_links": {
         "permalink": {
-          "link": "https://biodiversity.org.au/boa/instance/apni/554634",
+          "link": "https://id.biodiversity.org.au/instance/apni/554634",
           "resources": 1
         }
       },
@@ -818,7 +685,7 @@ which will cause a 301 redirect to the new permalink.
       "class": "au.org.biodiversity.nsl.Instance",
       "_links": {
         "permalink": {
-          "link": "https://biodiversity.org.au/boa/instance/apni/484190",
+          "link": "https://id.biodiversity.org.au/instance/apni/484190",
           "resources": 1
         }
       },

@@ -95,19 +95,19 @@ https://biodiversity.org.au/nsl/services/suggest/acceptableName?term=acacia%20de
 [
   {
     "name": "Acacia dealbata subsp. A",
-    "link": "https://biodiversity.org.au/boa/name/apni/232073"
+    "link": "https://id.biodiversity.org.au/name/apni/232073"
   },
   {
     "name": "Acacia dealbata subsp. B",
-    "link": "https://biodiversity.org.au/boa/name/apni/232074"
+    "link": "https://id.biodiversity.org.au/name/apni/232074"
   },
   {
     "name": "Acacia dealbata Link subsp. dealbata",
-    "link": "https://biodiversity.org.au/boa/name/apni/141782"
+    "link": "https://id.biodiversity.org.au/name/apni/141782"
   },
   {
     "name": "Acacia dealbata subsp. subalpina Tindale & Kodela",
-    "link": "https://biodiversity.org.au/boa/name/apni/152864"
+    "link": "https://id.biodiversity.org.au/name/apni/152864"
   }
 ]
 ----
