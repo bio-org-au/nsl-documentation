@@ -271,4 +271,135 @@ And remember - this only applies to Arrangements of type `P`, which are maintain
 followed.
 
 
-=== Tree API V1.0
+=== Tree API for JSON V1.0
+
+The tree JSON API is built to work with AngularJS and similar platforms.
+
+This API comprises three main components:
+* the tree view services; and
+* JSON views of nodes, arrangements, and events;
+* the tree edit services, which require a user login
+
+** TODO: put in correct URLs for these services **
+
+==== tree view services
+
+===== listNamespaces
+
+**GET (no parameters)** to list the known namespaces.
+
+[source]
+----
+http://[your uri]/TreeJsonView/listNamespaces
+----
+
+.Returns
+
+ * A JSON array of information about namespaces
+
+.Example 1
+
+curl --noproxy \* -L -H "Accept: application/json" -X GET 'http://localhost:8080/services/TreeJsonView/listNamespaces'
+
+.Response
+
+[source, javascript]
+----
+[
+  {
+    "class":"au.org.biodiversity.nsl.Namespace",
+    "name":"AMANI",
+    "descriptionHtml":"<b>AMANI<\u002fb>: Australian Marine Algal Names Index"
+  },
+  {
+    "class":"au.org.biodiversity.nsl.Namespace",
+    "name":"AUSMOSS",
+    "descriptionHtml":"<b>AUSMOSS<\u002fb>: Australian Mosses"
+  },
+  {
+    "class":"au.org.biodiversity.nsl.Namespace",
+    "name":"APNI",
+    "descriptionHtml":"<b>APNI<\u002fb>: Australian Plant Names Index"
+  }
+]
+----
+
+===== listClassifications
+
+**GET namespace** to list the classifications in a namespace
+
+[source]
+----
+http://[your uri]/TreeJsonView/listClassifications?namespace=APNI
+----
+
+.Parameters
+
+namespace: the name of a namespace
+
+.Returns
+
+ * A JSON array of the URIs of classifications in the namespace
+
+.Example 1
+
+curl --noproxy \* -L -H "Accept: application/json" -X GET 'http://localhost:8080/services/TreeJsonView/listClassifications?namespace=APNI'
+
+.Response
+
+[source, javascript]
+----
+[
+  "http://localhost:7070/nsl-mapper/boa/tree/apni/1133571",
+  "http://localhost:7070/nsl-mapper/boa/tree/apni/3029293",
+  "http://localhost:7070/nsl-mapper/boa/tree/apni/4950638",
+  "http://localhost:7070/nsl-mapper/boa/tree/apni/1019"
+]
+----
+
+
+===== listWorkspaces
+
+**GET namespace** to list the workspaces in a namespace
+
+[source]
+----
+http://[your uri]/TreeJsonView/listWorkspaces?namespace=APNI
+----
+
+.Parameters
+
+namespace: the name of a namespace
+
+.Returns
+
+ * A JSON array of the URIs of workspaces in the namespace
+
+.Example 1
+
+curl --noproxy \* -L -H "Accept: application/json" -X GET 'http://localhost:8080/services/TreeJsonView/listWorkspaces?namespace=APNI'
+
+.Response
+
+[source, javascript]
+----
+[
+  "http://localhost:7070/nsl-mapper/boa/tree/apni/4952854",
+  "http://localhost:7070/nsl-mapper/boa/tree/apni/4952889"
+]
+----
+
+===== permissions
+
+
+==== JSON views of nodes, arrangements, and events
+
+
+==== Tree Edit Services
+
+===== createWorkspace
+
+===== deleteWorkspace
+
+===== updateWorkspace
+
