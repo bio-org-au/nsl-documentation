@@ -186,7 +186,7 @@ https://biodiversity.org.au/sparql/?output=text&query=prefix%20dcterms%3A%20%3Ch
 | ``g:tdwg_voc``       | TDWG Vocabulary
 |===
 
-==== Vocabulary and metadata
+===== Vocabulary and metadata
 
 Our sparql instance contains rdf ontologies for the various vocabularies we use.
 That is: our sparql store loads a *copy* of the linked data ontology documents.
@@ -260,7 +260,7 @@ order by ?property
 We get a list of labels values for all properties of the name. We could go further and find for each value that is an
 RDF resource the label  of the type of the value, and so on.
 
-==== Outdated APNI, AFD, and CoL data
+===== Outdated APNI, AFD, and CoL data
 
 Our data set contains a static data extract from the Australian Faunal Directory, the Australian Plant Names Index, and data pulled from the Catalogue of Life 2011 CD-ROM. This data
 is very out-of-date and will probably not be being updated again (althoug a frech extract of AFD may still be possible).
@@ -272,12 +272,12 @@ terms matching closely enough to the meaning of fields in our data. This documen
 
 The ``g:afd``, ``g:apni`` and ``g:col`` graphs are a union of the component parts of the AFD, APNI, and CoL datasets and are probably the most useful way to run queries against that data.
 
-==== NSL data
+===== NSL data
 
 The nsl datasets: ``g:NSL_APNI``, ``g:NSL_OZMOSS`` are live links to the underlying NSL tables, provided by way of the link:http://d2rq.org/[d2rq] JENA library. The ``g:nsl`` graph is a union
 of these two graphs and the NSL vocbulary. These graphs present live data as RDF triples, queryable by SPARQL. To make sense of the triples available in these graphs, some understanding of the nsl data
 model is required.
 
-=== The NSL data model and its RDF representation
+==== The NSL data model and its RDF representation
 
 TODO: this will probably need some images and diagrams
