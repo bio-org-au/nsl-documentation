@@ -1469,3 +1469,143 @@ https://biodiversity.org.au/nsl/services/name/apni/166271/api/find-concept.json?
   }
 }
 ----
+
+==== taxon-search
+
+**GET taxon-search** finds the taxon in a classification, returning the output in the Taxon Export format.
+
+.Parameters
+ . q=Some name - e.g. Isopogon asper
+ . tree=APC - The classification to use for the output. Currently only APC available.
+
+.Example
+
+* using curl
+ curl -L -H "Accept: application/json" -X GET https://biodiversity.org.au/nsl/services/api/name/taxon-search?q=Isopogon%20asper&tree=APC
+* using browser (HTML result)
+ https://biodiversity.org.au/nsl/services/api/name/taxon-search?q=Isopogon%20asper&tree=APC
+* using browser (JSON result)
+ https://biodiversity.org.au/nsl/services/api/name/taxon-search.json?q=Isopogon%20asper&tree=APC
+
+.Result
+
+[source, json]
+----
+{
+    "records": {
+        "acceptedNames": {
+            "http://id.biodiversity.org.au/name/apni/83644": {
+                "nomenclaturalCode": "ICNAFP",
+                "taxonID": "http://id.biodiversity.org.au/node/apni/2910941",
+                "nameType": "scientific",
+                "scientificNameID": "http://id.biodiversity.org.au/name/apni/83644",
+                "scientificName": "Isopogon asper R.Br.",
+                "nomenclaturalStatus": null,
+                "taxonomicStatus": "ApcConcept",
+                "proParte": "false",
+                "acceptedNameUsage": null,
+                "acceptedNameUsageID": "http://id.biodiversity.org.au/node/apni/2910941",
+                "parentNameUsageID": "http://id.biodiversity.org.au/node/apni/2899417",
+                "taxonRank": "Species",
+                "taxonRankSortOrder": "190",
+                "kingdom": "Plantae",
+                "class": "Equisetopsida",
+                "subclass": "Magnoliidae",
+                "family": "Proteaceae",
+                "created": "2005-11-08 14:57:02.0",
+                "modified": "2005-11-08 14:57:02.0",
+                "datasetName": "{APC,APNI}",
+                "taxonConceptID": "http://id.biodiversity.org.au/instance/apni/558152",
+                "nameAccordingToID": "http://id.biodiversity.org.au/reference/apni/39973",
+                "nameAccordingTo": "Foreman, D.B. in McCarthy, P.M. (ed.) (1995), Isopogon. Flora of Australia 16",
+                "taxonRemarks": null,
+                "taxonDistribution": "WA",
+                "higherClassification": "Plantae.Charophyta.Equisetopsida.Magnoliidae.Proteanae.Proteales.Proteaceae.Isopogon.asper",
+                "ccLicense": "http://creativecommons.org/licenses/by/3.0/",
+                "ccAttributionIRI ": "http://id.biodiversity.org.au/node/apni/2910941",
+                "canonicalName": "Isopogon asper",
+                "scientificNameAuthorship": "R.Br.",
+                "firstHybridParentName": null,
+                "firstHybridParentNameID": null,
+                "secondHybridParentName": null,
+                "secondHybridParentNameID": null,
+                "synonyms": [
+                    {
+                        "nomenclaturalCode": "ICNAFP",
+                        "taxonID": "http://id.biodiversity.org.au/instance/apni/836387",
+                        "nameType": "scientific",
+                        "scientificNameID": "http://id.biodiversity.org.au/name/apni/101223",
+                        "scientificName": "Isopogon scaber Lindl.",
+                        "nomenclaturalStatus": null,
+                        "taxonomicStatus": "taxonomic synonym",
+                        "proParte": "false",
+                        "acceptedNameUsage": "Isopogon asper R.Br.",
+                        "acceptedNameUsageID": "http://id.biodiversity.org.au/node/apni/2910941",
+                        "parentNameUsageID": null,
+                        "taxonRank": "Species",
+                        "taxonRankSortOrder": "190",
+                        "kingdom": "Plantae",
+                        "class": "Equisetopsida",
+                        "subclass": "Magnoliidae",
+                        "family": "Proteaceae",
+                        "created": "2005-11-14 13:02:48.0",
+                        "modified": "2005-11-14 13:02:48.0",
+                        "datasetName": "{APNI}",
+                        "taxonConceptID": "http://id.biodiversity.org.au/instance/apni/528706",
+                        "nameAccordingToID": "http://id.biodiversity.org.au/reference/apni/43047",
+                        "nameAccordingTo": "Lindley, J. (1840), A Sketch of the Vegetation of the Swan River Colony",
+                        "taxonRemarks": null,
+                        "taxonDistribution": "WA",
+                        "higherClassification": null,
+                        "ccLicense": "http://creativecommons.org/licenses/by/3.0/",
+                        "ccAttributionIRI ": "http://id.biodiversity.org.au/instance/apni/836387",
+                        "canonicalName": "Isopogon scaber",
+                        "scientificNameAuthorship": "Lindl.",
+                        "firstHybridParentName": null,
+                        "firstHybridParentNameID": null,
+                        "secondHybridParentName": null,
+                        "secondHybridParentNameID": null
+                    },
+                    {
+                        "nomenclaturalCode": "ICNAFP",
+                        "taxonID": "http://id.biodiversity.org.au/instance/apni/816198",
+                        "nameType": "scientific",
+                        "scientificNameID": "http://id.biodiversity.org.au/name/apni/113461",
+                        "scientificName": "Atylus asper (R.Br.) Kuntze",
+                        "nomenclaturalStatus": null,
+                        "taxonomicStatus": "nomenclatural synonym",
+                        "proParte": "false",
+                        "acceptedNameUsage": "Isopogon asper R.Br.",
+                        "acceptedNameUsageID": "http://id.biodiversity.org.au/node/apni/2910941",
+                        "parentNameUsageID": null,
+                        "taxonRank": "Species",
+                        "taxonRankSortOrder": "190",
+                        "kingdom": "Plantae",
+                        "class": "Equisetopsida",
+                        "subclass": "Magnoliidae",
+                        "family": "Proteaceae",
+                        "created": "2004-08-26 12:27:54.0",
+                        "modified": "2004-08-26 12:27:54.0",
+                        "datasetName": "{APNI}",
+                        "taxonConceptID": "http://id.biodiversity.org.au/instance/apni/547092",
+                        "nameAccordingToID": "http://id.biodiversity.org.au/reference/apni/23167",
+                        "nameAccordingTo": "Kuntze, C.E.O. (1891), Revisio Generum Plantarum 2",
+                        "taxonRemarks": null,
+                        "taxonDistribution": "WA",
+                        "higherClassification": null,
+                        "ccLicense": "http://creativecommons.org/licenses/by/3.0/",
+                        "ccAttributionIRI ": "http://id.biodiversity.org.au/instance/apni/816198",
+                        "canonicalName": "Atylus asper",
+                        "scientificNameAuthorship": "(R.Br.) Kuntze",
+                        "firstHybridParentName": null,
+                        "firstHybridParentNameID": null,
+                        "secondHybridParentName": null,
+                        "secondHybridParentNameID": null
+                    }
+                ]
+            }
+        }
+    }
+}
+----
+

@@ -4,4 +4,8 @@
 
 This section lists recent changes to the API.
 
-May 1 2016 : Removed NSL Simple Name export and JSON representation.
+May 1 2016 :
+ * Removed NSL Simple Name export and JSON representation.
+June 22 2016 :
+ * Added the <<Export>> section
+ * Added name <<taxon-search>> api end point
