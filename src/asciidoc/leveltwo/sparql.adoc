@@ -1,0 +1,283 @@
+:imagesdir: resources/images/
+
+=== SPARQL and the semantic web
+
+The NSL system provides a SPARQL endpoint which runs queries written in "SPARQL Protocol and Semantic Query Language",
+and which serves NSL data as sets of RDF "triples".
+
+This endpoint is located at https://biodiversity.org.au/sparql . Use it as per https://www.w3.org/TR/rdf-sparql-protocol/ .
+In a nutshell: pass an encoded SPARQL query as a parameter named 'query' (GET or POST).
+
+The endpoint will respond with an RDF document by default, but can respond with various other formats as specificed in
+the HTTP ``Accept`` header. Our endpoint is a Jena Joseki instance. More details on what Joseki will accept may be available
+at https://sourceforge.net/projects/joseki/ .
+
+The query itself is written in SPARQL, a query language very similar to SQL. Documentation is here https://www.w3.org/TR/2013/REC-sparql11-query-20130321/ .
+Although this document may show some SPARQL examples, it is not intended as a SPARQL primer. The main focus here is
+a description of what data we have available at the sparql endpoint.
+
+==== Linked data and semantic web integration
+
+The triples available at our endpoint are intended to be resolvable linked data URIs.
+
+===== Static vocabulary
+
+Vocabulary items - names of predicates, enumerated values - resolve to ontology documents either externally available or hosted at http://biodiversity.org.au/voc/ .
+
+For instance, some of our rdf objects have an ``rdf:type`` of ``http://biodiversity.org.au/voc/boa/InstanceNote#Key`` . An http GET of this url will result in a redirect to
+http://biodiversity.org.au/voc/boa/InstanceNote.rdf, which is the document containing the definition of that rdf class along with other things.
+----
+<owl:Class rdf:about="http://biodiversity.org.au/voc/boa/InstanceNote#Key">
+  <rdfs:isDefinedBy rdf:resource="http://biodiversity.org.au/voc/boa/InstanceNote#ONTOLOGY"/>
+  <rdfs:label>Key</rdfs:label>
+  <dcterms:title>Instance Note Key</dcterms:title>
+  <dcterms:description rdf:parseType='Literal'>
+    <div xmlns='http://www.w3.org/1999/xhtml'>
+      <h3>Instance Note Key</h3>
+      <p>
+        comment, distribution, etymology, etc. These keys correspond to
+        various bits of data that were captured during the import process.
+      </p>
+      <p>
+        URI Pattern: http://biodiversity.org.au/boa.voc.site.instance-note-key/<i>id</i>
+      </p>
+    </div>
+  </dcterms:description>
+</owl:Class>
+----
+
+===== Data items
+
+Entities corresponding to data in our system are identified by NSL identifiers, eg: ``http://id.biodiversity.org.au/name/apni/106541`` .
+
+Entered into a web browser (eg, by clicking the link above), these identifiers result in a linked data 303 redirect to a html page supplied by our service layer.
+
+However, if the requested content type (the HTTP ``Accept`` header) is ``application/rdf+xml``, or if an ``.rdf`` suffix is appended, then this will result
+in a 303 redirect to the sparql endpoint. In this particular case, the redirect will be to https://biodiversity.org.au/sparql/?query=DESCRIBE+%3Chttp://id.biodiversity.org.au/name/apni/106541%3E .
+
+This has the effect of sending the query
+----
+DESCRIBE <http://id.biodiversity.org.au/name/apni/106541>
+----
+To the sparql endpoint, which responds with an RDF document produced by Joseki.
+
+----
+<?xml version="1.0"?>
+<rdf:RDF
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns:dcterms="http://purl.org/dc/terms/"
+    xmlns:j.0="http://biodiversity.org.au/voc/boa/Author#"
+    xmlns:j.2="http://biodiversity.org.au/voc/nsl/NSL#"
+    xmlns:j.1="http://biodiversity.org.au/voc/boa/Name#"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+    xmlns:sdb="http://jena.hpl.hp.com/2007/sdb#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:ja="http://jena.hpl.hp.com/2005/11/Assembler#"
+    xmlns:j.3="http://biodiversity.org.au/voc/nsl/">
+  <j.3:Name rdf:about="http://id.biodiversity.org.au/name/apni/106541">
+    <j.1:status rdf:resource="http://biodiversity.org.au/voc/boa/NameStatusTerm#legitimate"/>
+    <j.2:dbIdAsString>106541</j.2:dbIdAsString>
+    <j.1:fullNameHtml>&lt;scientific&gt;&lt;name id='106541'&gt;&lt;scientific&gt;&lt;name id='104277'&gt;&lt;element&gt;&lt;i&gt;Leucopogon&lt;/i&gt;&lt;/element&gt;&lt;/name&gt;&lt;/scientific&gt; &lt;element&gt;&lt;i&gt;acicularis&lt;/i&gt;&lt;/element&gt; &lt;authors&gt;&lt;author id='1531' title='Bentham, G.'&gt;Benth.&lt;/author&gt;&lt;/authors&gt;&lt;/name&gt;&lt;/scientific&gt;</j.1:fullNameHtml>
+    <j.1:rank rdf:resource="http://biodiversity.org.au/voc/boa/NameRankTerm#species"/>
+    <j.2:namespace rdf:resource="http://biodiversity.org.au/voc/nsl/NamespaceTerm#apni"/>
+    <j.1:genericNamePart rdf:resource="http://id.biodiversity.org.au/name/apni/104277"/>
+    <j.1:fullName>Leucopogon acicularis Benth.</j.1:fullName>
+    <j.1:specificNamePart rdf:resource="http://id.biodiversity.org.au/name/apni/106541"/>
+    <j.2:sourceIdString>52832</j.2:sourceIdString>
+    <j.1:author rdf:resource="http://id.biodiversity.org.au/author/apni/1531"/>
+    <j.2:dbId rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+    >106541</j.2:dbId>
+    <j.1:type rdf:resource="http://biodiversity.org.au/voc/boa/NameTypeTerm#scientific"/>
+    <j.1:nameElement>acicularis</j.1:nameElement>
+    <j.0:author rdf:resource="http://id.biodiversity.org.au/author/apni/1531"/>
+    <rdf:type rdf:resource="http://biodiversity.org.au/voc/nsl/NSL#IdentifiedEntity"/>
+    <rdf:type rdf:resource="http://biodiversity.org.au/voc/nsl/NSL#InvalidRecord"/>
+    <j.1:category rdf:resource="http://biodiversity.org.au/voc/boa/NameCategoryTerm#scientific"/>
+    <j.1:parentNamePart rdf:resource="http://id.biodiversity.org.au/name/apni/104277"/>
+    <j.1:designation rdf:resource="http://id.biodiversity.org.au/name/Leucopogon acicularis Benth."/>
+    <j.1:simpleName>Leucopogon acicularis</j.1:simpleName>
+    <j.2:dbTable>NAME</j.2:dbTable>
+    <j.1:group rdf:resource="http://biodiversity.org.au/voc/boa/NameGroupTerm#botanical"/>
+    <j.1:designation rdf:resource="http://id.biodiversity.org.au/name/Leucopogon acicularis"/>
+    <j.2:sourceSystem>PLANT_NAME</j.2:sourceSystem>
+    <j.1:simpleNameHtml>&lt;scientific&gt;&lt;name id='106541'&gt;&lt;scientific&gt;&lt;name id='104277'&gt;&lt;element&gt;&lt;i&gt;Leucopogon&lt;/i&gt;&lt;/element&gt;&lt;/name&gt;&lt;/scientific&gt; &lt;element&gt;&lt;i&gt;acicularis&lt;/i&gt;&lt;/element&gt;&lt;/name&gt;&lt;/scientific&gt;</j.1:simpleNameHtml>
+    <j.2:sourceId>52832</j.2:sourceId>
+    <j.1:parent rdf:resource="http://id.biodiversity.org.au/name/apni/104277"/>
+  </j.3:Name>
+</rdf:RDF>
+----
+
+That is: linked data for data items is simply served up from our sparql endpoint, via HTTP redirects.
+
+The goal of this "round trip" integration of the sparql service and semantic web standards is that our content should be
+machine-friendly. It should be possible for tools like Protege, web-based semantic web browsers, even reasoning engines,
+to be able to work over our content. It should be possible to mount our SPARQL endpoint as a named graph in an external
+JENA installation, and for queries run against that external installation to simply work.
+
+==== Overall content
+
+The triples available at our sparql endpoint are organised into named graphs. The default graph contains triples describing
+what named graphs are available. The intent of doing this is that a simple
+``https://biodiversity.org.au/sparql/?query=select+*+where+{+?s+?o+?p+}&format=text[SELECT * where { ?s ?p ?o }]``
+
+will pull back useful information without the server attempting to serve up the entire content of our data in response.
+
+A more useful organisation of this data can be gotten by way of
+
+----
+prefix g: <http://biodiversity.org.au/voc/graph/GRAPH#>
+
+select *
+where {
+  ?uri a g:GraphURI .
+  ?uri ?p ?o .
+}
+ORDER BY ?uri ?p
+----
+https://biodiversity.org.au/sparql/?output=text&query=prefix%20g%3A%20%3Chttp%3A%2F%2Fbiodiversity.org.au%2Fvoc%2Fgraph%2FGRAPH%23%3E%0A%0Aselect%20*%0Awhere%20%7B%20%0A%20%20%20%20%3Furi%20a%20g%3AGraphURI%20.%0A%20%20%20%20%3Furi%20%3Fp%20%3Fo%20.%0A%7D%0AORDER%20BY%20%3Furi%20%3Fp[(link)]
+
+Or
+
+----
+prefix dcterms: <http://purl.org/dc/terms/>
+prefix g: <http://biodiversity.org.au/voc/graph/GRAPH#>
+
+select *
+where {
+ ?uri a g:GraphURI .
+ OPTIONAL { ?uri dcterms:title ?title  } .
+}
+ORDER BY ?uri
+----
+https://biodiversity.org.au/sparql/?output=text&query=prefix%20dcterms%3A%20%3Chttp%3A%2F%2Fpurl.org%2Fdc%2Fterms%2F%3E%0Aprefix%20g%3A%20%3Chttp%3A%2F%2Fbiodiversity.org.au%2Fvoc%2Fgraph%2FGRAPH%23%3E%0A%0Aselect%20*%0Awhere%20%7B%20%0A%20%3Furi%20a%20g%3AGraphURI%20.%0A%20OPTIONAL%20%7B%20%3Furi%20dcterms%3Atitle%20%3Ftitle%20%20%7D%20.%0A%7D%0AORDER%20BY%20%3Furi[(link)]
+
+
+.Named graphs available at biodiversity.org.au
+[frame="topbot",options="header"]
+|===
+| Graph URI            | title
+| ``g:AFD_PRF``        | AFD profile data
+| ``g:AFD_PUB_CIT``    | AFD Publication Citations
+| ``g:AFD_TAX_CON``    | AFD Taxa
+| ``g:AFD_TAX_NAM``    | AFD Names
+| ``g:AFD_TREE``       | AFD Taxonomy
+| ``g:APC_TREE``       | APC Taxonomy
+| ``g:APNI_PRF``       | APNI profile data
+| ``g:APNI_PUB_CIT``   | APNI Publication Citations
+| ``g:APNI_TAX_CON``   | APNI taxa
+| ``g:APNI_TAX_NAM``   | APNI Names
+| ``g:APNI_TREE``      | Taxonomy according to the reference
+| ``g:COL_TAX_CON``    | Accepted names and synonyms in the Catalogue of Life
+| ``g:COL_TAX_NAM``    | Taxon names in Catalogue of Life that do not appear elsewhere in our data.
+| ``g:NSL_APNI``       | NSL APNI
+| ``g:NSL_OZMOSS``     | NSL OZMOSS
+| ``g:afd``            | AFD complete
+| ``g:apni``           | APNI complete
+| ``g:col``            | COL complete
+| ``g:dc_voc``         | Dublin Core vocabulary
+| ``g:dwc_voc``        | Darwin Core vocabulary
+| ``g:ibis_voc``       | Complete IBIS vocabulary
+| ``g:ibis_voc_local`` | IBIS vocabulary
+| ``g:meta``           | Service metadata
+| ``g:names``          | All names
+| ``g:nsl``            | National Species List
+| ``g:taxa``           | All taxa
+| ``g:tdwg_voc``       | TDWG Vocabulary
+|===
+
+===== Vocabulary and metadata
+
+Our sparql instance contains rdf ontologies for the various vocabularies we use.
+That is: our sparql store loads a *copy* of the linked data ontology documents.
+With this content, a sparql query can pull back predicate labels and descriptions.
+
+``g:ibis_voc_local`` contains only those terms defined at ``biodiversity.org.au`, and ``g:ibis_voc`` is the union of all the
+vocabulary graphs and is probably the most useful. For instance, to list all classes defined in all vocabularies loaded
+into the sparql dataset:
+
+----
+prefix xs: <http://www.w3.org/2001/XMLSchema#>
+prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+prefix owl: <http://www.w3.org/2002/07/owl#>
+prefix dc: <http://purl.org/dc/elements/1.1/>
+prefix dcterms: <http://purl.org/dc/terms/>
+prefix g: <http://biodiversity.org.au/voc/graph/GRAPH#>
+
+select ?schemaLabel ?uri ?label
+where {
+  graph g:ibis_voc {
+    {
+      { ?uri a owl:class . }
+      UNION { ?uri a owl:Class . }
+      UNION { ?uri a rdfs:Class . }
+    }
+    OPTIONAL {
+      ?uri rdfs:isDefinedBy ?schema .
+      {
+        { ?schema rdfs:label ?schemaLabel . }
+        UNION
+        { ?schema dcterms:title ?schemaLabel . }
+      }
+    } .
+    OPTIONAL { ?uri rdfs:label ?label } .
+}
+}
+order by ?schema ?uri
+----
+
+This, of course, doesn't mean that we have objects that are instances of all of these types, merely that they are defined in the vocabularies that we have loaded into our data.
+
+This means that a sparql query can pull back titles for attributes. Consider:
+
+----
+prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+prefix dc: <http://purl.org/dc/elements/1.1/>
+prefix dcterms: <http://purl.org/dc/terms/>
+prefix g: <http://biodiversity.org.au/voc/graph/GRAPH#>
+
+select
+  if(?property_name, ?property_name,
+    if(?property_label, ?property_label, ?property))
+  ?value
+where {
+  graph g:NSL_APNI {
+    <http://id.biodiversity.org.au/name/apni/106541> ?property ?value .
+  }
+  graph g:ibis_voc {
+    OPTIONAL {
+      ?property rdfs:label ?property_label
+    }
+    OPTIONAL {
+      ?property dcterms:title ?property_name
+    }
+  }
+}
+order by ?property
+----
+
+We get a list of labels values for all properties of the name. We could go further and find for each value that is an
+RDF resource the label  of the type of the value, and so on.
+
+===== Outdated APNI, AFD, and CoL data
+
+Our data set contains a static data extract from the Australian Faunal Directory, the Australian Plant Names Index, and data pulled from the Catalogue of Life 2011 CD-ROM. This data
+is very out-of-date and will probably not be being updated again (althoug a frech extract of AFD may still be possible).
+
+APNI is being superseded by NSL, and AFD will also become available as an NSL-structured data set.
+
+The old data is presented as far as possible using TDWG terms (classes and predicates) with various additions from local vocabularies where the TDWG ontology did not have
+terms matching closely enough to the meaning of fields in our data. This document will not attempt to describe the stucture and meaning of this deprecated data.
+
+The ``g:afd``, ``g:apni`` and ``g:col`` graphs are a union of the component parts of the AFD, APNI, and CoL datasets and are probably the most useful way to run queries against that data.
+
+===== NSL data
+
+The nsl datasets: ``g:NSL_APNI``, ``g:NSL_OZMOSS`` are live links to the underlying NSL tables, provided by way of the link:http://d2rq.org/[d2rq] JENA library. The ``g:nsl`` graph is a union
+of these two graphs and the NSL vocbulary. These graphs present live data as RDF triples, queryable by SPARQL. To make sense of the triples available in these graphs, some understanding of the nsl data
+model is required.
+
+==== The NSL data model and its RDF representation
+
+TODO: this will probably need some images and diagrams

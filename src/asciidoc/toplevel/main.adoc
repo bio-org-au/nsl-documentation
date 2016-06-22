@@ -129,4 +129,6 @@ include::../leveltwo/suggestions.adoc[]
 
 include::../leveltwo/tree-api.adoc[]
 
+include::../leveltwo/sparql.adoc[]
+
 include::../leveltwo/export.adoc[]
