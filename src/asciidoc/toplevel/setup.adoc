@@ -35,6 +35,7 @@ Existing shards include:
 
  * "APNI" - The Australian Plant Name Index
  * "AusMoss" - Australian Moss
+ * "Lichen" - Australian Lichen
 ====
 
 The NSL application is a set of Java (and JRuby) Web Applications running inside a Tomcat Application server container.
@@ -82,6 +83,15 @@ central NSL services, including the mapper so that unique IDs for your NSL objec
 instances can be made.
  * create an nsl database with default data for ranks, instance types etc.
  * create a default "name tree" the same as your shard name.
+
+== Postgresql
+
+You need to install the following postgresql extensions:
+
+ * create extension hstore;
+ * create extension pg_trgm;
+ * create extension unaccent;
+
 
 == Configuration
 

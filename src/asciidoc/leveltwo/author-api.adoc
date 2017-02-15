@@ -1,0 +1,70 @@
+:imagesdir: resources/images/
+
+=== Author API V1.0
+
+==== deduplicate
+
+**DELETE deduplicate** Deduplicate author. Takes a duplicate author and replaces it with a target author. All References
+and Names that currently use the duplicate author will have the author replaced with the target author. The mapper is
+updated so that URL IDs are updated to refer to the target author. The duplicate author is then deleted from the database.
+
+.Parameters
+
+* user - (optional) The user to blame, defaults to the administrator.
+
+WARNING: This will delete the duplicate author. You need to be an administrator to do this, so you will need an apiKey
+if calling it from a service.
+
+.example
+
+curl -L -H "Accept: application/json" -X DELETE https://biodiversity.org.au/nsl/services/author/apni/3456/api/deduplicate?target=12345&apiKey=blah_blah_blah&user=fred
+
+.response
+
+The results of deduplicating the author.
+
+[source, javascript]
+----
+{
+  "action": "deduplicate marked references",
+  "count": 140,
+  "references": [
+    {
+      "source": 30695,
+      "target": 30623,
+      "ok": true
+    },
+    {
+      "source": 30693,
+      "target": 30623,
+      "ok": true
+    },
+    {
+      "source": 50954,
+      "target": 44601,
+      "ok": true
+    },
+    {
+      "source": 38140,
+      "target": 25636,
+      "ok": true
+    },
+    {
+      "source": 29860,
+      "target": 23959,
+      "ok": true
+    },
+    {
+      "source": 34172,
+      "target": 25636,
+      "ok": true
+    },
+    {
+      "source": 34173,
+      "target": 25636,
+      "ok": true
+    },
+...
+  ]
+}
+----

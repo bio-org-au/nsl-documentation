@@ -183,7 +183,7 @@ curl -L -H "Accept: application/json" -X DELETE https://id.biodiversity.org.au/r
 
 ==== move
 
-**GET move** move all associated resources for a reference to another reference. This is typically used in de-duplicating
+**DELETE move** move all associated resources for a reference to another reference. This is typically used in de-duplicating
 references that have been entered multiple times. This action will:
 
 * redirect the URI's associated with the source reference to the target reference,
@@ -231,7 +231,7 @@ will be in an errors field as a list.
 
 ==== deduplicate-marked
 
-**GET deduplicate-marked** finds all references with duplicateOf set to another reference and calls the move action on it.
+**DELETE deduplicate-marked** finds all references with duplicateOf set to another reference and calls the move action on it.
 
 .Parameters
 

@@ -81,9 +81,15 @@ services.
 
 ==== What we have now
 
-We have migrated the APNI and APC data into the new NSL system, and they form the first "shard". We have largely replaced
-the old APNI services with the new services, including search and the RDF/SPARQL interfaces. There are some outputs and
-reports that are noticably missing, but they are being added progressively as resources allow.
+We have migrated
+
+ . APNI and APC
+ . Mosses (AusMoss)
+ . Lichens (ABRS)
+
+data into NSL "shards".
+
+The NSL services including search and the RDF/SPARQL interfaces are available via https://biodiversity.org.au/nsl.
 
 ==== The road map
 
@@ -91,8 +97,8 @@ We will be adding new shards to the system as we go, with the likely priority as
 
  . Fungi
  . Algae
- . Mosses
- . Lichen
+ . [line-through]#Mosses#
+ . [line-through]#Lichen#
  . the Australian Faunal Directory
 
 As we add datasets, improvements to the editor and services will be required to cater for differing requirements, these
@@ -124,6 +130,8 @@ include::../leveltwo/name-api.adoc[]
 include::../leveltwo/instance-api.adoc[]
 
 include::../leveltwo/reference-api.adoc[]
+
+include::../leveltwo/author-api.adoc[]
 
 include::../leveltwo/suggestions.adoc[]
 
