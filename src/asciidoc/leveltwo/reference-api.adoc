@@ -202,7 +202,7 @@ You use the resource URI as the **source** reference and pass the target referen
 
 .example
 
-curl -L -H "Accept: application/json" -X GET https://id.biodiversity.org.au/reference/apni/22536/api/move?target=22537&apiKey=blah_blah_blah?user=fred
+curl -L -H "Accept: application/json" -X DELETE https://id.biodiversity.org.au/reference/apni/22536/api/move?target=22537&apiKey=blah_blah_blah?user=fred
 
 .response
 
@@ -242,7 +242,7 @@ if calling it from a service.
 
 .example
 
-curl -L -H "Accept: application/json" -X GET https://biodiversity.org.au/nsl/services/reference/api/deduplicate-marked?apiKey=blah_blah_blah?user=fred
+curl -L -H "Accept: application/json" -X DELETE https://biodiversity.org.au/nsl/services/reference/api/deduplicate-marked?apiKey=blah_blah_blah?user=fred
 
 .response
 
