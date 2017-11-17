@@ -1,0 +1,166 @@
+= Names of Things (Dictionary)
+v1.0, November 2017
+:imagesdir: resources/images/not
+:toc: left
+:toclevels: 4
+:toc-class: toc2
+:icons: font
+:iconfont-cdn: //cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css
+:stylesdir: resources/style/
+:stylesheet: asciidoctor.css
+:description: Names of things that we deliver
+:keywords: documentation, NSL, APNI, API, APC, tree, names
+:links:
+:numbered:
+
+== Name
+
+A name can refer to two main ideas, the string of characters itself, which we'll refer
+to as the _Name String_ and the originating concept that created the name which we'll refer
+to as the _Name Thing_ or just the Name.
+
+=== A Name String
+
+A name string is the original identifier of a real thing, however these identifiers have been
+overloaded on concepts of things as defined or redefined in works from time to time.
+
+.Definition
+****
+A name string is the set of characters (letters, numbers, puctuation marks) that go into making
+a name, e.g. "Acacia dealbata Link var. dealbata"
+****
+
+The Name String is identified via a URI that when looked up links to the Name Thing.
+
+=== A Name Thing
+
+.Definition
+****
+A name thing is the Name String, Author, Primary Reference, year, nomeclatural status,
+type citation, and its nomenclatural synonyms as described in the Primary Reference.
+****
+
+TIP: A Name Thing is modeled by a "Name", and the _Primary Instance_, which includes the _Primary Reference_
+
+== Reference (or work)
+
+A reference is a publication of a work either in hard copy, via database or online in some format
+that can be cited. In general the work must be durable enough to be able to look up the
+work via the citation.
+
+== Primary Reference
+
+The Primary Reference is the work that first properly defined the Name String.
+
+== Taxon Concept
+
+.Definition
+****
+A taxon Concept is the usage of a name in a work with it's synonomy.
+****
+
+TIP: A taxon concept is modeled by an _Instance_ and it's <<Relationship>> Instances
+
+== Taxon
+
+.Definition
+****
+A Taxon is a _Taxon Concept_ and its child Taxon Concepts arranged in a hierarchy based on Rank.
+****
+
+A taxon is different if:
+
+* the Taxon Concept changes
+* a child Taxon Concept changes
+* the position in the hierarchy of a child taxa changes
+* child taxa are added or removed
+
+A taxon does *not* change if Taxons in the hierarchy above it change. i.e. a child taxon is defined by it's children
+not it's parents.
+
+== Classification
+
+.Definition
+****
+A classification is an arrangement of Taxon in a hierarchy with its' status within this classification and associated
+annotations called an _Entry_.
+****
+
+The status of a taxon within a Classification can be Accepted XOR Excluded. Associated annotations could include anything
+that the classifier wants to associated with a taxon placement in a classification, for example: APC includes an
+APC Comment and APC Distribution.
+
+Changes in Status and associated Annotations are changes to the Classification, not the taxon, though this does not
+prevent them being associated in some way (e.g. if the APC Comment relates to the taxon, the taxon may change when the
+comment is changed...)
+
+Classifications are published from time to time as a Version of the Classification.
+
+== Entry
+
+Short for Classification Entry.
+
+.Definition
+****
+An Entry is a Taxon with its' status and associated annotations in a Version of a _Classification_.
+****
+
+An _Entry_ is *not* a _Taxon_, it is a published entry in a _Classification_. It's identity is dependant on its place
+within the classification, the Taxon Concept, status and associated annotations.
+
+TIP: An Entry is modelled by a TreeVersionElement
+
+---
+
+== Instance
+
+.Definition
+****
+An _instance_ is a of the usage of a name in a work. An Instance may cite or be cited by
+another Instance to describe relationships between names used in a work.
+****
+
+An instance contains the Name it is referring to, reference (work) it was used in, the page number
+Any Verbatim name string as used in the reference, where that name string does not conform to the
+standards currently applied.
+
+An Instance may reference other instances depending on it's type.
+
+=== Primary
+
+A Primary Instance is the first usage of a name in a reference, also known as the Primary Reference. If the original
+usage of a name is not definite this represents the best alternative known in which case we describe the _Instance Type_
+as a Primary Reference.
+
+A Primary Instance is always a Standalone Instance ind includes these _Instance Types_:
+
+* nom. et stat. nov.
+* implicit autonym
+* nom. nov.
+* autonym
+* comb. nov.
+* explicit autonym
+* comb. et stat. nov.
+* primary reference
+* tax. nov.
+
+
+=== Secondary Reference
+
+A Secondary Reference Instance is a _Standalone Instance_ that references the Name.
+
+=== Relationship
+
+A Relationship Instance describes the relation ship between two _Standalone instances_ as cited in this work.
+
+e.g.
+
+The relationship instance https://biodiversity.org.au/nsl/services/instance/apni/7144862[Bentham, G. (1864), Flora Australiensis 2: 373]
+says Acacia Dealbata A.Cunn. as used in https://id.biodiversity.org.au/instance/apni/7144858[ Bentham, G. (1864), Flora Australiensis 2: 373]
+which is defined in https://id.biodiversity.org.au/instance/apni/466691[ Cunningham, A. in Field, B. (ed.) (1825), On the Botany of
+the Blue Mountains. Geographical Memoirs on New South Wales: 345]
+is a Taxonomic Synonym of Acacia lunata Sieber ex DC. footnote:[this can be looked at the other way around too.]
+
+=== Standalone
+
+A Standalone Instance is a usage of a name in a work that can be referenced by _Relationship Instances_.
