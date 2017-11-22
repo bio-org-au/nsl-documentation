@@ -44,37 +44,36 @@ TIP: A Name Thing is modelled by a "Name", and the _Primary Instance_, which inc
 == Reference (or work)
 
 A Reference is a publication that includes names and may be either hard copy, database, or online in some format
-that can be cited. In general the work must be durable enough to be able to find the work via the citation.
+that can be cited. In general the work must be durable enough to be able to find it via a citation.
 
 == Primary Reference
 
-The Primary Reference is the work that first properly defined the Name String.
+The Primary Reference is the Reference in which a given Name String first appeared.
 
 == Taxon Concept
 
 .Definition
 ****
-A Taxon Concept is the usage of a name in a work with its synonomy.
+A Taxon Concept is represented by an accepted name in a work with its synonymy, if any.
 ****
 
-TIP: A taxon concept is modeled by an _Instance_ and its <<Relationship>> Instances
+TIP: A Taxon Concept is modelled by an _Instance_ and its <<Relationship>> Instances
 
 == Taxon
 
 .Definition
 ****
-A Taxon is a _Taxon Concept_ and its child Taxon Concepts arranged in a hierarchy based on Rank.
+A Taxon is a _Taxon Concept_ and any child Taxon Concepts arranged into a hierarchy by Rank.
 ****
 
-A taxon is different if:
+A Taxon is considered to have changed if:
 
-* the Taxon Concept changes
+* its Taxon Concept changes
 * a child Taxon Concept changes
-* the position in the hierarchy of a child taxa changes
-* child taxa are added or removed
+* the position of a child Taxon Concept in a given hierarchy changes
+* a child Taxon Concept is added to or removed from it
 
-A taxon does *not* change if Taxons in the hierarchy above it change. i.e. a child taxon is defined by its children
-not its parents.
+A Taxon is *not*considered to have changed if a Taxon in the hierarchy above it changes, i.e. a Taxon is defined by its children, not by its parents.
 
 == Classification
 
