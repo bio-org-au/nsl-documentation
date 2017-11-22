@@ -13,6 +13,13 @@ v1.0, November 2017
 :links:
 :numbered:
 
+== Definition of names
+== What is the NSL?
+== Structure of NSL (services, editor)
+== NSL Editor
+== NSL Services
+
+
 == Name
 
 A name can refer to two main ideas, the string of characters itself, which we'll refer
@@ -21,12 +28,11 @@ to as the _Name Thing_ or just the Name.
 
 === A Name String
 
-A name string is the original identifier of a real thing, however these identifiers have been
-overloaded on concepts of things as defined or redefined in works from time to time.
+A name string is the original identifier of a taxon, however these identifiers also represent taxonomic concepts as defined or redefined in published references over time.
 
 .Definition
 ****
-A name string is the set of characters (letters, numbers, puctuation marks) that go into making
+A name string is the set of characters (letters, numbers, punctuation marks and symbols) that go into making
 a name, e.g. "Acacia dealbata Link var. dealbata"
 ****
 
@@ -36,17 +42,16 @@ The Name String is identified via a URI that when looked up links to the Name Th
 
 .Definition
 ****
-A name thing is the Name String, Author, Primary Reference, year, nomeclatural status,
-type citation, and its nomenclatural synonyms as described in the Primary Reference.
+A Name Thing is the combination of a Name String, Author, Primary Reference and year of publication, nomenclatural status,
+type citation, any nomenclatural synonyms included in the Primary Reference, and any nomenclatural synonyms inferred via relationships (e.g. an uncited basionym).
 ****
 
-TIP: A Name Thing is modeled by a "Name", and the _Primary Instance_, which includes the _Primary Reference_
+TIP: A Name Thing is modelled by a "Name", and the _Primary Instance_, which includes the _Primary Reference_.
 
 == Reference (or work)
 
-A reference is a publication of a work either in hard copy, via database or online in some format
-that can be cited. In general the work must be durable enough to be able to look up the
-work via the citation.
+A Reference is a publication that includes names and may be either hard copy, database, or online in some format
+that can be cited. In general the work must be durable enough to be able to find the work via the citation.
 
 == Primary Reference
 
@@ -56,10 +61,10 @@ The Primary Reference is the work that first properly defined the Name String.
 
 .Definition
 ****
-A taxon Concept is the usage of a name in a work with it's synonomy.
+A Taxon Concept is the usage of a name in a work with its synonomy.
 ****
 
-TIP: A taxon concept is modeled by an _Instance_ and it's <<Relationship>> Instances
+TIP: A taxon concept is modeled by an _Instance_ and its <<Relationship>> Instances
 
 == Taxon
 
@@ -75,14 +80,14 @@ A taxon is different if:
 * the position in the hierarchy of a child taxa changes
 * child taxa are added or removed
 
-A taxon does *not* change if Taxons in the hierarchy above it change. i.e. a child taxon is defined by it's children
-not it's parents.
+A taxon does *not* change if Taxons in the hierarchy above it change. i.e. a child taxon is defined by its children
+not its parents.
 
 == Classification
 
 .Definition
 ****
-A classification is an arrangement of Taxon in a hierarchy with its' status within this classification and associated
+A classification is an arrangement of Taxon in a hierarchy with its status within this classification and associated
 annotations called an _Entry_.
 ****
 
@@ -105,7 +110,7 @@ Short for Classification Entry.
 An Entry is a Taxon with its' status and associated annotations in a Version of a _Classification_.
 ****
 
-An _Entry_ is *not* a _Taxon_, it is a published entry in a _Classification_. It's identity is dependant on its place
+An _Entry_ is *not* a _Taxon_, it is a published entry in a _Classification_. Its identity is dependant on its place
 within the classification, the Taxon Concept, status and associated annotations.
 
 TIP: An Entry is modelled by a TreeVersionElement
@@ -156,7 +161,7 @@ A Relationship Instance describes the relation ship between two _Standalone inst
 e.g.
 
 The relationship instance https://biodiversity.org.au/nsl/services/instance/apni/7144862[Bentham, G. (1864), Flora Australiensis 2: 373]
-says Acacia Dealbata A.Cunn. as used in https://id.biodiversity.org.au/instance/apni/7144858[ Bentham, G. (1864), Flora Australiensis 2: 373]
+says Acacia dealbata A.Cunn. as used in https://id.biodiversity.org.au/instance/apni/7144858[ Bentham, G. (1864), Flora Australiensis 2: 373]
 which is defined in https://id.biodiversity.org.au/instance/apni/466691[ Cunningham, A. in Field, B. (ed.) (1825), On the Botany of
 the Blue Mountains. Geographical Memoirs on New South Wales: 345]
 is a Taxonomic Synonym of Acacia lunata Sieber ex DC. footnote:[this can be looked at the other way around too.]
