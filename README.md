@@ -1,5 +1,10 @@
 # nsl-documentation
 
+> THIS REPO IS ARCHIVED. For current documentation, please visit the below links
+
+- [Single Page Documentation](https://ibis-cloud.atlassian.net/wiki/spaces/NP/pages/1380483087/NSL+API+Documentation)
+- [Definitions](https://ibis-cloud.atlassian.net/wiki/spaces/NP/pages/1380384771/Definitions)
+
 This is the documentation project for the National Species List. 
 
 This documentation is in asciidoc format (http://asciidoctor.org/docs/asciidoc-syntax-quick-reference/)
